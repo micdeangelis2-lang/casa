@@ -35,3 +35,5 @@ export type CompetenceRow = {
   documentId: string | null;
   note: string | null;
 };
+
+export type CompetenceInput = z.output<typeof competenceSchema>;

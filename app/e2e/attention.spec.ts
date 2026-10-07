@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { Client } from "pg";
+import { Client } from "./support/pg-client";
 import { a11yViolations } from "./support/a11y";
 import { E2E_DATABASE_URL, clientIp } from "./support/env";
 import { STORAGE_STATE } from "./support/secrets";
@@ -66,6 +66,7 @@ test.describe("da controllare", () => {
     await expect(page.getByTestId("list-taxes")).toContainText("Imposta Controlli E2E 2020 (Appartamento Controlli E2E): la scadenza indicata (16/06/2020) è passata e non risulta un pagamento completo registrato");
     await expect(page.getByTestId("list-insurance")).toContainText("Polizza «Polizza Controlli E2E»: il premio di 240,00 € aveva scadenza il 01/02/2020 e non risulta pagato");
     await expect(page.getByTestId("list-insurance")).toContainText("La polizza «Polizza Controlli E2E» ha la fine indicata il 31/12/2020, già passata, e non è archiviata");
+    await expect(page.getByTestId("list-insurance")).toContainText("Appartamento Controlli E2E: 1 polizza registrata, ma non in corso");
     await expect(page.getByTestId("list-lettings")).toContainText("Locazione Controlli E2E: 1 canone con scadenza passata e non pagato per intero");
     await expect(page.getByTestId("list-lettings")).toContainText("la data di fine (31/12/2020) è passata ma lo stato è ancora «in corso»");
     await expect(page.getByTestId("list-maintenance")).toContainText("«Lavoro Controlli E2E»: fatture registrate e non pagate per 1.000,00 €");

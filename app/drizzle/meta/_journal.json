@@ -162,6 +162,41 @@
       "when": 1791384556945,
       "tag": "0022_party_competence",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1791399176182,
+      "tag": "0023_hardening_checks_uniques",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1791399380472,
+      "tag": "0024_ins_claim_document",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1791399650540,
+      "tag": "0025_declared_value_coverage_asset",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1791399956732,
+      "tag": "0026_engagements",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1791400569134,
+      "tag": "0027_office_form_template",
+      "breakpoints": true
     }
   ]
 }

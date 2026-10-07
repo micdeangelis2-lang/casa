@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { Download } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -47,6 +48,10 @@ export default async function PlantRegisterPage({ searchParams }: PageProps<"/ma
     if (type) q.set("tipo", type);
     return `/manutenzioni/impianti?${q.toString()}`;
   };
+
+  const csvQuery = new URLSearchParams({ giorni: String(soonDays) });
+  if (assetId) csvQuery.set("immobile", assetId);
+  if (type) csvQuery.set("tipo", type);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6">
@@ -101,6 +106,9 @@ export default async function PlantRegisterPage({ searchParams }: PageProps<"/ma
           </ul>
         </nav>
         <PrintButton />
+        <a href={`/api/manutenzioni/impianti?${csvQuery.toString()}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
+          <Download aria-hidden /> {t("csv")}
+        </a>
         <Link href={`/manutenzioni/impianti/nuovo${assetId ? `?immobile=${assetId}` : ""}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
           {t("plant.add")}
         </Link>

@@ -71,4 +71,10 @@ export interface BackupRunRepository {
 }
 
 export type ArchiveDeps = { reader: SnapshotReader; storage: StoragePort };
-export type BackupDeps = ArchiveDeps & { destination: BackupDestination; publicKey: string | undefined; keep: number };
+export type BackupDeps = ArchiveDeps & {
+  destination: BackupDestination;
+  publicKey: string | undefined;
+  keep: number;
+  /** Segreto con cui si firma il manifest (F-06). Senza, il backup parte ma non e' autenticato. */
+  signingSecret?: string | undefined;
+};

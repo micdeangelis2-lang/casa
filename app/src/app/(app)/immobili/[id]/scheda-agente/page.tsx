@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -60,7 +60,7 @@ export default async function AgentSheetPage({ params, searchParams }: Props) {
   const { asset } = sheet;
 
   const period = (from: string | null, to: string | null) => [from ? t("letting.from", { date: formatDate(from) }) : null, to ? t("letting.to", { date: formatDate(to) }) : null].filter(Boolean).join(" ");
-  const packageHref = agentPackageHref({ assetId: asset.id, categoryIds: focusIds, contactId: contact?.id, level: cap });
+  const packageHref = `${agentPackageHref({ assetId: asset.id, categoryIds: focusIds, contactId: contact?.id, level: cap })}&scheda=agent${includeRights ? "&titolari=1" : ""}`;
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -77,7 +77,12 @@ export default async function AgentSheetPage({ params, searchParams }: Props) {
             {contact ? ` · ${t("preparedFor", { name: contact.displayName })}` : ""}
           </p>
         </div>
-        <PrintButton />
+        <div className="flex flex-wrap gap-2 print:hidden">
+          <PrintButton />
+          <a href={`/api/immobili/${asset.id}/scheda-agente?${[`livello=${cap}`, ...(includeRights ? ["titolari=1"] : []), ...focusIds.map((c) => `categoria=${c}`)].join("&")}`} className={buttonVariants({ variant: "outline" })}>
+            <Download aria-hidden /> {t("csv")}
+          </a>
+        </div>
       </div>
       <p className="text-sm text-muted-foreground">{t("intro")}</p>
 

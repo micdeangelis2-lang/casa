@@ -38,3 +38,6 @@ export const encumbranceSchema = z
   .superRefine((e, ctx) => {
     if (e.registeredOn && e.endedOn && e.endedOn < e.registeredOn) ctx.addIssue({ code: "custom", path: ["endedOn"], message: "La data di fine è precedente a quella di registrazione" });
   });
+
+export type ProvenanceInput = z.output<typeof provenanceSchema>;
+export type EncumbranceInput = z.output<typeof encumbranceSchema>;

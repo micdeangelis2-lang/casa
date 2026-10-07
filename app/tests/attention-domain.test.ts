@@ -16,6 +16,8 @@ const quiet = (over: Partial<Sources> = {}): Sources => ({
   policies: [],
   lettings: [],
   dossiers: [],
+  assetPolicies: [],
+  rulesReview: { count: 0, maxAgeMonths: 12 },
   backup: { configured: true, lastSuccessOn: "2026-06-14", lastFailed: false },
   ...over,
 });
@@ -130,6 +132,30 @@ describe("«da controllare»", () => {
     const f = computeFindings(quiet({ dossiers: [{ assetId: "a1", assetName: "Casa", missing: 4, stale: 1 }, { assetId: "a2", assetName: "Box", missing: 0, stale: 0 }] }));
     expect(f.map((x) => [x.kind, x.params.count])).toEqual([["dossier_missing", 4], ["dossier_stale", 1]]);
     expect(f[0]!.href).toBe("/immobili/a1/dossier");
+  });
+
+  it("polizze per immobile: nessuna polizza registrata, o polizze registrate ma nessuna in corso (testi neutri, priorita' normale)", () => {
+    const f = computeFindings(
+      quiet({
+        assetPolicies: [
+          { assetId: "a1", assetName: "Casa", status: "none", count: 0 },
+          { assetId: "a2", assetName: "Box", status: "notCurrent", count: 2 },
+          { assetId: "a3", assetName: "Studio", status: "current", count: 1 },
+        ],
+      }),
+    );
+    expect(f.map((x) => [x.kind, x.severity, x.params]).sort((a, b) => String(a[0]).localeCompare(String(b[0])))).toEqual([
+      ["asset_no_current_policy", "normal", { asset: "Box", count: 2 }],
+      ["asset_no_policy", "normal", { asset: "Casa" }],
+    ]);
+    expect(f.every((x) => x.href === "/assicurazioni/per-immobile")).toBe(true);
+    expect(f.every((x) => x.area === "insurance")).toBe(true);
+  });
+
+  it("regole da ricontrollare: un solo risultato con il conteggio e l'eta' scelta; niente se non ce ne sono", () => {
+    expect(kinds(quiet())).toEqual([]);
+    const f = computeFindings(quiet({ rulesReview: { count: 3, maxAgeMonths: 12 } }));
+    expect(f.map((x) => [x.kind, x.severity, x.area, x.params, x.href])).toEqual([["rules_to_review", "normal", "rules", { count: 3, months: 12 }, "/uffici/regole"]]);
   });
 
   it("backup: non configurato, mai fatto, troppo vecchio, ultimo fallito", () => {

@@ -1,10 +1,166 @@
 {
+  "officeForms": {
+    "title": "Modulistica",
+    "intro": "I moduli e i documenti di questo ufficio, come li hai annotati tu: l'elenco dei documenti da presentare, la fonte da cui lo hai ricavato, la data in cui lo hai controllato e lo stato. L'app non conosce i moduli degli uffici e non dice cosa un ufficio richieda: l'elenco è quello che scrivi tu e va ricontrollato alla fonte.",
+    "empty": "Nessun modulo annotato per questo ufficio.",
+    "checklist": "Documenti da presentare",
+    "noChecklist": "Nessun documento annotato.",
+    "source": "Fonte: {source}",
+    "noSource": "Fonte non indicata",
+    "verifiedOn": "Verificato il {date}",
+    "noVerifiedOn": "Data di verifica non indicata",
+    "state": {
+      "unverified": "Non verificato",
+      "no_check_date": "Verificato, data non registrata",
+      "stale": "Da ricontrollare",
+      "recent": "Controllato di recente"
+    },
+    "archive": "Archivia",
+    "form": {
+      "title": "Annota un modulo",
+      "submit": "Annota il modulo",
+      "name": "Nome del modulo o della procedura",
+      "checklist": "Documenti da presentare (uno per riga)",
+      "source": "Fonte",
+      "verifiedOn": "Data di verifica",
+      "status": "Stato di verifica",
+      "note": "Nota"
+    },
+    "edit": {
+      "open": "Modifica",
+      "cancel": "Annulla",
+      "save": "Salva le modifiche",
+      "title": "Modifica il modulo: {name}"
+    }
+  },
+  "engagements": {
+    "title": "Incarichi ai professionisti",
+    "open": "Incarichi ai professionisti",
+    "intro": "Gli incarichi che hai affidato a un professionista della rubrica, con l'oggetto, la data, il compenso che hai dichiarato e gli elaborati consegnati o ricevuti. Sono dati tuoi: l'app non verifica il compenso, non valuta l'operato del professionista e non dice se un incarico sia stato svolto.",
+    "filterLabel": "Professionista",
+    "filterAll": "Tutti i professionisti",
+    "filterApply": "Mostra",
+    "empty": "Nessun incarico registrato.",
+    "noParties": "Per registrare un incarico serve prima un contatto nella rubrica.",
+    "status": { "active": "In corso", "completed": "Concluso", "cancelled": "Annullato" },
+    "direction": { "delivered": "Consegnato al professionista", "received": "Ricevuto dal professionista" },
+    "groupCount": "{count, plural, one {# incarico} other {# incarichi}}",
+    "engagedOn": "Conferito il {date}",
+    "fee": "Compenso dichiarato: {amount} €",
+    "noFee": "Compenso non dichiarato",
+    "asset": "Immobile",
+    "matter": "Pratica",
+    "letter": "Lettera d'incarico",
+    "deliverables": "Elaborati",
+    "noDeliverables": "Nessun elaborato registrato.",
+    "deliverableLine": "{kind}, {date}",
+    "remove": "Togli",
+    "setStatus": "Aggiorna lo stato",
+    "statusLabel": "Stato",
+    "form": {
+      "title": "Registra un incarico",
+      "submit": "Registra l'incarico",
+      "party": "Professionista",
+      "chooseParty": "Scegli dalla rubrica",
+      "subject": "Oggetto dell'incarico",
+      "engagedOn": "Data dell'incarico",
+      "fee": "Compenso dichiarato (€)",
+      "status": "Stato",
+      "asset": "Immobile (facoltativo)",
+      "noAsset": "Nessun immobile",
+      "matter": "Pratica (facoltativa)",
+      "noMatter": "Nessuna pratica",
+      "document": "Lettera d'incarico (facoltativa)",
+      "noDocument": "Nessun documento",
+      "note": "Nota"
+    },
+    "edit": {
+      "open": "Modifica",
+      "cancel": "Annulla",
+      "save": "Salva le modifiche",
+      "title": "Modifica l'incarico: {subject}"
+    },
+    "deliverable": {
+      "title": "Registra un elaborato: {subject}",
+      "submit": "Registra l'elaborato",
+      "direction": "Direzione",
+      "kind": "Tipo di elaborato",
+      "date": "Data",
+      "document": "Documento (facoltativo)",
+      "noDocument": "Nessun documento",
+      "note": "Nota"
+    },
+    "summary": {
+      "heading": "Incarichi ai professionisti",
+      "none": "Nessun incarico registrato.",
+      "all": "Tutti gli incarichi",
+      "line": "{party}: {subject}"
+    }
+  },
+  "editUi": {
+    "edit": "Modifica",
+    "editing": "Modifica",
+    "editHeading": "Modifica un mandato",
+    "cancel": "Annulla",
+    "save": "Salva le modifiche",
+    "linkedDocument": "Documento collegato"
+  },
+  "documentCategories": {
+    "title": "Categorie dei documenti",
+    "cardTitle": "Categorie dei documenti",
+    "cardBody": "Aggiungi, rinomina, riordina e rimuovi le categorie con cui classifichi i documenti.",
+    "intro": "Le categorie servono a classificare i documenti e a scegliere cosa mostrare nelle schede. Puoi cambiare il nome e l'ordine di tutte; puoi rimuovere solo quelle che hai creato tu e che nessun documento, regola o voce del dossier usa. Il codice interno di ogni categoria non cambia quando la rinomini.",
+    "listHeading": "Categorie",
+    "documents": "{count, plural, =0 {Nessun documento} one {# documento} other {# documenti}}",
+    "protected": "Usata dalle schede",
+    "up": "Su",
+    "down": "Giù",
+    "remove": "Rimuovi",
+    "rename": "Rinomina",
+    "whyProtected": "È una categoria che le schede e le regole richiamano per codice: si può rinominare e spostare, non rimuovere.",
+    "whyDocuments": "Ha dei documenti: spostali in un'altra categoria per poterla rimuovere.",
+    "whyChildren": "Ha delle sottocategorie.",
+    "whyReferenced": "È richiamata da regole o da voci del dossier.",
+    "nameLabel": "Nome",
+    "nameHint": "Il nome compare nei moduli dei documenti e nei filtri.",
+    "add": "Aggiungi una categoria",
+    "addButton": "Aggiungi la categoria",
+    "suggestedHeading": "Una categoria per le fotografie",
+    "suggestedBody": "Non c'è ancora una categoria per le fotografie. Se ti serve, puoi crearla con un clic: resta una categoria tua, che puoi rinominare o rimuovere.",
+    "suggestedButton": "Aggiungi la categoria «{name}»"
+  },
+  "reconfirm": {
+    "title": "Riconferma dell'accesso",
+    "intro": "Per scaricare dati riservati (esportazione completa, backup, pacchetti di condivisione) o cambiare le impostazioni di sicurezza serve una conferma recente che sei tu.",
+    "heading": "Conferma che sei tu",
+    "validity": "La conferma vale dieci minuti.",
+    "already": "Hai già riconfermato da poco: puoi riconfermare di nuovo per prolungare la durata.",
+    "downloading": "Riconferma eseguita. Il file sta per essere scaricato: puoi tornare alla pagina precedente.",
+    "passkey": "Conferma con la passkey",
+    "working": "Verifica in corso…",
+    "orPassword": "oppure con password e codice",
+    "password": "Password",
+    "code": "Codice a 6 cifre dell'app di autenticazione",
+    "backupCode": "Codice di recupero",
+    "submit": "Conferma con password e codice",
+    "useBackup": "Usa un codice di recupero",
+    "useTotp": "Usa il codice dell'app di autenticazione",
+    "errors": {
+      "wrongPassword": "La password non è corretta.",
+      "invalidCode": "Il codice non è valido.",
+      "tooManyAttempts": "Troppi tentativi con la password. Riprova tra 15 minuti.",
+      "notRecent": "Non è stato possibile confermare l'accesso con la passkey. Riprova.",
+      "generic": "Operazione non riuscita. Riprova tra poco."
+    }
+  },
   "assicuratore": {
     "byAsset": {
       "title": "Polizze per immobile",
       "open": "Polizze per immobile",
       "intro": "Per ogni immobile, le polizze che hai registrato come collegate, con le garanzie che hai copiato dal contratto. Il confronto riguarda solo ciò che hai inserito: l'app non legge le condizioni di polizza e non dice se un bene sia coperto o no. Per il preventivo o il rinnovo, il riferimento è l'assicuratore.",
       "back": "Torna alle assicurazioni",
+      "declared": "Valore dichiarato da te: {amount} €",
+      "declaredNone": "Nessun valore dichiarato",
       "onlyMissing": "Mostra solo gli immobili senza polizza registrata",
       "apply": "Applica",
       "summary": "{total, plural, one {# immobile} other {# immobili}}, di cui {none} senza polizza registrata e {notCurrent} con polizze registrate ma nessuna in corso.",
@@ -27,6 +183,7 @@
       "withoutAsset": "Polizze registrate senza immobile collegato",
       "withoutAssetHint": "Queste polizze non risultano collegate ad alcun immobile: non compaiono sotto nessuno dei beni qui sopra.",
       "sheetsLink": "Prepara un pacchetto di documenti per l'assicuratore",
+      "csv": "Scarica il CSV",
       "assetLink": "Scheda dell'immobile",
       "amount": "{amount} €"
     },
@@ -62,6 +219,7 @@
       "noAssets": "Nessun immobile collegato a questo sinistro o alla polizza.",
       "kind": "Tipo",
       "address": "Indirizzo",
+      "declaredValue": "Valore dichiarato dal proprietario",
       "use": "Uso",
       "holders": "Titolarità in corso",
       "cadastral": "Dati catastali in corso",
@@ -75,7 +233,9 @@
       "workMoney": "preventivi accettati {quotes} €, fatturato {invoiced} €, pagato {paid} €",
       "documents": "Documenti e fotografie collegati all'immobile",
       "noDocuments": "Nessun documento collegato a questo immobile.",
-      "photoMark": "fotografia",
+      "claimDocuments": "Documenti del sinistro",
+      "noClaimDocuments": "Nessun documento collegato a questo sinistro.",
+      "role": { "photo": "Fotografia", "appraisal": "Perizia", "invoice": "Fattura", "other": "Altro" },
       "otherClaims": "Altri sinistri registrati sullo stesso bene",
       "noOtherClaims": "Nessun altro sinistro registrato.",
       "otherLine": "{title}: evento del {date}, richiesti {claimed}, ricevuti {received}",
@@ -97,13 +257,14 @@
         "adjuster": "Perito indicato",
         "entries": "Comunicazioni",
         "documents": "Documenti collegati",
-        "photos": "Fotografie collegate al bene",
+        "photos": "Fotografie collegate al sinistro",
         "works": "Interventi di manutenzione"
       },
       "count": "{count}"
     }
   },
   "agente": {
+    "csv": "Scarica il CSV",
     "listing": {
       "title": "Mandati di vendita o affitto",
       "intro": "Registra qui il mandato a un agente e le visite e le proposte che ti comunica. Sono dati tuoi: l'app non stima prezzi, non valuta le proposte e non tiene i dati personali di chi visita (al più un contatto della rubrica che scegli tu). Questa parte non va nella stampa.",
@@ -246,6 +407,7 @@
   },
   "notaio": {
     "title": "Scheda per il notaio",
+    "csv": "Scarica il CSV",
     "open": "Scheda per il notaio",
     "intro": "Riepilogo di ciò che hai registrato su questo immobile e che un notaio chiede di solito: titolarità, catasto, documenti, pertinenze collegate. L'app non dice se un atto sia possibile né se il bene sia regolare: riporta i dati e segnala quelli che non risultano. Il resto lo valuta il professionista.",
     "back": "Torna all'immobile",
@@ -598,6 +760,7 @@
     "year": "Anno",
     "show": "Mostra",
     "csv": "Scarica il CSV",
+    "sharePackage": "Prepara il pacchetto per il commercialista",
     "gaps": {
       "heading": "Dati non registrati",
       "intro": "Cosa, nei dati che hai inserito, non risulta registrato per quest'anno. Non è un giudizio: serve a sapere cosa preparare o chiedere prima dell'incontro.",
@@ -678,6 +841,7 @@
       "intro": "Cosa risulta dai dati che hai registrato per un immobile e un periodo: canoni, incassi e pagamenti, interventi, codici identificativi, adempimenti e mandato. Serve a confrontarlo con ciò che il gestore ti comunica. Non valuta la gestione né la sua correttezza.",
       "heading": "{asset}: dal {from} al {to}",
       "csv": "Scarica il CSV",
+      "sharePackage": "Prepara il pacchetto per il gestore",
       "filters": {
         "from": "Dal",
         "to": "Al",
@@ -1066,7 +1230,13 @@
       "working": "Salvataggio in corso…",
       "done": "Password cambiata."
     },
+    "reconfirm": {
+      "notice": "Per rimuovere una passkey, chiudere sessioni, rigenerare i codici di recupero o cambiare la password serve una riconferma recente.",
+      "link": "Riconferma l'accesso",
+      "ok": "Riconferma valida: le operazioni sensibili sono sbloccate per qualche minuto."
+    },
     "errors": {
+      "reconfirmRequired": "Serve una riconferma recente: usa «Riconferma l'accesso» in cima alla pagina, poi ripeti l'operazione.",
       "wrongPassword": "La password attuale non è corretta.",
       "weakPassword": "La nuova password deve avere da 12 a 128 caratteri.",
       "mismatch": "Le due password nuove non coincidono.",
@@ -1280,6 +1450,13 @@
         "number": "Numero",
         "boolean": "Sì/No"
       }
+    },
+    "declaredValue": {
+      "title": "Valore dichiarato",
+      "hint": "Il valore che indichi tu per questo immobile (facoltativo). L'app non lo stima, non lo verifica e non lo confronta con altri valori: lo mostra accanto alle somme assicurate delle polizze. Lascia il campo vuoto per toglierlo.",
+      "none": "Nessun valore dichiarato.",
+      "label": "Valore dichiarato (€)",
+      "save": "Salva il valore dichiarato"
     },
     "detail": {
       "details": "Dati",
@@ -2511,7 +2688,22 @@
       "overrideHint": "Il documento è più riservato del livello che hai scelto: includilo solo se sei sicuro di volerlo condividere con questo destinatario.",
       "submit": "Crea il pacchetto",
       "selected": "{count, plural, =0 {nessun documento scelto} one {# documento scelto} other {# documenti scelti}}",
-      "size": "{size} MB"
+      "size": "{size} MB",
+      "sheet": {
+        "legend": "Scheda in HTML",
+        "include": "Includi la scheda «{title}» nel pacchetto",
+        "hint": "Una pagina da stampare, senza programmi né collegamenti esterni, preparata ora con i dati registrati e con il livello di riservatezza scelto. Riporta ciò che risulta, senza giudizi.",
+        "proofs": "Aggiungi i documenti di prova collegati ai movimenti dell'anno (solo quelli entro il livello scelto)",
+        "titleFor": {
+          "notary": "scheda per il notaio",
+          "technical": "scheda per il tecnico",
+          "agent": "scheda per l'agente",
+          "insurer": "polizze per immobile",
+          "accountant": "dossier annuale per il commercialista",
+          "manager": "rendiconto di gestione",
+          "lawyer": "cronologia della pratica"
+        }
+      }
     },
     "detail": {
       "contents": "Contenuto",
@@ -2528,7 +2720,9 @@
         "revoked": "Revocato"
       },
       "manifest": "Impronta del manifest",
-      "total": "{size} MB in totale"
+      "total": "{size} MB in totale",
+      "sheet": "Scheda inclusa",
+      "sheetLine": "{title} · file {path} · impronta del contenuto {sha}"
     },
     "forDocument": {
       "title": "Condivisioni",
@@ -3307,6 +3501,8 @@
       "coverageTitle": "Garanzia",
       "coverageSum": "Somma assicurata (€)",
       "coverageDeductible": "Franchigia (€)",
+      "coverageAsset": "Immobile della garanzia (facoltativo)",
+      "coverageAssetAll": "Tutta la polizza",
       "coverageNote": "Nota",
       "premiums": "Premi",
       "noPremiums": "Nessun premio registrato.",
@@ -3376,7 +3572,14 @@
       "entryDate": "Data",
       "entryDirection": "Tipo",
       "entrySummary": "Riepilogo",
-      "entryDocument": "Documento"
+      "entryDocument": "Documento",
+      "documents": "Documenti del sinistro",
+      "documentsHint": "Fotografie, perizie, fatture e altri documenti che hai collegato a questo sinistro. Il ruolo lo scegli tu.",
+      "noDocuments": "Nessun documento collegato.",
+      "role": { "photo": "Fotografia", "appraisal": "Perizia", "invoice": "Fattura", "other": "Altro" },
+      "documentAdd": "Collega un documento",
+      "documentField": "Documento",
+      "roleField": "Ruolo"
     }
   },
   "lettings": {
@@ -3647,6 +3850,7 @@
   },
   "impiantista": {
     "title": "Registro impianti",
+    "csv": "Scarica il CSV",
     "intro": "Per ogni immobile, gli impianti che hai registrato con ciò che vi hai collegato e, per le verifiche periodiche, le garanzie, gli interventi e i documenti non collegati, quelli che nel titolo nominano un impianto (il tipo è ricavato dalle parole del titolo). Le date sono quelle che hai scritto tu: l'app non dice se un impianto sia a norma né se una verifica sia dovuta, ma ricorda le scadenze che hai impostato. Per le periodicità e gli esiti rivolgiti al tecnico.",
     "viewsLabel": "Modo di vedere gli impianti",
     "views": { "plant": "Per impianto", "due": "Per scadenza" },
@@ -3822,6 +4026,7 @@
       "insurance": "Assicurazioni",
       "lettings": "Locazioni",
       "dossier": "Dossier",
+      "rules": "Regole",
       "backup": "Backup"
     },
     "kinds": {
@@ -3848,6 +4053,9 @@
       "code_expiring": "{letting}: il codice «{label}» ha la validità indicata fino al {date}",
       "dossier_missing": "{asset}: {count, plural, one {# voce del dossier senza documento} other {# voci del dossier senza documento}}",
       "dossier_stale": "{asset}: {count, plural, one {# voce da rivedere perché la regola non vale più} other {# voci da rivedere perché la regola non vale più}}",
+      "asset_no_policy": "{asset}: non risulta registrata nessuna polizza collegata",
+      "asset_no_current_policy": "{asset}: {count, plural, one {# polizza registrata, ma non in corso} other {# polizze registrate, ma nessuna in corso}}",
+      "rules_to_review": "{count, plural, one {# regola registrata} other {# regole registrate}} da ricontrollare: non risulta verificata o l'ultimo controllo registrato è più vecchio di {months} mesi (impostazione dell'app, non un termine di legge)",
       "backup_not_configured": "I backup non sono configurati: manca la chiave pubblica",
       "backup_never": "Nessun backup riuscito finora",
       "backup_old": "L'ultimo backup riuscito è del {date} ({days} giorni fa)",

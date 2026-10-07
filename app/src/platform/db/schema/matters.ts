@@ -129,7 +129,7 @@ export const matterDocument = pgTable(
       .references(() => matter.id, { onDelete: "cascade" }),
     documentId: uuid("document_id")
       .notNull()
-      .references(() => document.id, { onDelete: "cascade" }),
+      .references(() => document.id, { onDelete: "restrict" }),
   },
   (t) => [primaryKey({ columns: [t.matterId, t.documentId] }), index("matter_document_document_idx").on(t.documentId)],
 );
@@ -181,7 +181,7 @@ export const sharePackageItem = pgTable(
     /** Il documento superava il tetto ed e' stato incluso comunque dal proprietario, dopo l'avviso. */
     overrideAboveCap: boolean("override_above_cap").notNull().default(false),
   },
-  (t) => [uniqueIndex("share_package_item_uq").on(t.packageId, t.versionId), index("share_package_item_document_idx").on(t.documentId), index("share_package_item_version_idx").on(t.versionId)],
+  (t) => [check("share_package_item_confidentiality_check", sql`${t.confidentiality} in ('ordinary','reserved','highly_reserved')`), uniqueIndex("share_package_item_uq").on(t.packageId, t.versionId), index("share_package_item_document_idx").on(t.documentId), index("share_package_item_version_idx").on(t.versionId)],
 );
 
 /** Registro degli eventi di un pacchetto (creazione, scarichi, revoca). */

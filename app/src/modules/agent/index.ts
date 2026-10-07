@@ -35,9 +35,11 @@ function listingCollaborators(db: Db): ListingCollaborators {
 const listingWriteDeps = (uow: UnitOfWork) => ({ repo: drizzleListingRepository(uow.tx), others: listingCollaborators(uow.tx), audit: uow.audit });
 
 export const addEngagement = (uow: UnitOfWork, input: unknown) => listingCases.addEngagement(listingWriteDeps(uow), input);
+export const updateEngagement = (uow: UnitOfWork, id: string, input: unknown) => listingCases.updateEngagement(listingWriteDeps(uow), id, input);
 export const setEngagementStatus = (uow: UnitOfWork, id: string, status: string) => listingCases.setEngagementStatus(listingWriteDeps(uow), id, status);
 export const removeEngagement = (uow: UnitOfWork, id: string) => listingCases.removeEngagement(listingWriteDeps(uow), id);
 export const addListingEvent = (uow: UnitOfWork, engagementId: string, input: unknown) => listingCases.addListingEvent(listingWriteDeps(uow), engagementId, input);
+export const updateListingEvent = (uow: UnitOfWork, eventId: string, input: unknown) => listingCases.updateListingEvent(listingWriteDeps(uow), eventId, input);
 export const removeListingEvent = (uow: UnitOfWork, eventId: string) => listingCases.removeListingEvent(listingWriteDeps(uow), eventId);
 /** I mandati di vendita o affitto di un immobile, con visite e proposte registrate. */
 export const listEngagements = (db: Db, assetId: string) => listingCases.listEngagements({ repo: drizzleListingRepository(db), others: listingCollaborators(db) }, assetId);

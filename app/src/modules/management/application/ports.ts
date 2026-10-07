@@ -27,6 +27,8 @@ export interface ManagementCollaborators {
   /** Crea la scadenza di fine mandato (modulo Scadenze); restituisce il suo id. */
   createEndDeadline(d: { title: string; assetId: string | null; managerPartyId: string | null; description: string; endsOn: string }): Promise<string | null>;
   archiveDeadline(deadlineId: string, archived: boolean): Promise<void>;
+  /** Allinea la scadenza di fine mandato (titolo, descrizione) e, se la data di fine cambia, sposta la data ancora aperta. */
+  updateEndDeadline(d: { deadlineId: string; title: string; description: string; assetId: string | null; managerPartyId: string | null; previousEndsOn: string | null; endsOn: string }): Promise<void>;
 }
 
 export type MandateDeps = { repo: MandateRepository; others: ManagementCollaborators; audit: AuditRecorder };

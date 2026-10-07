@@ -177,6 +177,20 @@ export function checkBackupKey(env: DoctorInput["env"]): DoctorOutcome {
   return ok("backup.key", "BACKUP_PUBLIC_KEY è una chiave pubblica PEM valida.");
 }
 
+/**
+ * F-06: senza il segreto di firma i backup non sono autenticati (chi conosce la chiave pubblica puo' fabbricarne uno).
+ * Avviso solo se i backup sono configurati (c'e' la chiave pubblica); un segreto troppo corto lo segnala `env.backup`.
+ */
+export function checkBackupSigning(env: DoctorInput["env"]): DoctorOutcome {
+  if (!present(env.BACKUP_PUBLIC_KEY)) return ok("backup.signing", "Firma dei backup: non necessaria, i backup non sono configurati.");
+  if (present(env.BACKUP_SIGNING_SECRET)) return ok("backup.signing", "I backup sono firmati (BACKUP_SIGNING_SECRET impostato).");
+  return warn(
+    "backup.signing",
+    "BACKUP_SIGNING_SECRET non è impostato: i backup non sono firmati e il ripristino non può distinguerli da uno fabbricato.",
+    "Genera un segreto (openssl rand -base64 32), impostalo e custodiscine una copia fuori dal server: serve per ripristinare.",
+  );
+}
+
 export function checkLastBackup(lastBackupAt: DoctorInput["lastBackupAt"], now: Date): DoctorOutcome {
   if (lastBackupAt === null) return skipped("backup.age", "Età dell'ultimo backup");
   if (lastBackupAt === undefined) return warn("backup.age", "Nessun backup riuscito finora.", "Fai un backup (pnpm backup:run o Impostazioni, Backup).");
@@ -237,6 +251,7 @@ export function runChecks(input: DoctorInput): DoctorOutcome[] {
     checkFolder("storage.writable", "Cartella dei documenti", input.storage),
     checkFolder("backup.writable", "Cartella dei backup", input.backupDir),
     checkBackupKey(input.env),
+    checkBackupSigning(input.env),
     checkLastBackup(input.lastBackupAt, input.now),
     checkAudit(input.audit),
     checkCronSecret(input.env, input.production),

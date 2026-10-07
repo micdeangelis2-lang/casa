@@ -40,6 +40,16 @@ const backupEnvSchema = z.object({
     .string()
     .optional()
     .transform((v) => v?.replace(/\\n/g, "\n").trim() || undefined),
+  /**
+   * Segreto di server con cui si firma il manifest dei backup (HMAC-SHA256, F-06): senza di lui nessuno che conosca solo la
+   * chiave pubblica puo' fabbricare un backup accettato dal ripristino. Almeno 32 caratteri (openssl rand -base64 32).
+   * Va custodito anche fuori dal server: serve per ripristinare. Opzionale, ma consigliato.
+   */
+  BACKUP_SIGNING_SECRET: z
+    .string()
+    .optional()
+    .transform((v) => v?.trim() || undefined)
+    .pipe(z.string().min(32, "BACKUP_SIGNING_SECRET deve avere almeno 32 caratteri").optional()),
   /** Cartella di destinazione dei backup (adattatore su disco). Con un secondo fornitore cambiera' l'adattatore. */
   BACKUP_DIR: z.string().default("backups"),
   /** Quanti backup tenere nella destinazione. */

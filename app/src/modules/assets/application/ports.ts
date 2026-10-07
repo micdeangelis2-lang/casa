@@ -20,6 +20,8 @@ export interface AssetRepository {
   getDetail(id: string): Promise<AssetDetail | null>;
   list(args: { query?: string; kind?: AssetKind; includeArchived?: boolean }): Promise<AssetSummary[]>;
   setArchived(id: string, archived: boolean): Promise<boolean>;
+  /** Scrive (o toglie, con `null`) il valore dichiarato dal proprietario. */
+  setDeclaredValue(id: string, cents: number | null): Promise<boolean>;
   existingIds(ids: string[]): Promise<Set<string>>;
   /** Beni che dichiarano gia' un collegamento verso `assetId` (per impedire collegamenti reciproci). */
   idsLinkedTo(assetId: string): Promise<Set<string>>;

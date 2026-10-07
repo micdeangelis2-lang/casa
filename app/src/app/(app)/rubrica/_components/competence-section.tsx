@@ -6,16 +6,29 @@ import { getDb } from "@/platform/db/client";
 import { COMPETENCE_KINDS, listCompetences } from "@/modules/directory";
 import { listDocumentOptions } from "@/modules/documents";
 import { ActionButton } from "@/components/action-button";
+import { EditInline } from "@/components/edit-inline";
 import { InlineForm } from "@/components/inline-form";
+import type { FieldSpec } from "@/components/simple-form";
 import { formatDate } from "@/lib/format";
-import { addCompetenceAction, removeCompetenceAction } from "../competence-actions";
+import { addCompetenceAction, removeCompetenceAction, updateCompetenceAction } from "../competence-actions";
 
 /** Competenze di un contatto (iscrizione a un albo, abilitazione, polizza...): dati scritti da te, che l'app non verifica. */
 export async function CompetenceSection({ partyId }: { partyId: string }) {
   const t = await getTranslations("directory.competence");
+  const te = await getTranslations("editUi");
   const db = getDb();
   const [items, documents] = await Promise.all([listCompetences(db, partyId), listDocumentOptions(db)]);
   const titles = new Map(documents.map((d) => [d.value, d.label]));
+  const fields = (documentOptions: { value: string; label: string }[]): FieldSpec[] => [
+    { kind: "select", name: "kind", label: t("kindLabel"), options: COMPETENCE_KINDS.map((k) => ({ value: k, label: t(`kind.${k}`) })), emptyLabel: t("choose") },
+    { kind: "text", name: "label", label: t("labelLabel"), maxLength: 200 },
+    { kind: "text", name: "reference", label: t("referenceLabel"), maxLength: 120 },
+    { kind: "text", name: "issuer", label: t("issuerLabel"), maxLength: 160 },
+    { kind: "date", name: "validFrom", label: t("validFromLabel") },
+    { kind: "date", name: "validUntil", label: t("validUntilLabel") },
+    { kind: "select", name: "documentId", label: t("documentLabel"), options: documentOptions, emptyLabel: t("none") },
+    { kind: "text", name: "note", label: t("noteLabel"), maxLength: 500 },
+  ];
 
   return (
     <Card className="mt-6" data-testid="competences">
@@ -49,22 +62,24 @@ export async function CompetenceSection({ partyId }: { partyId: string }) {
                 </Link>
               ) : null}
               {c.note ? <p className="whitespace-pre-wrap">{c.note}</p> : null}
+              <EditInline
+                idPrefix={`competence-edit-${c.id}`}
+                title={`${te("editing")}: ${c.label}`}
+                openLabel={te("edit")}
+                cancelLabel={te("cancel")}
+                srLabel={c.label}
+                submitLabel={te("save")}
+                fields={fields(c.documentId && !titles.has(c.documentId) ? [{ value: c.documentId, label: te("linkedDocument") }, ...documents] : documents)}
+                initial={{ kind: c.kind, label: c.label, reference: c.reference ?? "", issuer: c.issuer ?? "", validFrom: c.validFrom ?? "", validUntil: c.validUntil ?? "", documentId: c.documentId ?? "", note: c.note ?? "" }}
+                onSubmit={updateCompetenceAction.bind(null, partyId, c.id)}
+              />
             </li>
           ))}
         </ul>
         <InlineForm
           idPrefix="competence"
           title={t("add")}
-          fields={[
-            { kind: "select", name: "kind", label: t("kindLabel"), options: COMPETENCE_KINDS.map((k) => ({ value: k, label: t(`kind.${k}`) })), emptyLabel: t("choose") },
-            { kind: "text", name: "label", label: t("labelLabel"), maxLength: 200 },
-            { kind: "text", name: "reference", label: t("referenceLabel"), maxLength: 120 },
-            { kind: "text", name: "issuer", label: t("issuerLabel"), maxLength: 160 },
-            { kind: "date", name: "validFrom", label: t("validFromLabel") },
-            { kind: "date", name: "validUntil", label: t("validUntilLabel") },
-            { kind: "select", name: "documentId", label: t("documentLabel"), options: documents, emptyLabel: t("none") },
-            { kind: "text", name: "note", label: t("noteLabel"), maxLength: 500 },
-          ]}
+          fields={fields(documents)}
           initial={{ kind: "", label: "", reference: "", issuer: "", validFrom: "", validUntil: "", documentId: "", note: "" }}
           submitLabel={t("addButton")}
           onSubmit={addCompetenceAction.bind(null, partyId)}

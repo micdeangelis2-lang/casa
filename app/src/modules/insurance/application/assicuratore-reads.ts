@@ -21,7 +21,7 @@ export async function policiesByAsset(deps: InsuranceReadDeps, today: string): P
       premiumCents: p.premiumCents,
       assetIds: p.assets.map((a) => a.id),
       openClaims: p.openClaims,
-      coverages: (await deps.repo.coverages(p.id)).map((c) => ({ title: c.title, sumInsuredCents: c.sumInsuredCents, deductibleCents: c.deductibleCents })),
+      coverages: (await deps.repo.coverages(p.id)).map((c) => ({ title: c.title, assetId: c.assetId, sumInsuredCents: c.sumInsuredCents, deductibleCents: c.deductibleCents })),
     })),
   );
   return { rows: groupPoliciesByAsset(assets, overview), withoutAsset: policiesWithoutAsset(overview) };
@@ -34,6 +34,7 @@ export type SheetAssetFacts = {
   id: string;
   name: string;
   kindKey: string;
+  declaredValueCents: number | null;
   address: string | null;
   locality: string | null;
   territoryLabel: string;
@@ -44,7 +45,7 @@ export type SheetAssetFacts = {
   holders: { name: string; rightKey: string; quota: string }[];
 };
 export type SheetWork = { id: string; title: string; status: string; completedOn: string | null; startedOn: string | null; scheduledOn: string | null; supplierName: string | null; acceptedQuotesCents: number; invoicedCents: number; paidCents: number };
-export type SheetDocument = { id: string; title: string; categoryName: string; issuedOn: string | null; isImage: boolean };
+export type SheetDocument = { id: string; title: string; categoryName: string; issuedOn: string | null };
 
 export interface ClaimSheetCollaborators {
   asset(id: string): Promise<SheetAssetFacts | null>;
@@ -81,6 +82,7 @@ export async function getClaimSheet(deps: InsuranceReadDeps, others: ClaimSheetC
   const otherClaims = all.filter((c) => c.id !== claim.id && (claim.assetId ? c.assetId === claim.assetId : c.policyId === claim.policyId)).sort((a, b) => b.occurredOn.localeCompare(a.occurredOn));
   const documentIds = new Set(assets.flatMap((a) => a.documents.map((d) => d.id)));
   for (const e of claim.entries) if (e.documentId) documentIds.add(e.documentId);
+  for (const d of claim.documents) documentIds.add(d.documentId);
   const checks = sheetChecks({
     reportedOn: claim.reportedOn,
     claimNumber: claim.claimNumber,
@@ -91,7 +93,7 @@ export async function getClaimSheet(deps: InsuranceReadDeps, others: ClaimSheetC
     coverageCount: policy.coverages.length,
     entryCount: claim.entries.length,
     documentCount: documentIds.size,
-    photoCount: assets.reduce((n, a) => n + a.documents.filter((d) => d.isImage).length, 0),
+    photoCount: claim.documents.filter((d) => d.role === "photo").length,
     workCount: assets.reduce((n, a) => n + a.works.length, 0),
   });
   return { claim, policy, assets, otherClaims, checks };

@@ -13,7 +13,10 @@ import { getAssetDetail } from "@/modules/assets";
 import { listDocuments } from "@/modules/documents";
 import { DOSSIER_STATUSES, getDossier } from "@/modules/dossier";
 import { isUuid } from "@/lib/ids";
+import { InlineForm } from "@/components/inline-form";
+import { formatEuro } from "@/lib/format";
 import { ArchiveButton } from "../_components/archive-button";
+import { setDeclaredValueAction } from "../actions";
 
 type Props = PageProps<"/immobili/[id]">;
 
@@ -109,6 +112,27 @@ export default async function AssetPage({ params }: Props) {
               </>
             ) : null}
           </dl>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <h2>{t("declaredValue.title")}</h2>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3 text-sm">
+          <p className="text-muted-foreground">{t("declaredValue.hint")}</p>
+          <p data-testid="declared-value">{asset.declaredValueCents === null ? t("declaredValue.none") : `${formatEuro(asset.declaredValueCents)} €`}</p>
+          <InlineForm
+            key={`declared-${asset.declaredValueCents ?? "none"}`}
+            idPrefix="declared-value"
+            title={t("declaredValue.save")}
+            fields={[{ kind: "text", name: "declaredValue", label: t("declaredValue.label"), inputMode: "decimal", maxLength: 14 }]}
+            initial={{ declaredValue: asset.declaredValueCents === null ? "" : formatEuro(asset.declaredValueCents) }}
+            submitLabel={t("declaredValue.save")}
+            onSubmit={setDeclaredValueAction.bind(null, asset.id)}
+          />
         </CardContent>
       </Card>
 

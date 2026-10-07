@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { Client } from "pg";
+import { Client } from "./support/pg-client";
 import { E2E_DATABASE_URL, E2E_ORIGIN, clientIp } from "./support/env";
+import { clickWhenHydrated } from "./support/hydration";
+import { reconfirm } from "./support/reconfirm";
 import { STORAGE_STATE, loadSecrets } from "./support/secrets";
 import { addVirtualAuthenticator, importCredentials } from "./support/webauthn";
 
@@ -37,6 +39,7 @@ test.describe("F-03: rotte dirette di Better Auth", () => {
 test.describe("F-03: tetto ai tentativi di password nelle azioni della pagina", () => {
   test("dopo 5 password sbagliate la sesta richiesta riceve l'errore di troppi tentativi", async ({ page }) => {
     await clearAttempts();
+    await reconfirm(page.context());
     await page.goto("/impostazioni/sicurezza");
     const recovery = page.getByRole("heading", { level: 2, name: "Codici di recupero", exact: true }).locator("xpath=ancestor::*[@data-slot='card'][1]");
     for (let i = 0; i < 5; i++) {
@@ -86,8 +89,13 @@ test.describe("F-01: verifica dell'utente (UV) imposta dal server", () => {
     await authenticator.cdp.send("WebAuthn.setUserVerified", { authenticatorId: authenticator.authenticatorId, isUserVerified: false });
 
     await page.goto("/accesso");
-    await page.getByRole("button", { name: "Accedi con passkey" }).click();
-    await expect(page.locator('[data-slot="alert"]')).toContainText("Accesso con passkey non riuscito");
+    // Un clic dato prima dell'idratazione si perde e l'avviso non arriva mai: si attende l'idratazione e, come per il
+    // tentativo riuscito, il clic si ritenta (l'unico autenticatore virtuale puo' essere conteso dalla compilazione automatica).
+    const passkeyButton = page.getByRole("button", { name: "Accedi con passkey" });
+    await expect(async () => {
+      await clickWhenHydrated(passkeyButton);
+      await expect(page.locator('[data-slot="alert"]')).toContainText("Accesso con passkey non riuscito", { timeout: 6000 });
+    }).toPass({ timeout: 30_000 });
     await expect(page).toHaveURL(/\/accesso$/);
 
     // Con la verifica attiva (come i dispositivi reali con biometria o PIN) lo stesso accesso riesce.

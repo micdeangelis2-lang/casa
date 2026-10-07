@@ -32,9 +32,12 @@ async function main() {
   );
   if (!seeded.ok) throw new Error("Seed dei territori di prova non riuscito");
 
-  // Predefinito: una sola connessione. Due: l'app (pool a 1) e il test dell'audit che interroga il database.
-  // I test sono seriali, quindi le due connessioni non si sovrappongono mai davvero.
-  const server = new PGLiteSocketServer({ db, port: E2E_DB_PORT, host: "127.0.0.1", maxConnections: 2 });
+  // In regime stabile bastano due connessioni: l'app (pool a 1) e il client `pg` del test in corso (i test sono seriali).
+  // Ma il socket di PGlite toglie una connessione dal conteggio SOLO dopo aver gestito la chiusura (in modo asincrono) e
+  // `net.Server.maxConnections` scarta in silenzio quella in piu': quando il client di un test si chiude e subito dopo il pool
+  // dell'app (idle da 10 s) o il test successivo riapre, per un attimo le connessioni risultano piu' di due e una viene scartata.
+  // Sotto carico e' la causa piu' probabile dei timeout/reset sul socket. Il margine non cambia la serializzazione delle query.
+  const server = new PGLiteSocketServer({ db, port: E2E_DB_PORT, host: "127.0.0.1", maxConnections: 8 });
   await server.start();
   console.log(`PGlite pronto su 127.0.0.1:${E2E_DB_PORT}`);
 

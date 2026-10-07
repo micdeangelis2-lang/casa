@@ -49,4 +49,17 @@ describe("CSV", () => {
     expect(csv).toContain(`"'=HYPERLINK(""http://esempio.test"")"`);
     expect(csv).not.toContain(`;"=HYPERLINK`);
   });
+
+  it("neutralizza = + - @ anche dopo spazi o tabulazioni iniziali (F-10)", () => {
+    expect(csvCell(" =1+1")).toBe("' =1+1");
+    expect(csvCell("   +SOMMA(A1)")).toBe("'   +SOMMA(A1)");
+    expect(csvCell("\t-2")).toBe("'\t-2");
+    expect(csvCell(" \t @cmd")).toBe("' \t @cmd");
+  });
+
+  it("non cambia i testi legittimi", () => {
+    for (const text of ["Rossi Mario", " Rossi", "a = b", "totale + IVA", "via Roma 1 - Milano", "x@y.it", "", " ", "  testo  "]) {
+      expect(csvCell(text)).toBe(text);
+    }
+  });
 });

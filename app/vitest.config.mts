@@ -36,17 +36,17 @@ export default defineConfig({
       reportsDirectory: "coverage",
       // Il report si scrive anche se un test fallisce (utile come artefatto in CI).
       reportOnFailure: true,
-      // Soglie poco sotto i valori misurati (2026-10-06): se la copertura scende, qualcuno se ne accorge.
-      // Misurato: globale 89,6 istr. / 81,0 rami / 88,7 funz. / 93,8 righe; domain 98,2 / 92,5 / 99,5 / 99,5;
-      // application 89,9 / 78,1 / 98,3 / 99,8; infrastructure 96,0 / 83,6 / 97,3 / 98,5.
+      // Soglie poco sotto i valori misurati (2026-10-07): se la copertura scende, qualcuno se ne accorge.
+      // Misurato: globale 90,2 istr. / 82,6 rami / 88,2 funz. / 92,9 righe; domain 99,5 / 96,3 / 99,6 / 99,7;
+      // application 91,9 / 81,0 / 97,4 / 99,7; infrastructure 97,1 / 86,3 / 98,3 / 99,1.
       thresholds: {
-        statements: 85,
-        branches: 75,
-        functions: 85,
-        lines: 90,
-        // Rami del dominio abbassati da 90 a 88 (misurati 89,15%) dopo l'aggiunta delle viste per figura professionale: da rialzare con test dei casi limite.
-        "src/modules/*/domain/**": { statements: 96, branches: 88, functions: 97, lines: 98 },
-        "src/modules/*/application/**": { statements: 87, branches: 75, functions: 95, lines: 98 },
+        statements: 88,
+        branches: 80,
+        functions: 86,
+        lines: 91,
+        "src/modules/*/domain/**": { statements: 96, branches: 92, functions: 97, lines: 98 },
+        "src/modules/*/application/**": { statements: 89, branches: 78, functions: 95, lines: 98 },
+        "src/modules/*/infrastructure/**": { statements: 95, branches: 84, functions: 96, lines: 97 },
       },
     },
   },

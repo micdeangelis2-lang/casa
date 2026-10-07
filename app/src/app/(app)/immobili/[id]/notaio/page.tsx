@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,12 +14,14 @@ import { getDb } from "@/platform/db/client";
 import { getAssetDetail } from "@/modules/assets";
 import { getParty, listParties } from "@/modules/directory";
 import { listDocumentCategories, listDocumentOptions } from "@/modules/documents";
-import { ENCUMBRANCE_KINDS, PROVENANCE_KINDS, getNotarySheet, notaryPackageHref, type Gap } from "@/modules/notary";
+import { ENCUMBRANCE_KINDS, PROVENANCE_KINDS, getNotarySheet, listEncumbrances, listProvenances, notaryPackageHref, type Gap } from "@/modules/notary";
 import { ActionButton } from "@/components/action-button";
+import { EditInline } from "@/components/edit-inline";
 import { InlineForm } from "@/components/inline-form";
 import { formatDate, formatEuro } from "@/lib/format";
+import { formatCents } from "@/shared/money";
 import { isUuid } from "@/lib/ids";
-import { addEncumbranceAction, addProvenanceAction, removeEncumbranceAction, removeProvenanceAction } from "./actions";
+import { addEncumbranceAction, addProvenanceAction, removeEncumbranceAction, removeProvenanceAction, updateEncumbranceAction, updateProvenanceAction } from "./actions";
 
 type Props = PageProps<"/immobili/[id]/notaio">;
 
@@ -46,7 +48,13 @@ export default async function NotarySheetPage({ params, searchParams }: Props) {
   const ta = await getTranslations("assets");
   const td = await getTranslations("documents");
   const tdo = await getTranslations("dossier");
-  const [categories, notaries, allParties, documentOptions] = await Promise.all([listDocumentCategories(db), listParties(db, { role: "notary" }), listParties(db), listDocumentOptions(db)]);
+  const te = await getTranslations("editUi");
+  const [categories, notaries, allParties, documentOptions, provenanceRows, encumbranceRows] = await Promise.all([listDocumentCategories(db), listParties(db, { role: "notary" }), listParties(db), listDocumentOptions(db), listProvenances(db, id), listEncumbrances(db, id)]);
+  const provenanceById = new Map(provenanceRows.map((r) => [r.id, r]));
+  const encumbranceById = new Map(encumbranceRows.map((r) => [r.id, r]));
+  /** Il documento collegato puo' non essere tra i piu' recenti: lo si aggiunge alle scelte, cosi' la modifica non lo perde. */
+  const optionsWith = (current: { documentId: string | null; documentTitle: string | null }) =>
+    current.documentId && current.documentTitle && !documentOptions.some((o) => o.value === current.documentId) ? [{ value: current.documentId, label: current.documentTitle }, ...documentOptions] : documentOptions;
   const partyOptions = allParties.map((p) => ({ value: p.id, label: p.displayName }));
   const contactParam = Array.isArray(query.contatto) ? query.contatto[0] : query.contatto;
   const contact = contactParam && isUuid(contactParam) ? await getParty(db, contactParam) : null;
@@ -77,7 +85,7 @@ export default async function NotarySheetPage({ params, searchParams }: Props) {
       .filter(Boolean)
       .join(", ");
 
-  const packageHref = notaryPackageHref({ assetIds: [asset.id, ...sheet.related.map((r) => r.id)], categoryIds: focusIds, contactId: contact?.id });
+  const packageHref = `${notaryPackageHref({ assetIds: [asset.id, ...sheet.related.map((r) => r.id)], categoryIds: focusIds, contactId: contact?.id })}&scheda=notary`;
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -94,7 +102,12 @@ export default async function NotarySheetPage({ params, searchParams }: Props) {
             {contact ? ` · ${t("contact.preparedFor", { name: contact.displayName })}` : ""}
           </p>
         </div>
-        <PrintButton />
+        <div className="flex flex-wrap gap-2 print:hidden">
+          <PrintButton />
+          <a href={`/api/immobili/${asset.id}/scheda-notaio${focusCategoryIds.length > 0 ? `?${focusCategoryIds.map((c) => `categoria=${c}`).join("&")}` : ""}`} className={buttonVariants({ variant: "outline" })}>
+            <Download aria-hidden /> {t("csv")}
+          </a>
+        </div>
       </div>
       <p className="text-sm text-muted-foreground">{t("intro")}</p>
 
@@ -331,6 +344,35 @@ export default async function NotarySheetPage({ params, searchParams }: Props) {
                   )}
                 </p>
                 {p.note ? <p className="whitespace-pre-wrap">{p.note}</p> : null}
+                {provenanceById.get(p.id) ? (
+                  <EditInline
+                    idPrefix={`provenance-edit-${p.id}`}
+                    title={`${te("editing")}: ${t(`provenance.kind.${p.kind as "purchase"}`)}`}
+                    openLabel={te("edit")}
+                    cancelLabel={te("cancel")}
+                    srLabel={t(`provenance.kind.${p.kind as "purchase"}`)}
+                    submitLabel={te("save")}
+                    fields={[
+                      { kind: "select", name: "kind", label: t("provenance.addKind"), options: PROVENANCE_KINDS.map((k) => ({ value: k, label: t(`provenance.kind.${k}`) })), emptyLabel: t("provenance.addChoose") },
+                      { kind: "date", name: "occurredOn", label: t("provenance.addOccurredOn") },
+                      { kind: "select", name: "fromPartyId", label: t("provenance.addFrom"), options: partyOptions, emptyLabel: t("provenance.addNone") },
+                      { kind: "select", name: "notaryPartyId", label: t("provenance.addNotary"), options: partyOptions, emptyLabel: t("provenance.addNone") },
+                      { kind: "text", name: "deedReference", label: t("provenance.addDeed"), maxLength: 200 },
+                      { kind: "select", name: "documentId", label: t("provenance.addDocument"), options: optionsWith(p), emptyLabel: t("provenance.addNone") },
+                      { kind: "textarea", name: "note", label: t("provenance.addNote"), maxLength: 1000 },
+                    ]}
+                    initial={{
+                      kind: p.kind,
+                      occurredOn: p.occurredOn ?? "",
+                      fromPartyId: provenanceById.get(p.id)!.fromPartyId ?? "",
+                      notaryPartyId: provenanceById.get(p.id)!.notaryPartyId ?? "",
+                      deedReference: p.deedReference ?? "",
+                      documentId: p.documentId ?? "",
+                      note: p.note ?? "",
+                    }}
+                    onSubmit={updateProvenanceAction.bind(null, asset.id, p.id)}
+                  />
+                ) : null}
               </li>
             ))}
           </ul>
@@ -387,6 +429,39 @@ export default async function NotarySheetPage({ params, searchParams }: Props) {
                   )}
                 </p>
                 {e.note ? <p className="whitespace-pre-wrap">{e.note}</p> : null}
+                {encumbranceById.get(e.id) ? (
+                  <EditInline
+                    idPrefix={`encumbrance-edit-${e.id}`}
+                    title={`${te("editing")}: ${e.title}`}
+                    openLabel={te("edit")}
+                    cancelLabel={te("cancel")}
+                    srLabel={e.title}
+                    submitLabel={te("save")}
+                    fields={[
+                      { kind: "select", name: "kind", label: t("encumbrances.addKind"), options: ENCUMBRANCE_KINDS.map((k) => ({ value: k, label: t(`encumbrances.kind.${k}`) })), emptyLabel: t("encumbrances.addChoose") },
+                      { kind: "text", name: "title", label: t("encumbrances.addTitle"), maxLength: 200 },
+                      { kind: "date", name: "registeredOn", label: t("encumbrances.addRegisteredOn") },
+                      { kind: "date", name: "endedOn", label: t("encumbrances.addEndedOn") },
+                      { kind: "select", name: "beneficiaryPartyId", label: t("encumbrances.addBeneficiary"), options: partyOptions, emptyLabel: t("encumbrances.addNone") },
+                      { kind: "text", name: "amount", label: t("encumbrances.addAmount"), inputMode: "decimal", maxLength: 14 },
+                      { kind: "text", name: "reference", label: t("encumbrances.addReference"), maxLength: 200 },
+                      { kind: "select", name: "documentId", label: t("encumbrances.addDocument"), options: optionsWith(e), emptyLabel: t("encumbrances.addNone") },
+                      { kind: "textarea", name: "note", label: t("encumbrances.addNote"), maxLength: 1000 },
+                    ]}
+                    initial={{
+                      kind: e.kind,
+                      title: e.title,
+                      registeredOn: e.registeredOn ?? "",
+                      endedOn: e.endedOn ?? "",
+                      beneficiaryPartyId: encumbranceById.get(e.id)!.beneficiaryPartyId ?? "",
+                      amount: e.amountCents !== null ? formatCents(e.amountCents) : "",
+                      reference: e.reference ?? "",
+                      documentId: e.documentId ?? "",
+                      note: e.note ?? "",
+                    }}
+                    onSubmit={updateEncumbranceAction.bind(null, asset.id, e.id)}
+                  />
+                ) : null}
               </li>
             ))}
           </ul>

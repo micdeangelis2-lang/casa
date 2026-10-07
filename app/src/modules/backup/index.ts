@@ -12,22 +12,29 @@ import { decryptStream, encryptStream, generateBackupKeyPair } from "@/shared/ar
 import { createArchive } from "./application/archive";
 import { performBackup } from "./application/backup";
 import type { BackupDestination, BackupRunRow } from "./application/ports";
-import { restoreArchive } from "./application/restore";
+import { restoreArchive, type RestoreOptions } from "./application/restore";
+import { assertArchiveSha256 } from "./application/signature";
 import { drizzleBackupRunRepository } from "./infrastructure/drizzle-backup-run-repository";
 import { LocalBackupDestination } from "./infrastructure/local-destination";
 import { postgresRestoreTarget, postgresSnapshotReader } from "./infrastructure/postgres-snapshot";
 
 export type { BackupRunRow, BackupDestination } from "./application/ports";
-export type { RestoreReport } from "./application/restore";
+export type { RestoreReport, RestoreOptions } from "./application/restore";
+export { assertArchiveSha256 };
 export type { Manifest } from "./domain/archive";
 export { generateBackupKeyPair, decryptStream, encryptStream };
 
-export type BackupSettings = { destination: BackupDestination; publicKey: string | undefined; keep: number };
+export type BackupSettings = { destination: BackupDestination; publicKey: string | undefined; keep: number; signingSecret?: string | undefined };
 
 /** Impostazioni lette dall'ambiente; nei test si passano esplicitamente. */
 export function backupSettingsFromEnv(): BackupSettings {
   const env = getBackupEnv();
-  return { destination: new LocalBackupDestination(env.BACKUP_DIR), publicKey: env.BACKUP_PUBLIC_KEY, keep: env.BACKUP_KEEP };
+  return {
+    destination: new LocalBackupDestination(env.BACKUP_DIR),
+    publicKey: env.BACKUP_PUBLIC_KEY,
+    keep: env.BACKUP_KEEP,
+    signingSecret: env.BACKUP_SIGNING_SECRET,
+  };
 }
 
 export type BackupOutcome = { ok: true; run: BackupRunRow } | { ok: false; message: string };
@@ -96,6 +103,6 @@ export async function openBackupArchive(destination: BackupDestination, key: str
 }
 
 /** Ripristina un archivio gia' decifrato in un ambiente vuoto (o, con `dryRun`, lo verifica soltanto). */
-export function restoreFromArchive(db: Db, storage: StoragePort, source: AsyncIterable<Uint8Array>, options: { dryRun?: boolean } = {}) {
+export function restoreFromArchive(db: Db, storage: StoragePort, source: AsyncIterable<Uint8Array>, options: RestoreOptions = {}) {
   return restoreArchive({ target: postgresRestoreTarget(db), storage }, source, options);
 }

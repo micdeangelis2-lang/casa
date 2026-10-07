@@ -39,6 +39,9 @@ export function drizzleNotaryRepository(db: Db): NotaryRepository {
       const [row] = await db.insert(assetProvenance).values(d).returning({ id: assetProvenance.id });
       return row!.id;
     },
+    async updateProvenance(id, d) {
+      await db.update(assetProvenance).set(d).where(eq(assetProvenance.id, id));
+    },
     async getProvenance(id) {
       const [row] = await db.select().from(assetProvenance).where(eq(assetProvenance.id, id));
       return row ? toProvenance(row) : null;
@@ -52,6 +55,9 @@ export function drizzleNotaryRepository(db: Db): NotaryRepository {
     async insertEncumbrance(d) {
       const [row] = await db.insert(assetEncumbrance).values(d).returning({ id: assetEncumbrance.id });
       return row!.id;
+    },
+    async updateEncumbrance(id, d) {
+      await db.update(assetEncumbrance).set(d).where(eq(assetEncumbrance.id, id));
     },
     async getEncumbrance(id) {
       const [row] = await db.select().from(assetEncumbrance).where(eq(assetEncumbrance.id, id));

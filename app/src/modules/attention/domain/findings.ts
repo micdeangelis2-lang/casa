@@ -6,7 +6,7 @@ import { addDays, daysBetween, type PeriodState } from "@/shared/dates";
  * o se vada fatto qualcosa per legge.
  */
 
-export const ATTENTION_AREAS = ["deadlines", "documents", "taxes", "condominium", "maintenance", "insurance", "lettings", "dossier", "backup"] as const;
+export const ATTENTION_AREAS = ["deadlines", "documents", "taxes", "condominium", "maintenance", "insurance", "lettings", "dossier", "rules", "backup"] as const;
 export type AttentionArea = (typeof ATTENTION_AREAS)[number];
 
 export type Severity = "high" | "normal";
@@ -47,6 +47,10 @@ export type Sources = {
     codes: { label: string; validUntil: string | null; state: PeriodState }[];
   }[];
   dossiers: { assetId: string; assetName: string; missing: number; stale: number }[];
+  /** Per ogni immobile non archiviato cosa risulta dalle polizze registrate (non archiviate): nessuna, nessuna in corso, almeno una in corso. */
+  assetPolicies: { assetId: string; assetName: string; status: "none" | "notCurrent" | "current"; count: number }[];
+  /** Regole in vigore da ricontrollare (non verificate, senza data di controllo o con l'ultimo controllo piu' vecchio dell'eta' scelta). */
+  rulesReview: { count: number; maxAgeMonths: number };
   backup: { configured: boolean; lastSuccessOn: string | null; lastFailed: boolean };
 };
 
@@ -112,6 +116,13 @@ export function computeFindings(s: Sources): Finding[] {
     if (d.missing > 0) add({ key: d.assetId, area: "dossier", kind: "dossier_missing", severity: "normal", params: { asset: d.assetName, count: d.missing }, href: `/immobili/${d.assetId}/dossier`, date: null });
     if (d.stale > 0) add({ key: `${d.assetId}-stale`, area: "dossier", kind: "dossier_stale", severity: "normal", params: { asset: d.assetName, count: d.stale }, href: `/immobili/${d.assetId}/dossier`, date: null });
   }
+
+  for (const a of s.assetPolicies) {
+    if (a.status === "none") add({ key: a.assetId, area: "insurance", kind: "asset_no_policy", severity: "normal", params: { asset: a.assetName }, href: "/assicurazioni/per-immobile", date: null });
+    else if (a.status === "notCurrent") add({ key: a.assetId, area: "insurance", kind: "asset_no_current_policy", severity: "normal", params: { asset: a.assetName, count: a.count }, href: "/assicurazioni/per-immobile", date: null });
+  }
+
+  if (s.rulesReview.count > 0) add({ key: "all", area: "rules", kind: "rules_to_review", severity: "normal", params: { count: s.rulesReview.count, months: s.rulesReview.maxAgeMonths }, href: "/uffici/regole", date: null });
 
   const b = s.backup;
   if (!b.configured) add({ key: "config", area: "backup", kind: "backup_not_configured", severity: "high", params: {}, href: "/impostazioni/backup", date: null });

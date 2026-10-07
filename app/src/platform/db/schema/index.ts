@@ -16,3 +16,5 @@ export * from "./lettings";
 export * from "./notary";
 export * from "./listings";
 export * from "./competence";
+export * from "./engagements";
+export * from "./offices";

@@ -55,7 +55,7 @@ export const plantDocument = pgTable(
       .references(() => plant.id, { onDelete: "cascade" }),
     documentId: uuid("document_id")
       .notNull()
-      .references(() => document.id, { onDelete: "cascade" }),
+      .references(() => document.id, { onDelete: "restrict" }),
   },
   (t) => [primaryKey({ columns: [t.plantId, t.documentId] }), index("plant_document_document_idx").on(t.documentId)],
 );

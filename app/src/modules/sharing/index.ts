@@ -1,6 +1,6 @@
 /**
  * Interfaccia pubblica del modulo Condivisione: pacchetti documentali per un destinatario (ZIP generato a flusso con indice,
- * manifest ed elenco CSV), tetto di riservatezza con avviso, registro delle condivisioni e storia per documento.
+ * manifest, elenco CSV ed eventuale scheda in HTML), tetto di riservatezza con avviso, registro delle condivisioni e storia per documento.
  * Le scritture ricevono una `UnitOfWork`, le letture un `Db`.
  */
 import type { UnitOfWork } from "@/platform/db/unit-of-work";
@@ -13,7 +13,8 @@ import type { IndexLabels } from "./domain/sharing";
 import { drizzleSharingRepository } from "./infrastructure/drizzle-sharing-repository";
 
 export { CONFIDENTIALITY_LEVELS, RECIPIENT_TYPES, type ConfidentialityLevel, type IndexLabels, type RecipientType } from "./domain/sharing";
-export type { Candidate, PackageDetail, PackageDownload, PackageListItem } from "./application/use-cases";
+export { SHEET_KINDS, SHEET_PATH, type SheetKind } from "./domain/sheet";
+export type { Candidate, PackageDetail, PackageDownload, PackageListItem, SheetInput } from "./application/use-cases";
 
 function collaborators(db: Db, storage: StoragePort = getStorage()): SharingCollaborators {
   const toCandidate = async (id: string): Promise<DocumentForPackage | null> => {
@@ -63,7 +64,8 @@ function collaborators(db: Db, storage: StoragePort = getStorage()): SharingColl
 const writeDeps = (uow: UnitOfWork) => ({ repo: drizzleSharingRepository(uow.tx), others: collaborators(uow.tx), audit: uow.audit });
 const readDeps = (db: Db) => ({ repo: drizzleSharingRepository(db), others: collaborators(db) });
 
-export const createPackage = (uow: UnitOfWork, input: unknown, now = new Date()) => useCases.createPackage(writeDeps(uow), input, now);
+/** `sheet`: la scheda in HTML (da un CSV dell'app) da includere nel pacchetto, gia' ricavata dai moduli di lettura e filtrata per il tetto di riservatezza. */
+export const createPackage = (uow: UnitOfWork, input: unknown, now = new Date(), sheet?: useCases.SheetInput | null) => useCases.createPackage(writeDeps(uow), input, now, sheet);
 export const revokePackage = (uow: UnitOfWork, id: string) => useCases.revokePackage(writeDeps(uow), id);
 export const preparePackageDownload = (uow: UnitOfWork, id: string) => useCases.preparePackageDownload(writeDeps(uow), id);
 

@@ -17,6 +17,7 @@ const goodEnv = {
   BETTER_AUTH_SECRET: SECRET,
   BETTER_AUTH_URL: "https://casa.example.it",
   BACKUP_PUBLIC_KEY: oneLine(publicKey),
+  BACKUP_SIGNING_SECRET: "segreto-di-firma-dei-backup-di-prova-32-caratteri",
   CRON_SECRET: "cron-secret-lungo-abbastanza",
   RESEND_API_KEY: "re_xxx",
   MAIL_FROM: "Casa <a@example.it>",

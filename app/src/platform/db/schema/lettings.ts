@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { bigint, check, date, index, pgTable, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { bigint, check, date, index, pgTable, primaryKey, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { asset, party } from "./registry";
 import { document } from "./documents";
 import { deadline } from "./deadlines";
@@ -90,7 +90,7 @@ export const lettingRent = pgTable(
     deadlineId: uuid("deadline_id").references(() => deadline.id, { onDelete: "set null" }),
     createdAt,
   },
-  (t) => [check("letting_rent_amount_check", sql`${t.amountCents} >= 0 and ${t.paidCents} >= 0`), index("letting_rent_letting_idx").on(t.lettingId, t.dueOn), index("letting_rent_document_idx").on(t.documentId), index("letting_rent_deadline_idx").on(t.deadlineId)],
+  (t) => [check("letting_rent_amount_check", sql`${t.amountCents} >= 0 and ${t.paidCents} >= 0`), uniqueIndex("letting_rent_letting_due_uq").on(t.lettingId, t.dueOn), index("letting_rent_letting_idx").on(t.lettingId, t.dueOn), index("letting_rent_document_idx").on(t.documentId), index("letting_rent_deadline_idx").on(t.deadlineId)],
 );
 
 /** Incassi di un canone (anche piu' di uno): data, importo, modalita' scritta dal proprietario e documento di prova. */
@@ -127,7 +127,7 @@ export const lettingCode = pgTable(
     note: text("note"),
     createdAt,
   },
-  (t) => [index("letting_code_letting_idx").on(t.lettingId)],
+  (t) => [uniqueIndex("letting_code_uq").on(t.lettingId, t.label, t.value), index("letting_code_letting_idx").on(t.lettingId)],
 );
 
 /** Adempimento periodico: comunicazione, imposta di soggiorno, rilevazione statistica... Cosa serva lo dicono le regole. */

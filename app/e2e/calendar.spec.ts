@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { Client } from "pg";
+import { Client } from "./support/pg-client";
 import { E2E_DATABASE_URL, clientIp } from "./support/env";
 import { STORAGE_STATE } from "./support/secrets";
 

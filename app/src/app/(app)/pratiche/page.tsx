@@ -22,6 +22,7 @@ const date = (v: string) => new Date(`${v}T00:00:00`).toLocaleDateString("it-IT"
 export default async function MattersPage({ searchParams }: PageProps<"/pratiche">) {
   await requireOwner();
   const t = await getTranslations("matters");
+  const te = await getTranslations("engagements");
   const params = await searchParams;
   const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
   const status = (MATTER_STATUSES as readonly string[]).includes(first(params.stato)) ? (first(params.stato) as MatterStatus) : undefined;
@@ -38,6 +39,9 @@ export default async function MattersPage({ searchParams }: PageProps<"/pratiche
         <div className="flex flex-wrap gap-2">
           <Link href="/uffici" className={buttonVariants({ variant: "outline" })}>
             {t("byOffice")}
+          </Link>
+          <Link href="/pratiche/incarichi" className={buttonVariants({ variant: "outline" })}>
+            {te("open")}
           </Link>
           <Link href="/pratiche/nuova" className={buttonVariants()}>
             <Plus aria-hidden /> {t("add")}

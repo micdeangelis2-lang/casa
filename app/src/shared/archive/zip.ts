@@ -43,11 +43,33 @@ export async function* zipStream(entries: AsyncIterable<ZipEntry>): AsyncGenerat
 
 export type UnzippedEntry = { name: string; data: Uint8Array };
 
+/** Tetti di lettura (F-10): proteggono dalle "bombe" di compressione. Tutti i valori sono in byte (il rapporto e' un numero). */
+export type ZipLimits = {
+  /** Dimensione massima di una voce decompressa. */
+  maxEntryBytes: number;
+  /** Dimensione massima di tutte le voci insieme. */
+  maxTotalBytes: number;
+  /** Rapporto massimo tra byte decompressi e byte letti dall'archivio; si controlla solo oltre `ratioFloorBytes`. */
+  maxExpansionRatio: number;
+  /** Sotto questa quantita' di byte decompressi il rapporto non conta (i testi ripetitivi comprimono molto, ed e' innocuo). */
+  ratioFloorBytes: number;
+};
+
+const DEFAULT_ZIP_LIMITS: ZipLimits = {
+  maxEntryBytes: 1024 ** 3,
+  maxTotalBytes: 8 * 1024 ** 3,
+  maxExpansionRatio: 1000,
+  ratioFloorBytes: 64 * 1024 ** 2,
+};
+
 /**
  * Legge un file ZIP a pezzi. Ogni voce completa viene restituita non appena e' pronta, nell'ordine in cui
  * sta nell'archivio. Le voci con nome sospetto (percorsi assoluti o con `..`) sono rifiutate.
  */
-export async function* unzipStream(source: AsyncIterable<Uint8Array>): AsyncGenerator<UnzippedEntry> {
+export async function* unzipStream(source: AsyncIterable<Uint8Array>, overrides: Partial<ZipLimits> = {}): AsyncGenerator<UnzippedEntry> {
+  const limits = { ...DEFAULT_ZIP_LIMITS, ...overrides };
+  let inputBytes = 0;
+  let outputBytes = 0;
   const ready: UnzippedEntry[] = [];
   let failure: Error | null = null;
   const unzip = new Unzip((file) => {
@@ -57,9 +79,23 @@ export async function* unzipStream(source: AsyncIterable<Uint8Array>): AsyncGene
       return;
     }
     const parts: Uint8Array[] = [];
+    let entryBytes = 0;
     file.ondata = (error, chunk, final) => {
       if (error) {
         failure = error;
+        return;
+      }
+      if (failure) return;
+      entryBytes += chunk.length;
+      outputBytes += chunk.length;
+      const tooBig = entryBytes > limits.maxEntryBytes || outputBytes > limits.maxTotalBytes;
+      const bomb = outputBytes > limits.ratioFloorBytes && outputBytes > Math.max(inputBytes, 1) * limits.maxExpansionRatio;
+      if (tooBig || bomb) {
+        failure = new Error(
+          tooBig ? "L'archivio supera la dimensione massima consentita una volta decompresso" : "L'archivio si espande in modo anomalo (rapporto di compressione troppo alto): possibile bomba di compressione",
+        );
+        file.terminate();
+        parts.length = 0;
         return;
       }
       parts.push(chunk);
@@ -74,6 +110,7 @@ export async function* unzipStream(source: AsyncIterable<Uint8Array>): AsyncGene
     while (ready.length > 0) yield ready.shift()!;
   };
   for await (const chunk of source) {
+    inputBytes += chunk.length;
     unzip.push(chunk);
     yield* flush();
   }

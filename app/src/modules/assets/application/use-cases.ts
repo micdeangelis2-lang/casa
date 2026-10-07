@@ -1,5 +1,5 @@
 import { fail, failGeneral, ok, zodIssuesToErrors, type FieldErrors, type Result } from "@/shared/result";
-import { assetInputSchema, type AssetDetail, type AssetInput } from "../domain/asset";
+import { assetInputSchema, declaredValueSchema, type AssetDetail, type AssetInput } from "../domain/asset";
 import type { AssetChildren, AssetCore, AssetDeps, AssetRepository } from "./ports";
 
 const GENERIC = { territory: "Il Comune scelto non esiste", municipalityOrLocality: "Scegli un Comune o una località" };
@@ -124,6 +124,16 @@ export async function updateAsset(deps: AssetDeps, id: string, rawInput: unknown
 export async function setAssetArchived(deps: AssetDeps, id: string, archived: boolean): Promise<Result<{ id: string }>> {
   if (!(await deps.repo.setArchived(id, archived))) return failGeneral("Bene non trovato");
   await deps.audit.record({ action: archived ? "asset.archive" : "asset.restore", entityType: "asset", entityId: id, diff: {} });
+  return ok({ id });
+}
+
+/** Il valore dichiarato dal proprietario (campo vuoto = nessun valore dichiarato). L'audit registra solo se e' stato scritto o tolto. */
+export async function setAssetDeclaredValue(deps: AssetDeps, id: string, rawInput: unknown): Promise<Result<{ id: string }>> {
+  const parsed = declaredValueSchema.safeParse(rawInput);
+  if (!parsed.success) return fail(zodIssuesToErrors(parsed.error));
+  const cents = parsed.data.declaredValue ?? null;
+  if (!(await deps.repo.setDeclaredValue(id, cents))) return failGeneral("Bene non trovato");
+  await deps.audit.record({ action: "asset.declared_value", entityType: "asset", entityId: id, diff: { cleared: cents === null } });
   return ok({ id });
 }
 

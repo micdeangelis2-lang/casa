@@ -1,7 +1,8 @@
 import { expect, test, type Browser, type BrowserContext, type Locator, type Page } from "@playwright/test";
-import { Client } from "pg";
+import { Client } from "./support/pg-client";
 import { a11yViolations } from "./support/a11y";
 import { E2E_DATABASE_URL, E2E_ORIGIN, OWNER, clientIp } from "./support/env";
+import { reconfirm } from "./support/reconfirm";
 import { STORAGE_STATE, loadSecrets, saveSecrets } from "./support/secrets";
 import { addVirtualAuthenticator, importCredentials } from "./support/webauthn";
 
@@ -10,6 +11,13 @@ import { addVirtualAuthenticator, importCredentials } from "./support/webauthn";
 // codici di recupero si rigenerano aggiornando il file dei segreti condivisi con quelli nuovi.
 test.use({ storageState: STORAGE_STATE, extraHTTPHeaders: { "x-real-ip": clientIp(250) } });
 test.describe.configure({ mode: "serial" });
+
+// F-04: rimozione passkey, chiusura sessioni, codici di recupero e cambio password pretendono una riconferma recente. La sessione
+// condivisa e' vecchia per costruzione: ogni test la ottiene con l'helper (cookie firmato col segreto di prova, controllo del
+// server invariato). Il rifiuto senza riconferma e la riconferma vera dall'interfaccia sono provati in reconfirm.spec.ts.
+test.beforeEach(async ({ page }) => {
+  await reconfirm(page.context());
+});
 
 const URL = "/impostazioni/sicurezza";
 const NEW_PASSWORD = "Tavolo-Lampada-Bicicletta-7";

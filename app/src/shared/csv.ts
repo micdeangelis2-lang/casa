@@ -1,6 +1,6 @@
 /**
  * CSV per un foglio di calcolo italiano: separatore «;», decimali con la virgola, UTF-8 con BOM, fine riga CRLF.
- * Un testo che inizia come una formula («=», «+», «-», «@», tabulazione) viene neutralizzato con un apice, perche' aprendo il
+ * Un testo che inizia come una formula («=», «+», «-», «@», tabulazione), anche dopo spazi o tabulazioni iniziali, viene neutralizzato con un apice, perche' aprendo il
  * file non venga eseguito (iniezione di formule): vale per ogni CSV dell'app, anche per quelli che partono per terzi.
  */
 
@@ -9,10 +9,13 @@ export type CsvCell = string | number | null;
 /** Il segno d'ordine dei byte che fa riconoscere l'UTF-8 a Excel. */
 export const CSV_BOM = String.fromCharCode(0xfeff);
 
+/** Un testo e' pericoloso se, saltati spazi e tabulazioni iniziali, comincia con un carattere di formula (o con tab/CR). */
+const FORMULA_START = /^[ \t]*[=+\-@]|^[\t\r]/;
+
 export function csvCell(value: CsvCell, options: { alwaysQuote?: boolean } = {}): string {
   if (value === null) return options.alwaysQuote ? '""' : "";
   if (typeof value === "number") return String(value).replace(".", ",");
-  const text = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+  const text = FORMULA_START.test(value) ?`'${value}` : value;
   return options.alwaysQuote || /[";\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 

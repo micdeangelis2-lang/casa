@@ -48,3 +48,6 @@ export const listingEventSchema = z.object({
   contactPartyId: optionalUuid,
   note: optionalText(500),
 });
+
+export type EngagementInput = z.output<typeof engagementSchema>;
+export type ListingEventInput = z.output<typeof listingEventSchema>;

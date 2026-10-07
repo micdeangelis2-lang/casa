@@ -68,6 +68,9 @@ export default async function AdviserDossierPage({ searchParams }: PageProps<"/e
         <a href={`/api/economia/dossier?anno=${year}`} className={buttonVariants({ variant: "outline" })}>
           <Download aria-hidden /> {t("csv")}
         </a>
+        <Link href={`/condivisione/nuovo?destinatario=accountant&scheda=accountant&anno=${year}`} className={buttonVariants({ variant: "outline" }) + " print:hidden"}>
+          {t("sharePackage")}
+        </Link>
       </div>
 
       <section aria-labelledby="gaps-heading" className="flex flex-col gap-3">

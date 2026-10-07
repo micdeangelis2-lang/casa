@@ -10,6 +10,9 @@ export const CLAIM_STATUSES = ["open", "reported", "in_review", "settled", "clos
 export type ClaimStatus = (typeof CLAIM_STATUSES)[number];
 export const ENTRY_DIRECTIONS = ["sent", "received", "note"] as const;
 export type EntryDirection = (typeof ENTRY_DIRECTIONS)[number];
+/** Ruolo di un documento nel sinistro, scelto dal proprietario. */
+export const CLAIM_DOCUMENT_ROLES = ["photo", "appraisal", "invoice", "other"] as const;
+export type ClaimDocumentRole = (typeof CLAIM_DOCUMENT_ROLES)[number];
 
 const flag = z.boolean().default(false);
 const ordered = (a: string | undefined, b: string | undefined) => !a || !b || b >= a;
@@ -35,6 +38,7 @@ export const policySchema = z
 
 export const coverageSchema = z.object({
   title: requiredText("Garanzia", 200),
+  assetId: optionalUuid,
   sumInsured: optionalEuroAmount("Somma assicurata"),
   deductible: optionalEuroAmount("Franchigia"),
   note: optionalText(500),
@@ -76,6 +80,11 @@ export const claimEntrySchema = z.object({
   direction: z.enum(ENTRY_DIRECTIONS, { error: "Scegli il tipo" }).default("note"),
   summary: requiredText("Riepilogo", 1000),
   documentId: optionalUuid,
+});
+
+export const claimDocumentSchema = z.object({
+  documentId: z.uuid("Scegli un documento"),
+  role: z.enum(CLAIM_DOCUMENT_ROLES, { error: "Scegli il ruolo del documento" }).default("other"),
 });
 
 /** Un sinistro e' «aperto» finche' non e' liquidato o chiuso dal proprietario. */

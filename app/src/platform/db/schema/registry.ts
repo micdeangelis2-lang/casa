@@ -48,6 +48,7 @@ export const territory = pgTable(
     ...timestamps,
   },
   (t) => [
+    check("territory_source_check", sql`${t.source} in ('manual','istat')`),
     check("territory_kind_check", sql`${t.kind} in ('country','region','province','municipality','locality')`),
     check(
       "territory_verification_check",
@@ -94,12 +95,19 @@ export const asset = pgTable(
     useType: text("use_type"),
     inCondominium: boolean("in_condominium").notNull().default(false),
     notes: text("notes"),
+    /** Valore dichiarato dal proprietario (facoltativo): un dato suo, mai una stima dell'app. */
+    declaredValueCents: bigint("declared_value_cents", { mode: "number" }),
     /** Fatti tecnici liberi usati in futuro dal motore delle regole (anno, impianti, ecc.). */
     attributes: jsonb("attributes").$type<Record<string, unknown>>().notNull().default({}),
     archivedAt: timestamp("archived_at", { withTimezone: true }),
     ...timestamps,
   },
-  (t) => [index("asset_territory_idx").on(t.territoryId), index("asset_name_idx").on(t.name)],
+  (t) => [
+    check("asset_declared_value_check", sql`${t.declaredValueCents} is null or ${t.declaredValueCents} >= 0`),
+    check("asset_kind_check", sql`${t.kind} in ('dwelling','detached_house','garage','box','parking','cellar','commercial','land','other')`),
+    index("asset_territory_idx").on(t.territoryId),
+    index("asset_name_idx").on(t.name),
+  ],
 );
 
 /** Titolarita': chi detiene quale diritto su un bene e per quale quota. */

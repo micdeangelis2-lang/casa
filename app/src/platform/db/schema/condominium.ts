@@ -221,7 +221,7 @@ export const condoAgendaDocument = pgTable(
       .references(() => condoAgendaItem.id, { onDelete: "cascade" }),
     documentId: uuid("document_id")
       .notNull()
-      .references(() => document.id, { onDelete: "cascade" }),
+      .references(() => document.id, { onDelete: "restrict" }),
   },
   (t) => [primaryKey({ columns: [t.agendaItemId, t.documentId] }), index("condo_agenda_document_document_idx").on(t.documentId)],
 );
@@ -361,7 +361,7 @@ export const condoDocument = pgTable(
       .references(() => condominium.id, { onDelete: "cascade" }),
     documentId: uuid("document_id")
       .notNull()
-      .references(() => document.id, { onDelete: "cascade" }),
+      .references(() => document.id, { onDelete: "restrict" }),
     kind: text("kind").notNull().default("other"),
   },
   (t) => [primaryKey({ columns: [t.condominiumId, t.documentId] }), check("condo_document_kind_check", sql`${t.kind} in ('regulation','millesimal','other')`), index("condo_document_document_idx").on(t.documentId)],

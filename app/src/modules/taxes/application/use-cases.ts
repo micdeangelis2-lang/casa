@@ -63,6 +63,13 @@ async function deadlineTitle(deps: TaxDeps, o: { assetId: string; taxTypeId: str
   return `${type?.name ?? "Tributo"} ${o.year}${o.label ? ` – ${o.label}` : ""}${asset ? ` (${asset})` : ""}`;
 }
 
+const DUPLICATE_OBLIGATION = "Esiste già una voce con lo stesso bene, tributo, anno ed etichetta: aggiungi un'etichetta diversa (acconto, saldo, rata...)";
+/** Stesso bene, tipo, anno ed etichetta (vuota = vuota): e' la chiave univoca del database, qui con un messaggio leggibile. */
+async function duplicateObligation(deps: TaxDeps, v: { assetId: string; taxTypeId: string; year: number; label?: string | null }, exceptId?: string): Promise<boolean> {
+  const same = await deps.repo.listObligations({ year: v.year, assetId: v.assetId, taxTypeId: v.taxTypeId });
+  return same.some((o) => o.id !== exceptId && (o.label ?? "") === (v.label ?? ""));
+}
+
 export async function createObligation(deps: TaxDeps, raw: unknown): Promise<Id> {
   const p = parseInput(obligationSchema, raw);
   if (!p.ok) return p;
@@ -70,6 +77,7 @@ export async function createObligation(deps: TaxDeps, raw: unknown): Promise<Id>
   const errors = await refs(deps, { assetId: v.assetId, taxTypeId: v.taxTypeId });
   if (hasErrors(errors)) return fail(errors);
   if (v.createDeadline && !v.dueOn) return fail({ dueOn: ["Per creare la scadenza serve la data"] });
+  if (await duplicateObligation(deps, v)) return fail({ label: [DUPLICATE_OBLIGATION] });
   const id = await deps.repo.insertObligation({
     assetId: v.assetId,
     taxTypeId: v.taxTypeId,
@@ -105,6 +113,7 @@ export async function updateObligation(deps: TaxDeps, id: string, raw: unknown):
   // Un tipo archiviato si puo' tenere se non cambia: la voce esistente non deve diventare non salvabile.
   const errors = await refs(deps, { assetId: v.assetId, taxTypeId: v.taxTypeId === current.taxTypeId ? undefined : v.taxTypeId });
   if (hasErrors(errors)) return fail(errors);
+  if (await duplicateObligation(deps, v, id)) return fail({ label: [DUPLICATE_OBLIGATION] });
   await deps.repo.updateObligation(id, { assetId: v.assetId, taxTypeId: v.taxTypeId, year: v.year, label: v.label ?? null, dueOn: v.dueOn ?? null, expectedCents: v.expected ?? null, askAdviser: v.askAdviser, note: v.note ?? null });
   await deps.audit.record({ action: "tax.obligation.update", entityType: "tax_obligation", entityId: id, diff: { fields: ["assetId", "taxTypeId", "year", "label", "dueOn", "expected", "askAdviser", "note"] } });
   return ok({ id });

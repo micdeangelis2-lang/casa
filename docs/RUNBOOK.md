@@ -72,11 +72,20 @@ Provato in locale e nei test (`tests/backup.test.ts`: ogni tabella è nel backup
 - Se perdi la chiave privata: genera una nuova coppia, aggiorna `BACKUP_PUBLIC_KEY` e fai subito un backup nuovo. Quelli vecchi non si possono più aprire.
 - Se vuoi cambiare chiave: conserva anche la vecchia finché esistono backup fatti con lei.
 
+**Firma dei backup (`BACKUP_SIGNING_SECRET`).** Con questo segreto di server (almeno 32 caratteri, `openssl rand -base64 32`) ogni backup nuovo contiene la voce `manifest.sig`: una firma HMAC-SHA256 del manifest, che a sua volta contiene le impronte di tutte le tabelle e di tutti i file. Chi conosce solo la chiave pubblica (e può scrivere nella cartella dei backup) non può quindi fabbricare un backup accettato. È facoltativo, ma `pnpm doctor` avvisa se i backup sono configurati e il segreto manca.
+
+- **Custodiscine una copia fuori dal server** (gestore di password), insieme alla chiave privata: serve per ripristinare.
+- **Se lo perdi** (o lo cambi): i backup già fatti firmati col vecchio segreto non si verificano più col nuovo e il ripristino li rifiuta («la firma dell'archivio non è valida»). Una firma sbagliata si rifiuta sempre, anche con `--allow-unsigned` (quello copre solo l'*assenza* di firma). Le strade: (1) ritrova il vecchio segreto e impostalo solo per il ripristino; (2) se non c'è, ripristina **senza** segreto nell'ambiente (il ripristino scrive «firma presente ma non verificata»): in quel caso la garanzia contro i backup fabbricati la dai tu confrontando l'impronta annotata (`--expect-sha256`, sotto). Dopo il cambio imposta il segreto nuovo e fai subito un backup nuovo.
+- **Backup vecchi (senza firma)**: restano leggibili. Con il segreto impostato il ripristino li rifiuta, salvo `--allow-unsigned`.
+- **Impronta annotata fuori banda**: dopo ogni backup che vuoi poter garantire, annota altrove la SHA-256 del file cifrato (colonna `archive_sha256` della tabella `backup_run`, oppure `sha256sum <file.gibk>`) e usa `pnpm backup:restore ... --expect-sha256 <impronta>`: il confronto avviene prima di aprire il file.
+- **Limiti di lettura**: il ripristino rifiuta un archivio che si espande oltre 8 GiB totali (1 GiB per voce) o con un rapporto di compressione anomalo; per un archivio legittimo più grande usa `--max-bytes <byte>`.
+- Se la firma è presente ma il segreto non è impostato, il ripristino legge l'archivio e scrive «presente ma non verificata»: non è una verifica.
+
 **Ripristino in un ambiente nuovo e vuoto**
 
 1. Crea un database vuoto (un nuovo progetto Neon, oppure cancella `.pglite/` in locale) e applica le migrazioni: `pnpm db:migrate`.
 2. Usa una cartella dei documenti vuota (`STORAGE_DIR`).
-3. Prima verifica: `pnpm backup:restore --archive <file.gibk> --key <privata.pem> --verify-only`.
+3. Prima verifica: `pnpm backup:restore --archive <file.gibk> --key <privata.pem> --verify-only` (con `BACKUP_SIGNING_SECRET` impostato nell'ambiente; aggiungi `--expect-sha256 <impronta>` se l'hai annotata, e `--allow-unsigned` solo per un backup vecchio).
 4. Poi ripristina: lo stesso comando senza `--verify-only`. Rifiuta un database che contiene già dati, e annulla tutto se un'impronta o la catena dell'audit non tornano.
 5. Dopo il ripristino le sessioni non ci sono più (non si salvano): rifai l'accesso. Utente, password, TOTP e passkey tornano con i dati.
    - Stesso dominio: le passkey funzionano come prima.
@@ -105,6 +114,7 @@ L'elenco commentato è in `app/.env.example`. Cosa succede se li perdi o li camb
 | `BETTER_AUTH_URL` | Origine pubblica; da qui derivano le passkey | Cambiare dominio rende inutili le passkey esistenti (vedi §3, punto 5) |
 | `OWNER_BOOTSTRAP_TOKEN` | Crea l'account del proprietario | **Rimuovilo** dopo la prima configurazione. Serve di nuovo solo per l'emergenza del §6 |
 | `BACKUP_PUBLIC_KEY` | Cifra i backup | Vedi §3: la chiave privata è solo tua |
+| `BACKUP_SIGNING_SECRET` | Firma (HMAC) il manifest dei backup; il ripristino rifiuta un archivio senza firma o con firma diversa | Vedi §3 «Firma dei backup»: custodiscine una copia fuori dal server. Persa: i backup firmati non si verificano più |
 | `CRON_SECRET` | Autorizza le chiamate del cron (almeno 16 caratteri) | Cambialo nel progetto Vercel: è Vercel a mandarlo. Senza, le route `/api/cron/*` rispondono 401 |
 | `RESEND_API_KEY`, `MAIL_FROM` | Email degli avvisi | Senza, gli avvisi restano nell'app e non partono email |
 | `STORAGE_DIR`, `BACKUP_DIR`, `BACKUP_KEEP` | Cartella dei documenti, dei backup, quanti backup tenere | Solo disco locale |
@@ -125,6 +135,16 @@ L'app ha un solo utente e nessun supporto: non c'è un «password dimenticata» 
    5. Nel registro delle modifiche resta traccia della ricreazione (azione `owner.bootstrap`, eseguita dal sistema).
 
    Per questo l'accesso al database va protetto come l'accesso all'app: chi lo ha può fare questa procedura.
+
+### Riconferma recente
+
+Per scaricare l'esportazione completa, un backup o un pacchetto di condivisione, e per rimuovere una passkey, chiudere sessioni, rigenerare i codici di recupero o cambiare la password, l'app chiede di **riconfermare** che sei tu, anche con la sessione aperta. La riconferma vale **10 minuti**. Cliccando un link di scarico vieni portato su `/riconferma`: scegli «Conferma con la passkey», oppure password + codice dell'app di autenticazione (o un codice di recupero), e poi torni alla pagina di partenza (per uno scarico, il file parte). La prova è un cookie firmato, legato alla sessione in uso: se chiudi la sessione o cambi browser va rifatta.
+
+- **«Serve una riconferma recente»** nella pagina Sicurezza: usa il link «Riconferma l'accesso» in cima alla pagina e ripeti l'operazione.
+- Strumenti che non sono un browser (curl, script) ricevono `403` con `{"error":"reconfirm_required"}` finché non c'è una riconferma valida: non esiste una via per ottenerla senza il browser, di proposito.
+- I tentativi di password della riconferma condividono il tetto di 5 per 15 minuti con la pagina Sicurezza.
+- La riconferma con la passkey fa un accesso vero: nella lista delle sessioni compare una sessione in più (si chiude da Sicurezza).
+- Nulla da configurare: usa `BETTER_AUTH_SECRET`. Cambiarlo invalida anche le riconferme in corso (innocuo, si rifanno).
 
 ## 7. Il registro delle modifiche
 

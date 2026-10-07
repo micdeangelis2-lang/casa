@@ -1,7 +1,7 @@
 import { periodState, type PeriodState } from "@/shared/dates";
 import { fail, failGeneral, ok, parseInput, type FieldErrors, type Result } from "@/shared/result";
-import { CLAIM_STATUSES, claimEntrySchema, claimSchema, coverageSchema, isClaimOpen, policySchema, premiumOverdue, premiumPaidSchema, premiumSchema, type ClaimInput, type ClaimStatus } from "../domain/insurance";
-import type { ClaimEntryRow, ClaimRow, CoverageRow, InsuranceDeps, InsuranceReadDeps, PolicyRow, PremiumRow } from "./ports";
+import { CLAIM_STATUSES, claimDocumentSchema, claimEntrySchema, claimSchema, coverageSchema, isClaimOpen, policySchema, premiumOverdue, premiumPaidSchema, premiumSchema, type ClaimInput, type ClaimStatus } from "../domain/insurance";
+import type { ClaimDocumentRow, ClaimEntryRow, ClaimRow, CoverageRow, InsuranceDeps, InsuranceReadDeps, PolicyRow, PremiumRow } from "./ports";
 
 type Id = Result<{ id: string }>;
 const hasErrors = (e: FieldErrors) => Object.keys(e).length > 0;
@@ -75,6 +75,7 @@ export async function updatePolicy(deps: InsuranceDeps, id: string, raw: unknown
   if (hasErrors(errors)) return fail(rename(errors, "partyId", "insurerPartyId"));
   await deps.repo.updatePolicy(id, { title: v.title, insurerPartyId: v.insurerPartyId ?? null, agentPartyId: v.agentPartyId ?? null, policyNumber: v.policyNumber ?? null, startsOn: v.startsOn ?? null, endsOn: v.endsOn ?? null, premiumCents: v.premium ?? null, note: v.note ?? null, documentId: v.documentId ?? null });
   await deps.repo.setPolicyAssets(id, v.assetIds);
+  await deps.repo.clearCoverageAssetsOutside(id, v.assetIds);
   await deps.audit.record({ action: "insurance.policy.update", entityType: "ins_policy", entityId: id, diff: { assets: v.assetIds.length } });
   return ok({ id });
 }
@@ -108,7 +109,9 @@ export async function addCoverage(deps: InsuranceDeps, policyId: string, raw: un
   const p = parseInput(coverageSchema, raw);
   if (!p.ok) return p;
   if (!(await deps.repo.getPolicy(policyId))) return failGeneral("Polizza non trovata");
-  const id = await deps.repo.insertCoverage({ policyId, title: p.value.title, sumInsuredCents: p.value.sumInsured ?? null, deductibleCents: p.value.deductible ?? null, note: p.value.note ?? null });
+  const v = p.value;
+  if (v.assetId && !(await deps.repo.policyAssets(policyId)).includes(v.assetId)) return fail({ assetId: ["L'immobile deve essere tra quelli collegati alla polizza"] });
+  const id = await deps.repo.insertCoverage({ policyId, assetId: v.assetId ?? null, title: p.value.title, sumInsuredCents: p.value.sumInsured ?? null, deductibleCents: p.value.deductible ?? null, note: p.value.note ?? null });
   await deps.audit.record({ action: "insurance.coverage.add", entityType: "ins_policy", entityId: policyId, diff: { coverageId: id } });
   return ok({ id: policyId });
 }
@@ -129,6 +132,7 @@ export async function addPremium(deps: InsuranceDeps, policyId: string, raw: unk
   const v = p.value;
   const errors = await refs(deps, { documents: [v.documentId] });
   if (hasErrors(errors)) return fail(errors);
+  if ((await deps.repo.premiums(policyId)).some((x) => x.dueOn === v.dueOn)) return fail({ dueOn: ["Esiste già un premio con questa scadenza"] });
   const id = await deps.repo.insertPremium({ policyId, dueOn: v.dueOn, amountCents: v.amount, paidOn: v.paidOn ?? null, documentId: v.documentId ?? null, deadlineId: null });
   let deadlineCreated = false;
   if (v.createDeadline && !v.paidOn) {
@@ -242,6 +246,27 @@ export async function removeClaimEntry(deps: InsuranceDeps, entryId: string): Pr
   return ok({ id: entry.claimId });
 }
 
+/** Collega un documento al sinistro con il suo ruolo (fotografia, perizia, fattura, altro). */
+export async function addClaimDocument(deps: InsuranceDeps, claimId: string, raw: unknown): Promise<Id> {
+  const p = parseInput(claimDocumentSchema, raw);
+  if (!p.ok) return p;
+  if (!(await deps.repo.getClaim(claimId))) return failGeneral("Sinistro non trovato");
+  const errors = await refs(deps, { documents: [p.value.documentId] });
+  if (hasErrors(errors)) return fail(errors);
+  if ((await deps.repo.claimDocuments(claimId)).some((d) => d.documentId === p.value.documentId)) return fail({ documentId: ["Questo documento è già collegato al sinistro"] });
+  await deps.repo.insertClaimDocument({ claimId, documentId: p.value.documentId, role: p.value.role });
+  await deps.audit.record({ action: "insurance.claim.document.add", entityType: "ins_claim", entityId: claimId, diff: { documentId: p.value.documentId, role: p.value.role } });
+  return ok({ id: claimId });
+}
+
+export async function removeClaimDocument(deps: InsuranceDeps, claimId: string, documentId: string): Promise<Id> {
+  const current = (await deps.repo.claimDocuments(claimId)).find((d) => d.documentId === documentId);
+  if (!current) return failGeneral("Documento non collegato al sinistro");
+  await deps.repo.deleteClaimDocument(claimId, documentId);
+  await deps.audit.record({ action: "insurance.claim.document.remove", entityType: "ins_claim", entityId: claimId, diff: { documentId, role: current.role } });
+  return ok({ id: claimId });
+}
+
 // -------------------------------------------------------------------------------------------------- letture
 
 /**
@@ -318,11 +343,15 @@ export async function listClaims(deps: InsuranceReadDeps, filter: { policyId?: s
     }));
 }
 
-export type ClaimDetail = ClaimItem & { entries: (ClaimEntryRow & { documentTitle: string | null })[] };
+export type ClaimDetail = ClaimItem & { entries: (ClaimEntryRow & { documentTitle: string | null })[]; documents: (ClaimDocumentRow & { title: string })[] };
 
 export async function getClaimDetail(deps: InsuranceReadDeps, id: string): Promise<ClaimDetail | null> {
   const claim = (await listClaims(deps, { includeClosed: true })).find((c) => c.id === id);
   if (!claim) return null;
-  const [entries, titles] = await Promise.all([deps.repo.entries(id), deps.others.documentTitles()]);
-  return { ...claim, entries: entries.map((e) => ({ ...e, documentTitle: e.documentId ? (titles.get(e.documentId) ?? null) : null })) };
+  const [entries, documents, titles] = await Promise.all([deps.repo.entries(id), deps.repo.claimDocuments(id), deps.others.documentTitles()]);
+  return {
+    ...claim,
+    entries: entries.map((e) => ({ ...e, documentTitle: e.documentId ? (titles.get(e.documentId) ?? null) : null })),
+    documents: documents.map((d) => ({ ...d, title: titles.get(d.documentId) ?? "—" })),
+  };
 }

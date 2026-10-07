@@ -17,10 +17,13 @@ import { createPackageAction } from "../actions";
 
 export type CandidateView = { id: string; title: string; categoryName: string; confidentiality: string; exceedsCap: boolean; assetNames: string[]; sizeBytes: number };
 
-type Props = { candidates: CandidateView[]; cap: string; recipientTypes: string[]; initialRecipientType?: string; initialRecipientName?: string };
+/** La scheda proposta (dalla pagina di partenza): tipo e scelte, gia' validate sul server al momento della creazione. */
+export type SheetOffer = { kind: string; spec: Record<string, unknown> };
+
+type Props = { candidates: CandidateView[]; cap: string; recipientTypes: string[]; initialRecipientType?: string; initialRecipientName?: string; sheetOffer?: SheetOffer };
 
 /** Seconda fase del pacchetto: destinatario e scelta dei documenti. Quelli oltre il livello scelto partono esclusi, con un avviso. */
-export function PackageBuilder({ candidates, cap, recipientTypes, initialRecipientType, initialRecipientName = "" }: Props) {
+export function PackageBuilder({ candidates, cap, recipientTypes, initialRecipientType, initialRecipientName = "", sheetOffer }: Props) {
   const t = useTranslations("sharing");
   const tb = useTranslations("sharing.builder");
   const tc = useTranslations("common");
@@ -29,6 +32,8 @@ export function PackageBuilder({ candidates, cap, recipientTypes, initialRecipie
   const [note, setNote] = useState("");
   const [selected, setSelected] = useState<Set<string>>(() => new Set(candidates.filter((c) => !c.exceedsCap).map((c) => c.id)));
   const [overrides, setOverrides] = useState<Set<string>>(new Set());
+  const [includeSheet, setIncludeSheet] = useState(true);
+  const [includeProofs, setIncludeProofs] = useState(true);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [pending, startTransition] = useTransition();
   const summaryRef = useRef<HTMLDivElement>(null);
@@ -53,6 +58,7 @@ export function PackageBuilder({ candidates, cap, recipientTypes, initialRecipie
         confidentialityCap: cap,
         note,
         documents: chosen.map((c) => ({ documentId: c.id, overrideAboveCap: c.exceedsCap })),
+        ...(sheetOffer && includeSheet ? { sheet: { ...sheetOffer.spec, kind: sheetOffer.kind, ...(sheetOffer.kind === "accountant" ? { includeProofs } : {}) } } : {}),
       });
       if (result?.errors) {
         setErrors(result.errors);
@@ -102,6 +108,23 @@ export function PackageBuilder({ candidates, cap, recipientTypes, initialRecipie
       <Field id="note" label={tb("note")} error={err("note")}>
         {(p) => <Textarea {...p} rows={2} value={note} onChange={(e) => setNote(e.target.value)} maxLength={500} />}
       </Field>
+
+      {sheetOffer ? (
+        <fieldset className="flex flex-col gap-2" data-testid="package-sheet">
+          <legend className="mb-1 text-sm font-medium">{tb("sheet.legend")}</legend>
+          <div className="flex items-center gap-2">
+            <Checkbox id="include-sheet" checked={includeSheet} onCheckedChange={(v) => setIncludeSheet(v === true)} />
+            <Label htmlFor="include-sheet">{tb("sheet.include", { title: tb(`sheet.titleFor.${sheetOffer.kind as "notary"}`) })}</Label>
+          </div>
+          <p className="text-sm text-muted-foreground">{tb("sheet.hint")}</p>
+          {sheetOffer.kind === "accountant" && includeSheet ? (
+            <div className="flex items-center gap-2">
+              <Checkbox id="include-proofs" checked={includeProofs} onCheckedChange={(v) => setIncludeProofs(v === true)} />
+              <Label htmlFor="include-proofs">{tb("sheet.proofs")}</Label>
+            </div>
+          ) : null}
+        </fieldset>
+      ) : null}
 
       <fieldset className="flex flex-col gap-3">
         <legend className="mb-1 text-sm font-medium">{tb("documents")}</legend>

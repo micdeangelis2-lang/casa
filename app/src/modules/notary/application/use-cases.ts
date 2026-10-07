@@ -1,5 +1,6 @@
+import { changedKeys } from "@/shared/changed";
 import { fail, failGeneral, ok, parseInput, type FieldErrors, type Result } from "@/shared/result";
-import { encumbranceSchema, provenanceSchema } from "../domain/records";
+import { encumbranceSchema, provenanceSchema, type EncumbranceInput, type ProvenanceInput } from "../domain/records";
 import type { EncumbranceRow, NotaryDeps, NotaryReadDeps, ProvenanceRow } from "./ports";
 
 type Id = Result<{ id: string }>;
@@ -17,6 +18,28 @@ async function refs(deps: NotaryDeps, r: { assetId: string; parties: (string | u
   return errors;
 }
 
+const provenanceData = (v: ProvenanceInput): Omit<ProvenanceRow, "id" | "assetId"> => ({
+  kind: v.kind,
+  occurredOn: v.occurredOn ?? null,
+  fromPartyId: v.fromPartyId ?? null,
+  notaryPartyId: v.notaryPartyId ?? null,
+  deedReference: v.deedReference ?? null,
+  documentId: v.documentId ?? null,
+  note: v.note ?? null,
+});
+
+const encumbranceData = (v: EncumbranceInput): Omit<EncumbranceRow, "id" | "assetId"> => ({
+  kind: v.kind,
+  title: v.title,
+  registeredOn: v.registeredOn ?? null,
+  endedOn: v.endedOn ?? null,
+  beneficiaryPartyId: v.beneficiaryPartyId ?? null,
+  amountCents: v.amount ?? null,
+  reference: v.reference ?? null,
+  documentId: v.documentId ?? null,
+  note: v.note ?? null,
+});
+
 /** Registra un titolo di provenienza dell'immobile (dato inserito dal proprietario, non verificato). */
 export async function addProvenance(deps: NotaryDeps, raw: unknown): Promise<Id> {
   const p = parseInput(provenanceSchema, raw);
@@ -24,18 +47,25 @@ export async function addProvenance(deps: NotaryDeps, raw: unknown): Promise<Id>
   const v = p.value;
   const errors = await refs(deps, { assetId: v.assetId, parties: [v.fromPartyId, v.notaryPartyId], documentId: v.documentId });
   if (hasErrors(errors)) return fail(errors);
-  const id = await deps.repo.insertProvenance({
-    assetId: v.assetId,
-    kind: v.kind,
-    occurredOn: v.occurredOn ?? null,
-    fromPartyId: v.fromPartyId ?? null,
-    notaryPartyId: v.notaryPartyId ?? null,
-    deedReference: v.deedReference ?? null,
-    documentId: v.documentId ?? null,
-    note: v.note ?? null,
-  });
+  const id = await deps.repo.insertProvenance({ assetId: v.assetId, ...provenanceData(v) });
   await deps.audit.record({ action: "notary.provenance.add", entityType: "asset", entityId: v.assetId, diff: { provenanceId: id, kind: v.kind, withDocument: Boolean(v.documentId) } });
   return ok({ id: v.assetId });
+}
+
+/** Modifica un titolo di provenienza: stesse regole della registrazione; l'audit riporta solo i nomi dei campi cambiati. */
+export async function updateProvenance(deps: NotaryDeps, provenanceId: string, raw: unknown): Promise<Id> {
+  const row = await deps.repo.getProvenance(provenanceId);
+  if (!row) return failGeneral("Voce non trovata");
+  const p = parseInput(provenanceSchema, raw);
+  if (!p.ok) return p;
+  const v = p.value;
+  if (v.assetId !== row.assetId) return failGeneral("Voce non trovata");
+  const errors = await refs(deps, { assetId: v.assetId, parties: [v.fromPartyId, v.notaryPartyId], documentId: v.documentId });
+  if (hasErrors(errors)) return fail(errors);
+  const data = provenanceData(v);
+  await deps.repo.updateProvenance(provenanceId, data);
+  await deps.audit.record({ action: "notary.provenance.update", entityType: "asset", entityId: row.assetId, diff: { provenanceId, changed: changedKeys(row, { ...row, ...data }) } });
+  return ok({ id: row.assetId });
 }
 
 export async function removeProvenance(deps: NotaryDeps, provenanceId: string): Promise<Id> {
@@ -53,20 +83,25 @@ export async function addEncumbrance(deps: NotaryDeps, raw: unknown): Promise<Id
   const v = p.value;
   const errors = await refs(deps, { assetId: v.assetId, parties: [v.beneficiaryPartyId], documentId: v.documentId });
   if (hasErrors(errors)) return fail(errors);
-  const id = await deps.repo.insertEncumbrance({
-    assetId: v.assetId,
-    kind: v.kind,
-    title: v.title,
-    registeredOn: v.registeredOn ?? null,
-    endedOn: v.endedOn ?? null,
-    beneficiaryPartyId: v.beneficiaryPartyId ?? null,
-    amountCents: v.amount ?? null,
-    reference: v.reference ?? null,
-    documentId: v.documentId ?? null,
-    note: v.note ?? null,
-  });
+  const id = await deps.repo.insertEncumbrance({ assetId: v.assetId, ...encumbranceData(v) });
   await deps.audit.record({ action: "notary.encumbrance.add", entityType: "asset", entityId: v.assetId, diff: { encumbranceId: id, kind: v.kind, withDocument: Boolean(v.documentId) } });
   return ok({ id: v.assetId });
+}
+
+/** Modifica un gravame o vincolo: stesse regole della registrazione; l'audit riporta solo i nomi dei campi cambiati. */
+export async function updateEncumbrance(deps: NotaryDeps, encumbranceId: string, raw: unknown): Promise<Id> {
+  const row = await deps.repo.getEncumbrance(encumbranceId);
+  if (!row) return failGeneral("Voce non trovata");
+  const p = parseInput(encumbranceSchema, raw);
+  if (!p.ok) return p;
+  const v = p.value;
+  if (v.assetId !== row.assetId) return failGeneral("Voce non trovata");
+  const errors = await refs(deps, { assetId: v.assetId, parties: [v.beneficiaryPartyId], documentId: v.documentId });
+  if (hasErrors(errors)) return fail(errors);
+  const data = encumbranceData(v);
+  await deps.repo.updateEncumbrance(encumbranceId, data);
+  await deps.audit.record({ action: "notary.encumbrance.update", entityType: "asset", entityId: row.assetId, diff: { encumbranceId, changed: changedKeys(row, { ...row, ...data }) } });
+  return ok({ id: row.assetId });
 }
 
 export async function removeEncumbrance(deps: NotaryDeps, encumbranceId: string): Promise<Id> {

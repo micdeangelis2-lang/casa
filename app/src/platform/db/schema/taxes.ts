@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { bigint, boolean, check, date, index, integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { bigint, boolean, check, date, index, integer, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { asset, territory } from "./registry";
 import { document } from "./documents";
 import { deadline } from "./deadlines";
@@ -63,6 +63,7 @@ export const taxObligation = pgTable(
     check("tax_obligation_status_check", sql`${t.status} in ('open','closed')`),
     check("tax_obligation_year_check", sql`${t.year} between 1900 and 2200`),
     check("tax_obligation_expected_check", sql`${t.expectedCents} is null or ${t.expectedCents} >= 0`),
+    uniqueIndex("tax_obligation_uq").on(t.assetId, t.taxTypeId, t.year, sql`coalesce(${t.label}, '')`),
     index("tax_obligation_asset_year_idx").on(t.assetId, t.year),
     index("tax_obligation_year_idx").on(t.year),
     index("tax_obligation_deadline_idx").on(t.deadlineId),

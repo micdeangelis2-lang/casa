@@ -265,7 +265,7 @@ export function filterRegister(rows: ResolutionRegisterRow[], f: RegisterFilter)
     (r) =>
       (!f.condominiumId || r.condominiumId === f.condominiumId) &&
       (!f.outcome || r.outcome === f.outcome) &&
-      (!f.year || r.meetingOn.startsWith(String(f.year))) &&
+      (!f.year || r.meetingOn.slice(0, 4) === String(f.year)) &&
       (!f.withoutFollowUp || (r.outcome === "approved" && !r.hasFollowUp)),
   );
 }

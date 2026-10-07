@@ -55,6 +55,8 @@ type Owner = { displayName: string; email?: string };
 export const createAsset = (uow: UnitOfWork, owner: Owner, input: unknown) => useCases.createAsset(writeDeps(uow, owner), input);
 export const updateAsset = (uow: UnitOfWork, owner: Owner, id: string, input: unknown) =>
   useCases.updateAsset(writeDeps(uow, owner), id, input);
+export const setAssetDeclaredValue = (uow: UnitOfWork, id: string, input: unknown) =>
+  useCases.setAssetDeclaredValue(writeDeps(uow, { displayName: "" }), id, input);
 export const setAssetArchived = (uow: UnitOfWork, id: string, archived: boolean) =>
   useCases.setAssetArchived(writeDeps(uow, { displayName: "" }), id, archived);
 

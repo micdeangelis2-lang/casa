@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { Client } from "pg";
+import { Client } from "./support/pg-client";
 import { makePdf } from "../tests/helpers/sample-pdf";
 import { a11yViolations } from "./support/a11y";
 import { E2E_DATABASE_URL, clientIp } from "./support/env";
@@ -35,7 +35,7 @@ test.afterAll(async () => {
 test.describe("documenti", () => {
   test("la voce di menu e' attiva e mostra lo stato vuoto accessibile", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: "Documenti" }).click();
+    await page.getByRole("link", { name: "Documenti", exact: true }).click();
     await expect(page).toHaveURL(/\/documenti$/);
     await expect(page.getByText("Nessun documento", { exact: true })).toBeVisible();
     expect(await a11yViolations(page)).toEqual([]);

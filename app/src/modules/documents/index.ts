@@ -9,7 +9,9 @@ import { getStorage, type StoragePort } from "@/platform/storage";
 import { listAssets } from "@/modules/assets";
 import { listParties } from "@/modules/directory";
 import type { DocumentCollaborators, ListArgs } from "./application/ports";
+import * as categoryCases from "./application/category-cases";
 import * as useCases from "./application/use-cases";
+import { drizzleCategoryRepository } from "./infrastructure/drizzle-category-repository";
 import { drizzleDocumentRepository } from "./infrastructure/drizzle-document-repository";
 import { pdfTextExtractor } from "./infrastructure/pdf-text-extractor";
 
@@ -70,3 +72,13 @@ export const getDocumentDetail = (db: Db, id: string) => useCases.getDocumentDet
 export const listDocumentCategories = (db: Db) => drizzleDocumentRepository(db).listCategories();
 export const openDocumentFile = (db: Db, documentId: string, versionId: string, storage = getStorage()) =>
   useCases.openDocumentFile({ repo: drizzleDocumentRepository(db), storage }, documentId, versionId);
+
+// Editor delle categorie documentali: il codice e' stabile (lo usano regole e schede), si cambiano nome e posizione.
+export { SUGGESTED_CATEGORY_NAME, type DocumentCategoryUsage } from "./domain/category";
+const categoryDeps = (uow: UnitOfWork) => ({ repo: drizzleCategoryRepository(uow.tx), audit: uow.audit });
+export const addDocumentCategory = (uow: UnitOfWork, input: unknown) => categoryCases.addCategory(categoryDeps(uow), input);
+export const renameDocumentCategory = (uow: UnitOfWork, id: string, input: unknown) => categoryCases.renameCategory(categoryDeps(uow), id, input);
+export const moveDocumentCategory = (uow: UnitOfWork, id: string, direction: string) => categoryCases.moveCategory(categoryDeps(uow), id, direction);
+export const removeDocumentCategory = (uow: UnitOfWork, id: string) => categoryCases.removeCategory(categoryDeps(uow), id);
+/** Le categorie con quanti documenti, sottocategorie e riferimenti le usano (per sapere quali si possono rimuovere). */
+export const listDocumentCategoryUsage = (db: Db) => categoryCases.listCategoryUsage({ repo: drizzleCategoryRepository(db) });

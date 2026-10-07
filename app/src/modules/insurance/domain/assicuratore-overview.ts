@@ -17,7 +17,7 @@ export type OverviewPolicy = {
   premiumCents: number | null;
   assetIds: string[];
   openClaims: number;
-  coverages: { title: string; sumInsuredCents: number | null; deductibleCents: number | null }[];
+  coverages: { title: string; assetId: string | null; sumInsuredCents: number | null; deductibleCents: number | null }[];
 };
 
 /**
@@ -28,15 +28,18 @@ export type OverviewPolicy = {
  */
 export type AssetPolicyStatus = "none" | "notCurrent" | "current";
 
-export type AssetPolicyRow = { assetId: string; assetName: string; status: AssetPolicyStatus; policies: OverviewPolicy[] };
+/** `declaredValueCents`: il valore dichiarato dal proprietario per il bene, solo da mostrare accanto alle somme assicurate. */
+export type AssetPolicyRow = { assetId: string; assetName: string; declaredValueCents: number | null; status: AssetPolicyStatus; policies: OverviewPolicy[] };
 
 export const isPolicyCurrent = (state: PeriodState): boolean => state === "active" || state === "expiring" || state === "undated";
 
-export function groupPoliciesByAsset(assets: { id: string; name: string }[], policies: OverviewPolicy[]): AssetPolicyRow[] {
+/** Per un bene si mostrano le garanzie riferite a lui e quelle della polizza intera (senza bene indicato). */
+export function groupPoliciesByAsset(assets: { id: string; name: string; declaredValueCents?: number | null }[], policies: OverviewPolicy[]): AssetPolicyRow[] {
   return assets.map((a) => {
     const linked = policies.filter((p) => p.assetIds.includes(a.id)).sort((x, y) => (x.endsOn ?? "9999-12-31").localeCompare(y.endsOn ?? "9999-12-31") || x.title.localeCompare(y.title, "it"));
     const status: AssetPolicyStatus = linked.length === 0 ? "none" : linked.some((p) => isPolicyCurrent(p.state)) ? "current" : "notCurrent";
-    return { assetId: a.id, assetName: a.name, status, policies: linked };
+    const forAsset = linked.map((p) => ({ ...p, coverages: p.coverages.filter((c) => c.assetId === null || c.assetId === a.id) }));
+    return { assetId: a.id, assetName: a.name, declaredValueCents: a.declaredValueCents ?? null, status, policies: forAsset };
   });
 }
 

@@ -15,6 +15,7 @@ function toSummary(row: typeof asset.$inferSelect): AssetSummary {
     locality: row.locality,
     address: row.address,
     useType: row.useType as UseType | null,
+    declaredValueCents: row.declaredValueCents,
     archived: row.archivedAt !== null,
   };
 }
@@ -175,6 +176,11 @@ export function drizzleAssetRepository(db: Db): AssetRepository {
         .where(and(...conditions))
         .orderBy(sql`lower(${asset.name})`, asc(asset.createdAt));
       return rows.map(toSummary);
+    },
+
+    async setDeclaredValue(id, cents) {
+      const rows = await db.update(asset).set({ declaredValueCents: cents }).where(eq(asset.id, id)).returning({ id: asset.id });
+      return rows.length > 0;
     },
 
     async setArchived(id, archived) {

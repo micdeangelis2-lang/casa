@@ -28,6 +28,7 @@ const ORDER_BY: Record<string, string> = {
   condo_agenda_document: `agenda_item_id, document_id`,
   condo_document: `condominium_id, document_id`,
   ins_policy_asset: `policy_id, asset_id`,
+  ins_claim_document: `claim_id, document_id`,
   letting_party: `letting_id, party_id`,
   audit_log: `seq`,
 };

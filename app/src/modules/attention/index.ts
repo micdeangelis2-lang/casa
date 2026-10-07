@@ -11,7 +11,8 @@ import { getCondominiumDetail, listCondominiums } from "@/modules/condominium";
 import { listOccurrences } from "@/modules/deadlines";
 import { listDocuments } from "@/modules/documents";
 import { getDossier } from "@/modules/dossier";
-import { listPolicies } from "@/modules/insurance";
+import { listPolicies, policiesByAsset } from "@/modules/insurance";
+import { DEFAULT_REVIEW_MONTHS, reviewRules } from "@/modules/offices";
 import { getLettingDetail, listLettings } from "@/modules/lettings";
 import { getWorkDetail, listWarranties, listWorks } from "@/modules/maintenance";
 import { listObligations, listReturns } from "@/modules/taxes";
@@ -21,7 +22,7 @@ export { ATTENTION_AREAS, countBySeverity, type AttentionArea, type Finding, typ
 
 /** Raccoglie i dati dai moduli (letture, senza scrivere nulla). */
 export async function gatherSources(db: Db, today = todayInItaly()): Promise<Sources> {
-  const [overdue, upcoming, documents, obligations, returns, condoList, works, warranties, policies, lettingList, assets, runs] = await Promise.all([
+  const [overdue, upcoming, documents, obligations, returns, condoList, works, warranties, policies, lettingList, assets, runs, byAsset, review] = await Promise.all([
     listOccurrences(db, "overdue", {}, today),
     listOccurrences(db, "upcoming", {}, today, { windowDays: DEADLINE_SOON_DAYS }),
     listDocuments(db, {}),
@@ -34,6 +35,9 @@ export async function gatherSources(db: Db, today = todayInItaly()): Promise<Sou
     listLettings(db, {}, today),
     listAssets(db),
     listBackupRuns(db, 20),
+    policiesByAsset(db, today),
+    // L'eta' massima dell'ultimo controllo e' l'impostazione predefinita dell'app (12 mesi), non un termine di legge.
+    reviewRules(db, { today }),
   ]);
 
   const condominiums = await Promise.all(
@@ -100,6 +104,8 @@ export async function gatherSources(db: Db, today = todayInItaly()): Promise<Sou
     policies: policies.map((p) => ({ id: p.id, title: p.title, state: p.state, endsOn: p.endsOn, nextPremium: p.nextPremium })),
     lettings,
     dossiers,
+    assetPolicies: byAsset.rows.map((r) => ({ assetId: r.assetId, assetName: r.assetName, status: r.status, count: r.policies.length })),
+    rulesReview: { count: review ? review.counts.unverified + review.counts.no_check_date + review.counts.stale : 0, maxAgeMonths: review?.maxAgeMonths ?? DEFAULT_REVIEW_MONTHS },
     backup: {
       configured: Boolean(backupSettingsFromEnv().publicKey),
       lastSuccessOn: lastGood?.finishedAt ? lastGood.finishedAt.toISOString().slice(0, 10) : null,

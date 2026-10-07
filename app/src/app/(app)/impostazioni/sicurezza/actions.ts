@@ -14,6 +14,7 @@ import {
   type SecurityError,
 } from "@/platform/auth/account-security";
 import { requireOwner } from "@/platform/auth/owner";
+import { hasRecentReconfirmation } from "@/platform/auth/recent-auth";
 import { getDb } from "@/platform/db/client";
 import { runInUnitOfWork } from "@/platform/db/unit-of-work";
 
@@ -23,13 +24,16 @@ import { runInUnitOfWork } from "@/platform/db/unit-of-work";
  * Gli esiti sono codici neutri: il testo lo sceglie l'interfaccia, nessun dettaglio interno esce dal server.
  */
 
-export type SecurityActionError = SecurityError | "wrongPassword" | "weakPassword" | "mismatch" | "samePassword" | "tooManyAttempts" | "generic";
+export type SecurityActionError = SecurityError | "wrongPassword" | "weakPassword" | "mismatch" | "samePassword" | "tooManyAttempts" | "reconfirmRequired" | "generic";
 export type SecurityActionResult = { ok: true; revoked?: number } | { ok: false; error: SecurityActionError };
 export type RecoveryCodesResult = { ok: true; codes: string[] } | { ok: false; error: SecurityActionError };
 
 const PATH = "/impostazioni/sicurezza";
 const MIN_PASSWORD = 12;
 const MAX_PASSWORD = 128;
+
+/** Le azioni sensibili (F-04) richiedono una riconferma recente: senza, l'azione non fa nulla e l'interfaccia rimanda alla riconferma. */
+const RECONFIRM_REQUIRED = { ok: false, error: "reconfirmRequired" } as const;
 
 const text = (value: FormDataEntryValue | null): string => (typeof value === "string" ? value : "");
 
@@ -46,18 +50,21 @@ export async function renamePasskeyAction(passkeyId: string, name: string): Prom
 
 export async function removePasskeyAction(passkeyId: string): Promise<SecurityActionResult> {
   const owner = await requireOwner();
+  if (!(await hasRecentReconfirmation(owner))) return RECONFIRM_REQUIRED;
   const result = await runInUnitOfWork(getDb(), { type: "owner", id: owner.userId }, (uow) => removePasskey(uow, owner.userId, String(passkeyId)));
   return asResult(result);
 }
 
 export async function revokeSessionAction(sessionId: string): Promise<SecurityActionResult> {
   const owner = await requireOwner();
+  if (!(await hasRecentReconfirmation(owner))) return RECONFIRM_REQUIRED;
   const result = await runInUnitOfWork(getDb(), { type: "owner", id: owner.userId }, (uow) => revokeSession(uow, owner.userId, owner.sessionId, String(sessionId)));
   return asResult(result);
 }
 
 export async function revokeOtherSessionsAction(): Promise<SecurityActionResult> {
   const owner = await requireOwner();
+  if (!(await hasRecentReconfirmation(owner))) return RECONFIRM_REQUIRED;
   const result = await runInUnitOfWork(getDb(), { type: "owner", id: owner.userId }, (uow) => revokeOtherSessions(uow, owner.userId, owner.sessionId));
   return asResult(result);
 }
@@ -75,6 +82,7 @@ function mapAuthError(error: unknown): SecurityActionError {
 /** Rigenera i codici di recupero (serve la password attuale). I nuovi codici tornano al chiamante una sola volta e non si salvano altrove. */
 export async function regenerateRecoveryCodesAction(formData: FormData): Promise<RecoveryCodesResult> {
   const owner = await requireOwner();
+  if (!(await hasRecentReconfirmation(owner))) return RECONFIRM_REQUIRED;
   const password = text(formData.get("password"));
   if (!password) return { ok: false, error: "wrongPassword" };
   if (!(await takePasswordAttempt(getDb(), owner.userId)).allowed) return { ok: false, error: "tooManyAttempts" };
@@ -99,6 +107,7 @@ export async function regenerateRecoveryCodesAction(formData: FormData): Promise
 
 export async function changePasswordAction(formData: FormData): Promise<SecurityActionResult> {
   const owner = await requireOwner();
+  if (!(await hasRecentReconfirmation(owner))) return RECONFIRM_REQUIRED;
   const currentPassword = text(formData.get("currentPassword"));
   const newPassword = text(formData.get("newPassword"));
   const confirmPassword = text(formData.get("confirmPassword"));

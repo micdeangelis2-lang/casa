@@ -35,6 +35,7 @@ export interface ListingRepository {
   deleteEngagement(id: string): Promise<void>;
   events(engagementIds: string[]): Promise<ListingEventRow[]>;
   insertEvent(d: Omit<ListingEventRow, "id">): Promise<string>;
+  updateEvent(id: string, d: Omit<ListingEventRow, "id" | "engagementId">): Promise<void>;
   getEvent(id: string): Promise<ListingEventRow | null>;
   deleteEvent(id: string): Promise<void>;
 }

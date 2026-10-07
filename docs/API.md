@@ -32,6 +32,10 @@ Il test `app/tests/docs-routes.test.ts` fallisce se esiste un `route.ts` che non
 | `GET /api/locazioni/rendiconto` | `src/app/api/locazioni/rendiconto/route.ts` | sessione | CSV |
 | `GET /api/economia/dossier` | `src/app/api/economia/dossier/route.ts` | sessione | CSV |
 | `GET /api/immobili/[id]/scheda-tecnica` | `src/app/api/immobili/[id]/scheda-tecnica/route.ts` | sessione | CSV |
+| `GET /api/immobili/[id]/scheda-notaio` | `src/app/api/immobili/[id]/scheda-notaio/route.ts` | sessione | CSV |
+| `GET /api/immobili/[id]/scheda-agente` | `src/app/api/immobili/[id]/scheda-agente/route.ts` | sessione | CSV |
+| `GET /api/manutenzioni/impianti` | `src/app/api/manutenzioni/impianti/route.ts` | sessione | CSV |
+| `GET /api/assicurazioni/per-immobile` | `src/app/api/assicurazioni/per-immobile/route.ts` | sessione | CSV |
 | `GET /api/esportazione` | `src/app/api/esportazione/route.ts` | sessione | ZIP in chiaro |
 | `GET /api/health` | `src/app/api/health/route.ts` | nessuna | JSON |
 | `GET /api/territori` | `src/app/api/territori/route.ts` | sessione | JSON |
@@ -75,7 +79,7 @@ File: `src/app/api/esportazione/route.ts`. Esportazione completa **in chiaro e s
 
 ### `GET /api/condivisione/[id]`
 
-File: `src/app/api/condivisione/[id]/route.ts`. Scarica un pacchetto di condivisione (snapshot memorizzato alla creazione, file con impronta verificata).
+File: `src/app/api/condivisione/[id]/route.ts`. Scarica un pacchetto di condivisione (snapshot memorizzato alla creazione, file con impronta verificata). Lo ZIP contiene `INDEX.html`, `manifest.json`, `elenco.csv`, i documenti in `files/` e, se scelta alla creazione, la scheda `SCHEDA.html` (pagina HTML autonoma, senza script né risorse esterne, generata dallo snapshot).
 
 - **Autenticazione**: sessione del proprietario.
 - **Parametri**: `id` = UUID del pacchetto.
@@ -131,6 +135,42 @@ File: `src/app/api/immobili/[id]/scheda-tecnica/route.ts`. Scheda per il tecnico
 - **Parametri** (percorso): `id`, UUID di un immobile.
 - **Risposta 200**: CSV, `Content-Disposition: attachment; filename="scheda-tecnica-<data>.csv"`, `nosniff`, `Cache-Control: private, no-store`.
 - **Codici**: 401; 404 se `id` non è un UUID o l'immobile non esiste.
+
+### `GET /api/immobili/[id]/scheda-notaio`
+
+File: `src/app/api/immobili/[id]/scheda-notaio/route.ts`. Scheda dell'immobile per il notaio in CSV: bene, titolarità con codice fiscale e indirizzo dei titolari (se in rubrica), somma delle quote, catasto a storico, documenti per categoria, provenienza e gravami registrati, voci del dossier aperte, pertinenze, dati che non risultano. Il file **contiene dati personali dei titolari**. Nessun giudizio sull'atto né sul bene.
+
+- **Autenticazione**: sessione del proprietario.
+- **Parametri**: `id` (percorso), UUID di un immobile; `categoria` (query, ripetibile), UUID delle categorie documentali da controllare (default: quelle della pagina).
+- **Risposta 200**: CSV (`;`, BOM, CRLF, date gg/mm/aaaa), `Content-Disposition: attachment; filename="scheda-notaio-<id>.csv"`, `nosniff`, `Cache-Control: private, no-store`.
+- **Codici**: 401; 404 se `id` non è un UUID o l'immobile non esiste.
+
+### `GET /api/immobili/[id]/scheda-agente`
+
+File: `src/app/api/immobili/[id]/scheda-agente/route.ts`. Scheda per l'agente immobiliare in CSV, con le scelte della pagina: i documenti più riservati del livello scelto non sono elencati (se ne indica il numero), i nomi dei titolari compaiono solo con `titolari=1`, i nomi degli inquilini non compaiono mai. Nessuna stima di valore.
+
+- **Autenticazione**: sessione del proprietario.
+- **Parametri**: `id` (percorso), UUID; `livello` (query: `ordinary` predefinito, `reserved`, `highly_reserved`); `categoria` (ripetibile); `titolari=1`.
+- **Risposta 200**: CSV, `Content-Disposition: attachment; filename="scheda-agente-<id>.csv"`, `nosniff`, `Cache-Control: private, no-store`.
+- **Codici**: 401; 404 se `id` non è un UUID o l'immobile non esiste.
+
+### `GET /api/manutenzioni/impianti`
+
+File: `src/app/api/manutenzioni/impianti/route.ts`. Registro degli impianti in CSV, con i filtri della pagina: impianti, verifiche periodiche, garanzie, interventi e documenti collegati, date da guardare. Riporta le date scritte dal proprietario; non dice se un impianto sia a norma.
+
+- **Autenticazione**: sessione del proprietario.
+- **Parametri** (query, tutti facoltativi): `immobile` (UUID), `tipo` (codice del tipo di impianto, oppure `other`), `giorni` (1–365, finestra di «in scadenza»; default 60). Valori non validi vengono ignorati.
+- **Risposta 200**: CSV, `Content-Disposition: attachment; filename="registro-impianti-<data>.csv"`, `nosniff`, `Cache-Control: private, no-store`.
+- **Codici**: 401.
+
+### `GET /api/assicurazioni/per-immobile`
+
+File: `src/app/api/assicurazioni/per-immobile/route.ts`. Polizze registrate per immobile in CSV: anche gli immobili senza polizza (una riga con la situazione) e le polizze senza immobile collegato; garanzie copiate a mano dal contratto. Non interpreta le condizioni di polizza.
+
+- **Autenticazione**: sessione del proprietario.
+- **Parametri**: nessuno.
+- **Risposta 200**: CSV, `Content-Disposition: attachment; filename="polizze-per-immobile-<data>.csv"`, `nosniff`, `Cache-Control: private, no-store`.
+- **Codici**: 401.
 
 ### `GET /api/economia`
 

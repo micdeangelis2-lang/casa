@@ -8,7 +8,7 @@ import type { UnitOfWork } from "@/platform/db/unit-of-work";
 import type { Db } from "@/platform/db/types";
 import { todayInItaly } from "@/platform/clock";
 import { listAssets } from "@/modules/assets";
-import { createDeadline, listOccurrences, setDeadlineArchived } from "@/modules/deadlines";
+import { addOccurrence, cancelOccurrence, createDeadline, getDeadlineDetail, listOccurrences, setDeadlineArchived, updateDeadline } from "@/modules/deadlines";
 import { listParties } from "@/modules/directory";
 import { documentTitles as readDocumentTitles } from "@/modules/documents";
 import { economyEntries } from "@/modules/economy";
@@ -51,6 +51,39 @@ function mandateCollaborators(db: Db, uow?: UnitOfWork): ManagementCollaborators
       if (!uow) throw new Error("Per archiviare una scadenza serve un'unita' di lavoro");
       await setDeadlineArchived(uow, deadlineId, archived);
     },
+    async updateEndDeadline(d) {
+      if (!uow) throw new Error("Per aggiornare una scadenza serve un'unita' di lavoro");
+      const detail = await getDeadlineDetail(uow.tx, d.deadlineId);
+      if (!detail) return;
+      const c = detail.deadline;
+      await updateDeadline(uow, d.deadlineId, {
+        title: d.title,
+        description: d.description,
+        category: c.category,
+        level: c.level,
+        legalBasis: c.legalBasis ?? undefined,
+        assetId: d.assetId ?? undefined,
+        responsiblePartyId: c.responsiblePartyId ?? undefined,
+        professionalPartyId: d.managerPartyId ?? undefined,
+        matterId: c.matterId ?? undefined,
+        calc: c.calc,
+        shiftToBusinessDay: c.shiftToBusinessDay,
+        priority: c.priority,
+        consequences: c.consequences ?? undefined,
+        requiredDocuments: c.requiredDocuments ?? undefined,
+        leadDays: c.leadDays,
+        proofRequired: c.proofRequired,
+        firstDueOn: d.endsOn,
+      });
+      if (d.previousEndsOn && d.previousEndsOn !== d.endsOn) {
+        // La data aperta del promemoria segue la nuova fine; una data gia' chiusa o annullata non si tocca.
+        const open = detail.occurrences.filter((o) => o.status === "open" && o.dueOn === d.previousEndsOn);
+        if (open.length > 0) {
+          await addOccurrence(uow, d.deadlineId, d.endsOn);
+          for (const o of open) await cancelOccurrence(uow, o.id);
+        }
+      }
+    },
   };
 }
 
@@ -59,6 +92,9 @@ export const listMandates = (db: Db, today = todayInItaly(), assetId?: string) =
 
 /** Registra un mandato (gestore dalla rubrica, date, compenso come testo, documento) e la scadenza di fine collegata. */
 export const createMandate = (uow: UnitOfWork, raw: unknown) => mandateCases.createMandate({ repo: drizzleMandateRepository(uow.tx), others: mandateCollaborators(uow.tx, uow), audit: uow.audit }, raw);
+
+export const updateMandate = (uow: UnitOfWork, id: string, raw: unknown) =>
+  mandateCases.updateMandate({ repo: drizzleMandateRepository(uow.tx), others: mandateCollaborators(uow.tx, uow), audit: uow.audit }, id, raw);
 
 export const setMandateArchived = (uow: UnitOfWork, id: string, archived: boolean) =>
   mandateCases.setMandateArchived({ repo: drizzleMandateRepository(uow.tx), others: mandateCollaborators(uow.tx, uow), audit: uow.audit }, id, archived);

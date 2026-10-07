@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { listActiveSessions, listPasskeys } from "@/platform/auth/account-security";
+import Link from "next/link";
 import { requireOwner } from "@/platform/auth/owner";
+import { reconfirmPath } from "@/platform/auth/reconfirmation";
+import { hasRecentReconfirmation } from "@/platform/auth/recent-auth";
 import { getDb } from "@/platform/db/client";
 import { describeUserAgent, maskIpAddress } from "@/shared/account-security";
 import { PasskeysSection } from "./_components/passkeys-section";
@@ -20,6 +23,7 @@ const dateTime = (d: Date | null) =>
 export default async function SecurityPage() {
   const owner = await requireOwner();
   const t = await getTranslations("securityPage");
+  const reconfirmed = await hasRecentReconfirmation(owner);
   const db = getDb();
   const [passkeys, sessions] = await Promise.all([listPasskeys(db, owner.userId), listActiveSessions(db, owner.userId)]);
 
@@ -28,6 +32,24 @@ export default async function SecurityPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
         <p className="text-sm text-muted-foreground">{t("intro")}</p>
+      </div>
+
+      <div
+        role="status"
+        data-testid="reconfirm-banner"
+        data-reconfirmed={reconfirmed ? "true" : "false"}
+        className="flex flex-wrap items-center gap-2 rounded-md border p-3 text-sm"
+      >
+        {reconfirmed ? (
+          t("reconfirm.ok")
+        ) : (
+          <>
+            <span>{t("reconfirm.notice")}</span>
+            <Link href={reconfirmPath("/impostazioni/sicurezza")} className="font-medium underline underline-offset-4">
+              {t("reconfirm.link")}
+            </Link>
+          </>
+        )}
       </div>
 
       <PasskeysSection

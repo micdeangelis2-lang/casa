@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { expect, test, type Page } from "@playwright/test";
-import { Client } from "pg";
+import { Client } from "./support/pg-client";
 import { makePdf } from "../tests/helpers/sample-pdf";
 import { a11yViolations } from "./support/a11y";
 import { E2E_DATABASE_URL, clientIp } from "./support/env";

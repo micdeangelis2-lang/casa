@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTranslations } from "next-intl/server";
 import { getOwnerForApi } from "@/platform/auth/owner";
+import { requireRecentAuthForApi } from "@/platform/auth/recent-auth";
 import { rejectCrossSite } from "@/platform/auth/request-guard";
 import { getDb } from "@/platform/db/client";
 import { runInUnitOfWork } from "@/platform/db/unit-of-work";
@@ -11,13 +12,15 @@ import { isUuid } from "@/lib/ids";
 
 /**
  * Scarica un pacchetto: il file ZIP si genera ora, a pezzi, direttamente verso il browser (nessuna copia sul server).
- * Lo scarico e' registrato nel registro delle condivisioni. Serve la sessione del proprietario.
+ * Lo scarico e' registrato nel registro delle condivisioni. Serve la sessione del proprietario e una riconferma recente (F-04).
  */
-export async function GET(_request: Request, { params }: RouteContext<"/api/condivisione/[id]">) {
+export async function GET(request: Request, { params }: RouteContext<"/api/condivisione/[id]">) {
   const crossSite = await rejectCrossSite();
   if (crossSite) return crossSite;
   const owner = await getOwnerForApi();
   if (!owner) return new NextResponse(null, { status: 401 });
+  const recent = await requireRecentAuthForApi(request, owner);
+  if (recent) return recent;
   const { id } = await params;
   if (!isUuid(id)) return new NextResponse(null, { status: 404 });
 

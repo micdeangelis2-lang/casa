@@ -9,7 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireOwner } from "@/platform/auth/owner";
 import { getDb } from "@/platform/db/client";
-import { getPackageDetail } from "@/modules/sharing";
+import { SHEET_PATH, getPackageDetail } from "@/modules/sharing";
 import { isUuid } from "@/lib/ids";
 import { RevokeButton } from "../_components/revoke-button";
 
@@ -74,6 +74,12 @@ export default async function PackagePage({ params }: Props) {
             <p className="text-sm">
               <span className="text-muted-foreground">{td("note")}: </span>
               {pkg.note}
+            </p>
+          ) : null}
+          {pkg.snapshot.sheet ? (
+            <p className="text-sm" data-testid="package-sheet">
+              <span className="text-muted-foreground">{td("sheet")}: </span>
+              {td("sheetLine", { title: pkg.snapshot.sheet.title, path: SHEET_PATH, sha: pkg.snapshot.sheet.sha256.slice(0, 16) })}
             </p>
           ) : null}
           <ul className="flex flex-col divide-y text-sm" data-testid="package-items">

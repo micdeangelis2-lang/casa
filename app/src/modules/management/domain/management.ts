@@ -45,7 +45,7 @@ export type CodeLine = { lettingTitle: string; label: string; value: string; iss
 export type ReportLine = { lettingTitle: string; title: string; period: string | null; dueOn: string | null; doneOn: string | null; hasProof: boolean };
 export type ContractLine = { id: string; title: string; type: string; status: string; startsOn: string | null; endsOn: string | null; monthlyRentCents: number | null; managerName: string | null; registered: boolean };
 export type LedgerLine = { area: string; date: string; label: string; amountCents: number };
-export type MandateLine = { id: string; title: string; managerName: string | null; assetName: string | null; startsOn: string | null; endsOn: string | null; compensation: string | null; deadlineId: string | null; documentTitle: string | null; state: PeriodState };
+export type MandateLine = { id: string; title: string; managerPartyId: string | null; assetId: string | null; documentId: string | null; note: string | null; managerName: string | null; assetName: string | null; startsOn: string | null; endsOn: string | null; compensation: string | null; deadlineId: string | null; documentTitle: string | null; state: PeriodState };
 
 export type StatementInput = {
   from: string;
@@ -191,3 +191,5 @@ export function buildCalendar(input: CalendarInput): { events: CalendarEvent[]; 
 export const mandateState = (endsOn: string | null, today: string): PeriodState => periodState({ startsOn: null, endsOn }, today);
 
 export const COMPENSATION_LABEL = "Compenso dichiarato: ";
+
+export type MandateInput = z.output<typeof mandateSchema>;

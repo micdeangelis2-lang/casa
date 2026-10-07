@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { bigint, check, date, index, pgTable, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { bigint, check, date, index, pgTable, primaryKey, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { asset, party } from "./registry";
 import { document } from "./documents";
 import { deadline } from "./deadlines";
@@ -62,12 +62,14 @@ export const insCoverage = pgTable(
       .notNull()
       .references(() => insPolicy.id, { onDelete: "cascade" }),
     title: text("title").notNull(),
+    /** Il bene a cui la garanzia si riferisce, se la polizza ne copre piu' d'uno (facoltativo). */
+    assetId: uuid("asset_id").references(() => asset.id, { onDelete: "set null" }),
     sumInsuredCents: bigint("sum_insured_cents", { mode: "number" }),
     deductibleCents: bigint("deductible_cents", { mode: "number" }),
     note: text("note"),
     createdAt,
   },
-  (t) => [check("ins_coverage_amounts_check", sql`(${t.sumInsuredCents} is null or ${t.sumInsuredCents} >= 0) and (${t.deductibleCents} is null or ${t.deductibleCents} >= 0)`), index("ins_coverage_policy_idx").on(t.policyId)],
+  (t) => [check("ins_coverage_amounts_check", sql`(${t.sumInsuredCents} is null or ${t.sumInsuredCents} >= 0) and (${t.deductibleCents} is null or ${t.deductibleCents} >= 0)`), index("ins_coverage_policy_idx").on(t.policyId), index("ins_coverage_asset_idx").on(t.assetId)],
 );
 
 export const insPremium = pgTable(
@@ -85,7 +87,7 @@ export const insPremium = pgTable(
     deadlineId: uuid("deadline_id").references(() => deadline.id, { onDelete: "set null" }),
     createdAt,
   },
-  (t) => [check("ins_premium_amount_check", sql`${t.amountCents} >= 0`), index("ins_premium_policy_idx").on(t.policyId), index("ins_premium_due_idx").on(t.dueOn), index("ins_premium_document_idx").on(t.documentId), index("ins_premium_deadline_idx").on(t.deadlineId)],
+  (t) => [check("ins_premium_amount_check", sql`${t.amountCents} >= 0`), uniqueIndex("ins_premium_policy_due_uq").on(t.policyId, t.dueOn), index("ins_premium_policy_idx").on(t.policyId), index("ins_premium_due_idx").on(t.dueOn), index("ins_premium_document_idx").on(t.documentId), index("ins_premium_deadline_idx").on(t.deadlineId)],
 );
 
 export const insClaim = pgTable(
@@ -136,4 +138,24 @@ export const insClaimEntry = pgTable(
     createdAt,
   },
   (t) => [check("ins_claim_entry_direction_check", sql`${t.direction} in ('sent','received','note')`), index("ins_claim_entry_claim_idx").on(t.claimId), index("ins_claim_entry_document_idx").on(t.documentId)],
+);
+
+/** Documenti del sinistro con il loro ruolo (fotografia, perizia, fattura, altro): li sceglie il proprietario. */
+export const insClaimDocument = pgTable(
+  "ins_claim_document",
+  {
+    claimId: uuid("claim_id")
+      .notNull()
+      .references(() => insClaim.id, { onDelete: "cascade" }),
+    documentId: uuid("document_id")
+      .notNull()
+      .references(() => document.id, { onDelete: "restrict" }),
+    role: text("role").notNull().default("other"),
+    createdAt,
+  },
+  (t) => [
+    primaryKey({ columns: [t.claimId, t.documentId] }),
+    check("ins_claim_document_role_check", sql`${t.role} in ('photo','appraisal','invoice','other')`),
+    index("ins_claim_document_document_idx").on(t.documentId),
+  ],
 );

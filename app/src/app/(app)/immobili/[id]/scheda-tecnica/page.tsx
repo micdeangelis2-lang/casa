@@ -12,8 +12,10 @@ import { ScrollRegion } from "@/components/scroll-region";
 import { requireOwner } from "@/platform/auth/owner";
 import { getDb } from "@/platform/db/client";
 import { getTechnicalBrief, workDate } from "@/modules/technical";
+import { listEngagements } from "@/modules/engagements";
 import { formatDate, formatEuro } from "@/lib/format";
 import { isUuid } from "@/lib/ids";
+import { EngagementSummary } from "../../../pratiche/incarichi/_components/engagement-summary";
 
 type Props = PageProps<"/immobili/[id]/scheda-tecnica">;
 
@@ -36,11 +38,13 @@ export default async function TechnicalBriefPage({ params }: Props) {
   const tdos = await getTranslations("dossier");
   const tm = await getTranslations("maintenance");
   const tmatter = await getTranslations("matters");
+  const te = await getTranslations("engagements");
+  const engagements = await listEngagements(getDb(), { assetId: brief.asset.id });
   const a = brief.asset;
   const money = (cents: number | null) => (cents === null ? "" : t("works.amount", { amount: formatEuro(cents) }));
   const period = (from: string | null, to: string | null) =>
     [from ? t("cadastral.from", { date: formatDate(from) }) : null, to ? t("cadastral.to", { date: formatDate(to) }) : null].filter(Boolean).join(" ");
-  const packageHref = `/condivisione/nuovo?immobile=${a.id}&${brief.documents.technicalCategoryIds.map((c) => `categoria=${c}`).join("&")}&mostra=1`;
+  const packageHref = `/condivisione/nuovo?immobile=${a.id}&${brief.documents.technicalCategoryIds.map((c) => `categoria=${c}`).join("&")}&destinatario=technician&scheda=technical&mostra=1`;
   const th = "pr-3 text-left font-medium text-muted-foreground";
 
   return (
@@ -433,6 +437,20 @@ export default async function TechnicalBriefPage({ params }: Props) {
               ))}
             </ul>
           )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <h2>{te("summary.heading")}</h2>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <EngagementSummary items={engagements} testId="brief-engagements" />
+          <Link href="/pratiche/incarichi" className="w-fit text-sm underline underline-offset-2 print:hidden">
+            {te("summary.all")}
+          </Link>
         </CardContent>
       </Card>
     </div>

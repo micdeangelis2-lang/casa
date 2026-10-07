@@ -10,6 +10,7 @@ import {
   type Manifest,
 } from "../domain/archive";
 import { verifiedStream } from "@/shared/archive/stream";
+import { SIGNATURE_PATH, signManifest } from "./signature";
 import { zipStream, type ZipEntry } from "@/shared/archive/zip";
 import type { ArchiveDeps, SnapshotTable } from "./ports";
 
@@ -30,7 +31,7 @@ const fileRows = (tables: SnapshotTable[]): FileRow[] =>
  */
 export async function createArchive(
   deps: ArchiveDeps,
-  options: { includeAuth: boolean; now?: Date },
+  options: { includeAuth: boolean; now?: Date; signingSecret?: string | undefined },
 ): Promise<{ manifest: Manifest; stream: AsyncGenerator<Uint8Array> }> {
   const snapshot = await deps.reader.read(options.includeAuth);
   const wanted = tablesFor(options.includeAuth);
@@ -56,7 +57,10 @@ export async function createArchive(
   };
 
   async function* entries(): AsyncGenerator<ZipEntry> {
-    yield { name: manifestPath, data: encoder.encode(JSON.stringify(manifest, null, 2)), compress: true };
+    const manifestBytes = encoder.encode(JSON.stringify(manifest, null, 2));
+    yield { name: manifestPath, data: manifestBytes, compress: true };
+    // La firma segue subito il manifest: chi ripristina la verifica prima di fidarsi di qualunque altra voce.
+    if (options.signingSecret) yield { name: SIGNATURE_PATH, data: encoder.encode(signManifest(manifestBytes, options.signingSecret)), compress: false };
     yield { name: "LEGGIMI.txt", data: encoder.encode(readmeText), compress: true };
     for (const table of tables) yield { name: tablePath(table.name), data: encoder.encode(table.ndjson), compress: true };
     for (const file of present) {

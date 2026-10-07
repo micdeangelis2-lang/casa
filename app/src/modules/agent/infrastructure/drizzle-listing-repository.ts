@@ -57,6 +57,9 @@ export function drizzleListingRepository(db: Db): ListingRepository {
       const [row] = await db.insert(listingEvent).values(d).returning({ id: listingEvent.id });
       return row!.id;
     },
+    async updateEvent(id, d) {
+      await db.update(listingEvent).set(d).where(eq(listingEvent.id, id));
+    },
     async getEvent(id) {
       const [row] = await db.select().from(listingEvent).where(eq(listingEvent.id, id));
       return row ? toEvent(row) : null;

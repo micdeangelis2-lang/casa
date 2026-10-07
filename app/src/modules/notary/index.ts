@@ -32,8 +32,10 @@ const writeDeps = (uow: UnitOfWork) => ({ repo: drizzleNotaryRepository(uow.tx),
 const readDeps = (db: Db) => ({ repo: drizzleNotaryRepository(db), others: collaborators(db) });
 
 export const addProvenance = (uow: UnitOfWork, input: unknown) => useCases.addProvenance(writeDeps(uow), input);
+export const updateProvenance = (uow: UnitOfWork, provenanceId: string, input: unknown) => useCases.updateProvenance(writeDeps(uow), provenanceId, input);
 export const removeProvenance = (uow: UnitOfWork, provenanceId: string) => useCases.removeProvenance(writeDeps(uow), provenanceId);
 export const addEncumbrance = (uow: UnitOfWork, input: unknown) => useCases.addEncumbrance(writeDeps(uow), input);
+export const updateEncumbrance = (uow: UnitOfWork, encumbranceId: string, input: unknown) => useCases.updateEncumbrance(writeDeps(uow), encumbranceId, input);
 export const removeEncumbrance = (uow: UnitOfWork, encumbranceId: string) => useCases.removeEncumbrance(writeDeps(uow), encumbranceId);
 export const listProvenances = (db: Db, assetId: string) => useCases.listProvenances(readDeps(db), assetId);
 export const listEncumbrances = (db: Db, assetId: string) => useCases.listEncumbrances(readDeps(db), assetId);

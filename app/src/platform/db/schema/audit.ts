@@ -1,4 +1,5 @@
-import { bigint, index, jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { bigint, check, index, jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 /**
  * Registro di audit append-only con catena di hash.
@@ -27,6 +28,6 @@ export const auditLog = pgTable(
     hash: text("hash").notNull().default(""),
   },
   // `action like 'area.%'` (elenco filtrato per area e suo conteggio): in un database non-C solo text_pattern_ops puo' usare l'indice.
-  (t) => [index("audit_log_action_idx").on(t.action.op("text_pattern_ops"))],
+  (t) => [check("audit_log_actor_type_check", sql`${t.actorType} in ('owner','system')`), index("audit_log_action_idx").on(t.action.op("text_pattern_ops"))],
 );
 

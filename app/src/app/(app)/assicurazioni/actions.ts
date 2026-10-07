@@ -3,12 +3,14 @@
 import { redirect } from "next/navigation";
 import { requireOwner } from "@/platform/auth/owner";
 import {
+  addClaimDocument,
   addClaimEntry,
   addCoverage,
   addPremium,
   createClaim,
   createPolicy,
   createPolicyDeadline,
+  removeClaimDocument,
   removeClaimEntry,
   removeCoverage,
   removePremium,
@@ -69,7 +71,7 @@ export async function createPolicyDeadlineAction(policyId: string): Promise<void
 
 export async function addCoverageAction(policyId: string, values: FormValues): Promise<MiniResult> {
   if (!isUuid(policyId)) return notFound();
-  return ownerAction((uow) => addCoverage(uow, policyId, { title: text(values, "title"), sumInsured: text(values, "sumInsured"), deductible: text(values, "deductible"), note: text(values, "note") }), policyPaths(policyId));
+  return ownerAction((uow) => addCoverage(uow, policyId, { title: text(values, "title"), assetId: text(values, "assetId"), sumInsured: text(values, "sumInsured"), deductible: text(values, "deductible"), note: text(values, "note") }), policyPaths(policyId));
 }
 
 export async function removeCoverageAction(policyId: string, coverageId: string): Promise<void> {
@@ -128,4 +130,13 @@ export async function addClaimEntryAction(claimId: string, values: FormValues): 
 
 export async function removeClaimEntryAction(claimId: string, entryId: string): Promise<void> {
   if (isUuid(claimId) && isUuid(entryId)) await ownerAction((uow) => removeClaimEntry(uow, entryId), claimPaths(claimId));
+}
+
+export async function addClaimDocumentAction(claimId: string, values: FormValues): Promise<MiniResult> {
+  if (!isUuid(claimId)) return notFound();
+  return ownerAction((uow) => addClaimDocument(uow, claimId, { documentId: text(values, "documentId"), role: text(values, "role") || "other" }), [...claimPaths(claimId), `/assicurazioni/sinistri/${claimId}/scheda`]);
+}
+
+export async function removeClaimDocumentAction(claimId: string, documentId: string): Promise<void> {
+  if (isUuid(claimId) && isUuid(documentId)) await ownerAction((uow) => removeClaimDocument(uow, claimId, documentId), [...claimPaths(claimId), `/assicurazioni/sinistri/${claimId}/scheda`]);
 }

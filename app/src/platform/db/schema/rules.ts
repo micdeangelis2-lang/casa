@@ -124,7 +124,7 @@ export const dossierItemDocument = pgTable(
       .references(() => dossierItem.id, { onDelete: "cascade" }),
     documentId: uuid("document_id")
       .notNull()
-      .references(() => document.id, { onDelete: "cascade" }),
+      .references(() => document.id, { onDelete: "restrict" }),
   },
   (t) => [uniqueIndex("dossier_item_document_uq").on(t.itemId, t.documentId), index("dossier_item_document_doc_idx").on(t.documentId)],
 );

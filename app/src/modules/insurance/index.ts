@@ -18,7 +18,7 @@ import * as assicuratore from "./application/assicuratore-reads";
 import type { ClaimSheetCollaborators } from "./application/assicuratore-reads";
 import { drizzleInsuranceRepository } from "./infrastructure/drizzle-insurance-repository";
 
-export { CLAIM_STATUSES, ENTRY_DIRECTIONS, type ClaimStatus, type EntryDirection } from "./domain/insurance";
+export { CLAIM_DOCUMENT_ROLES, CLAIM_STATUSES, ENTRY_DIRECTIONS, type ClaimDocumentRole, type ClaimStatus, type EntryDirection } from "./domain/insurance";
 export type { ClaimDetail, ClaimItem, PolicyDetail, PolicyItem } from "./application/use-cases";
 export type { ClaimSheet, PoliciesByAsset } from "./application/assicuratore-reads";
 export { type AssetPolicyRow, type AssetPolicyStatus, type OverviewPolicy, type SheetCheck, type SheetCheckKey } from "./domain/assicuratore-overview";
@@ -35,6 +35,7 @@ function sheetCollaborators(db: Db): ClaimSheetCollaborators {
         id: a.id,
         name: a.name,
         kindKey: a.kind,
+        declaredValueCents: a.declaredValueCents,
         address: a.address,
         locality: a.locality,
         territoryLabel: a.territoryLabel,
@@ -49,14 +50,14 @@ function sheetCollaborators(db: Db): ClaimSheetCollaborators {
       return (await listWorks(db, { assetId, includeClosed: true })).map((w) => ({ id: w.id, title: w.title, status: w.status, completedOn: w.completedOn, startedOn: w.startedOn, scheduledOn: w.scheduledOn, supplierName: w.supplierName, acceptedQuotesCents: w.acceptedQuotesCents, invoicedCents: w.invoicedCents, paidCents: w.paidCents }));
     },
     async documentsOf(assetId) {
-      return (await listDocuments(db, { assetId })).map((d) => ({ id: d.id, title: d.title, categoryName: d.categoryName, issuedOn: d.issuedOn, isImage: d.mimeType.startsWith("image/") }));
+      return (await listDocuments(db, { assetId })).map((d) => ({ id: d.id, title: d.title, categoryName: d.categoryName, issuedOn: d.issuedOn }));
     },
   };
 }
 
 function collaborators(db: Db, uow?: UnitOfWork): InsuranceCollaborators {
   return {
-    assets: async () => (await listAssets(db)).map((a) => ({ id: a.id, name: a.name })),
+    assets: async () => (await listAssets(db)).map((a) => ({ id: a.id, name: a.name, declaredValueCents: a.declaredValueCents })),
     parties: async () => new Map((await listParties(db, { includeArchived: true })).map((p) => [p.id, p.displayName])),
     documentTitles: () => readDocumentTitles(db),
     matterTitles: async () => new Map((await listMatters(db, { includeClosed: true })).map((m) => [m.id, m.title])),
@@ -92,6 +93,8 @@ export const createClaim = (uow: UnitOfWork, input: unknown, today = todayInItal
 export const updateClaim = (uow: UnitOfWork, id: string, input: unknown, today = todayInItaly()) => useCases.updateClaim(writeDeps(uow), id, input, today);
 export const setClaimStatus = (uow: UnitOfWork, id: string, status: string, today = todayInItaly()) => useCases.setClaimStatus(writeDeps(uow), id, status, today);
 export const addClaimEntry = (uow: UnitOfWork, claimId: string, input: unknown, today = todayInItaly()) => useCases.addClaimEntry(writeDeps(uow), claimId, input, today);
+export const addClaimDocument = (uow: UnitOfWork, claimId: string, input: unknown) => useCases.addClaimDocument(writeDeps(uow), claimId, input);
+export const removeClaimDocument = (uow: UnitOfWork, claimId: string, documentId: string) => useCases.removeClaimDocument(writeDeps(uow), claimId, documentId);
 export const removeClaimEntry = (uow: UnitOfWork, entryId: string) => useCases.removeClaimEntry(writeDeps(uow), entryId);
 
 /** Premi pagati in un periodo (per il quadro economico). */

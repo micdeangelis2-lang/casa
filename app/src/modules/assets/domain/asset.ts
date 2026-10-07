@@ -1,5 +1,5 @@
 import { parseEuroToCents } from "@/shared/money";
-import { optionalDate, optionalText, requiredText, z } from "@/shared/zod";
+import { optionalDate, optionalEuroAmount, optionalText, requiredText, z } from "@/shared/zod";
 
 export { parseEuroToCents };
 
@@ -182,6 +182,9 @@ export const assetInputSchema = z
 
 export type AssetInput = z.output<typeof assetInputSchema>;
 
+/** Valore dichiarato dal proprietario: facoltativo, mai negativo, mai calcolato dall'app. */
+export const declaredValueSchema = z.object({ declaredValue: optionalEuroAmount("Valore dichiarato") });
+
 /** Elementi mostrati nella lista e nelle schede. */
 export type AssetSummary = {
   id: string;
@@ -191,6 +194,8 @@ export type AssetSummary = {
   locality: string | null;
   address: string | null;
   useType: UseType | null;
+  /** Valore dichiarato dal proprietario, in centesimi (nullo = non dichiarato). */
+  declaredValueCents: number | null;
   archived: boolean;
 };
 

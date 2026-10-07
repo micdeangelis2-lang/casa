@@ -134,6 +134,7 @@ export default async function PolicyPage({ params }: Props) {
               <li key={c.id} className="flex flex-col gap-1 py-3 text-sm first:pt-0 last:pb-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{c.title}</span>
+                  {c.assetId ? <Badge variant="outline">{p.assets.find((a) => a.id === c.assetId)?.name ?? "—"}</Badge> : null}
                   <ActionButton action={removeCoverageAction.bind(null, p.id, c.id)} srLabel={c.title}>
                     {td("remove")}
                   </ActionButton>
@@ -147,11 +148,12 @@ export default async function PolicyPage({ params }: Props) {
             title={td("coverageAdd")}
             fields={[
               { kind: "text", name: "title", label: td("coverageTitle"), maxLength: 200 },
+              ...(p.assets.length > 1 ? [{ kind: "select" as const, name: "assetId", label: td("coverageAsset"), options: p.assets.map((a) => ({ value: a.id, label: a.name })), emptyLabel: td("coverageAssetAll") }] : []),
               { kind: "text", name: "sumInsured", label: td("coverageSum"), inputMode: "decimal", maxLength: 14 },
               { kind: "text", name: "deductible", label: td("coverageDeductible"), inputMode: "decimal", maxLength: 14 },
               { kind: "text", name: "note", label: td("coverageNote"), maxLength: 500 },
             ]}
-            initial={{ title: "", sumInsured: "", deductible: "", note: "" }}
+            initial={{ title: "", assetId: "", sumInsured: "", deductible: "", note: "" }}
             submitLabel={td("coverageAdd")}
             onSubmit={addCoverageAction.bind(null, p.id)}
           />

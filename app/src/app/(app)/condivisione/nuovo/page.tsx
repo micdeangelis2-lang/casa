@@ -9,7 +9,7 @@ import { listAssets } from "@/modules/assets";
 import { getParty } from "@/modules/directory";
 import { listDocumentCategories } from "@/modules/documents";
 import { getMatterDetail } from "@/modules/matters";
-import { CONFIDENTIALITY_LEVELS, RECIPIENT_TYPES, candidateDocuments, type ConfidentialityLevel } from "@/modules/sharing";
+import { CONFIDENTIALITY_LEVELS, RECIPIENT_TYPES, SHEET_KINDS, candidateDocuments, type ConfidentialityLevel } from "@/modules/sharing";
 import { isUuid } from "@/lib/ids";
 import { PackageBuilder } from "../_components/package-builder";
 
@@ -42,6 +42,27 @@ export default async function NewPackagePage({ searchParams }: PageProps<"/condi
   const matterParam = Array.isArray(params.pratica) ? params.pratica[0] : params.pratica;
   const matterId = matterParam && isUuid(matterParam) ? matterParam : undefined;
   const matterDocumentIds = matterId ? new Set((await getMatterDetail(db, matterId))?.documents.map((d) => d.id) ?? []) : null;
+  // Scheda in HTML da includere (la propone la pagina di partenza: notaio, tecnico, agente, polizze, dossier, rendiconto, pratica).
+  const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
+  const sheetKind = (SHEET_KINDS as readonly string[]).includes(one(params.scheda)) ? one(params.scheda) : undefined;
+  const yearParam = one(params.anno);
+  const fromParam = one(params.dal);
+  const toParam = one(params.al);
+  const rightsParam = one(params.titolari) === "1";
+  const sheetOffer = sheetKind
+    ? {
+        kind: sheetKind,
+        spec: {
+          ...(assetIds[0] ? { assetId: assetIds[0] } : {}),
+          ...(/^\d{4}$/.test(yearParam) ? { year: Number(yearParam) } : {}),
+          ...(/^\d{4}-\d{2}-\d{2}$/.test(fromParam) ? { from: fromParam } : {}),
+          ...(/^\d{4}-\d{2}-\d{2}$/.test(toParam) ? { to: toParam } : {}),
+          ...(matterId ? { matterId } : {}),
+          ...(categoryIds.length > 0 ? { categoryIds } : {}),
+          ...(sheetKind === "agent" ? { includeRights: rightsParam } : {}),
+        },
+      }
+    : undefined;
   const found = filtered ? await candidateDocuments(db, { assetIds, categoryIds }, cap) : [];
   const candidates = matterDocumentIds ? found.filter((c) => matterDocumentIds.has(c.id)) : found;
 
@@ -89,6 +110,11 @@ export default async function NewPackagePage({ searchParams }: PageProps<"/condi
         <input type="hidden" name="mostra" value="1" />
         {matterId ? <input type="hidden" name="pratica" value={matterId} /> : null}
         {initialRecipientType ? <input type="hidden" name="destinatario" value={initialRecipientType} /> : null}
+        {sheetKind ? <input type="hidden" name="scheda" value={sheetKind} /> : null}
+        {yearParam ? <input type="hidden" name="anno" value={yearParam} /> : null}
+        {fromParam ? <input type="hidden" name="dal" value={fromParam} /> : null}
+        {toParam ? <input type="hidden" name="al" value={toParam} /> : null}
+        {rightsParam ? <input type="hidden" name="titolari" value="1" /> : null}
         <div>
           <Button type="submit" variant="secondary">
             {tb("filter")}
@@ -98,7 +124,8 @@ export default async function NewPackagePage({ searchParams }: PageProps<"/condi
 
       {filtered ? (
         <PackageBuilder
-          key={`${cap}-${assetIds.join(",")}-${categoryIds.join(",")}`}
+          key={`${cap}-${assetIds.join(",")}-${categoryIds.join(",")}-${sheetKind ?? ""}`}
+          sheetOffer={sheetOffer}
           cap={cap}
           initialRecipientType={initialRecipientType}
           initialRecipientName={initialRecipientName}

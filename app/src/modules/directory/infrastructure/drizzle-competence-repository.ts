@@ -26,6 +26,9 @@ export function drizzleCompetenceRepository(db: Db): CompetenceRepository {
       const [row] = await db.insert(partyCompetence).values(d).returning({ id: partyCompetence.id });
       return row!.id;
     },
+    async update(id, d) {
+      await db.update(partyCompetence).set(d).where(eq(partyCompetence.id, id));
+    },
     async get(id) {
       const [row] = await db.select().from(partyCompetence).where(eq(partyCompetence.id, id));
       return row ? toCompetence(row) : null;

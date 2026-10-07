@@ -49,8 +49,8 @@ describe("da controllare: dai moduli", () => {
     await rm(dir, { recursive: true, force: true });
   });
 
-  it("senza dati c'e' solo il backup non configurato (nei test non c'e' una chiave)", async () => {
-    expect(await kinds()).toEqual(["backup_not_configured"]);
+  it("senza altri dati: l'immobile senza polizza e il backup non configurato (nei test non c'e' una chiave)", async () => {
+    expect((await kinds()).sort()).toEqual(["asset_no_policy", "backup_not_configured"]);
   });
 
   it("raccoglie cio' che i moduli dicono: documento scaduto, tributo in ritardo e senza prova, premio, canone, fattura, dossier", async () => {
@@ -75,7 +75,7 @@ describe("da controllare: dai moduli", () => {
 
     const found = await getAttention(t.db, TODAY);
     const have = new Set(found.map((f) => f.kind));
-    for (const kind of ["document_expired", "tax_overdue", "tax_proof_missing", "premium_overdue", "policy_expiring", "rent_overdue", "letting_end_passed", "work_invoice_unpaid", "dossier_missing", "backup_not_configured"]) expect(have, kind).toContain(kind);
+    for (const kind of ["document_expired", "tax_overdue", "tax_proof_missing", "premium_overdue", "policy_expiring", "rent_overdue", "letting_end_passed", "work_invoice_unpaid", "dossier_missing", "rules_to_review", "backup_not_configured"]) expect(have, kind).toContain(kind);
 
     // Ogni risultato rimanda a una pagina dell'app e riporta solo fatti.
     expect(found.every((f) => f.href.startsWith("/"))).toBe(true);
@@ -85,5 +85,15 @@ describe("da controllare: dai moduli", () => {
     // Le priorita' alte vengono prima di quelle normali.
     const firstNormal = found.findIndex((f) => f.severity === "normal");
     expect(found.slice(firstNormal).every((f) => f.severity === "normal")).toBe(true);
+  });
+  it("immobili e polizze: senza polizza registrata, o con polizze registrate ma nessuna in corso", async () => {
+    const municipalityId = (await t.db.select().from(territory).where(eq(territory.kind, "municipality")))[0]!.id;
+    const bare = okValue(await run((uow) => createAsset(uow, owner, { kind: "box", name: "Box senza polizza", territoryId: municipalityId }))).id;
+    const old = okValue(await run((uow) => createAsset(uow, owner, { kind: "box", name: "Box con polizza vecchia", territoryId: municipalityId }))).id;
+    okValue(await run((uow) => createPolicy(uow, { title: "Polizza finita", assetIds: [old], startsOn: "2024-01-01", endsOn: "2025-01-01" })));
+    const found = await getAttention(t.db, TODAY);
+    expect(found.find((f) => f.kind === "asset_no_policy" && f.id.endsWith(bare))).toMatchObject({ severity: "normal", params: { asset: "Box senza polizza" } });
+    expect(found.find((f) => f.kind === "asset_no_current_policy" && f.id.endsWith(old))).toMatchObject({ severity: "normal", params: { asset: "Box con polizza vecchia", count: 1 } });
+    expect(found.some((f) => f.kind === "asset_no_policy" && f.id.endsWith(assetId))).toBe(false);
   });
 });

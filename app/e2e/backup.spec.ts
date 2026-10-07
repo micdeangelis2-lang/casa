@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { a11yViolations } from "./support/a11y";
 import { E2E_CRON_SECRET, clientIp } from "./support/env";
+import { reconfirm } from "./support/reconfirm";
 import { STORAGE_STATE } from "./support/secrets";
 
 test.use({ storageState: STORAGE_STATE, extraHTTPHeaders: { "x-real-ip": clientIp(60) } });
@@ -17,6 +18,8 @@ test.describe("backup ed esportazione", () => {
   });
 
   test("si crea un backup, compare nell'elenco e si scarica cifrato", async ({ page }) => {
+    // F-04: lo scarico pretende una riconferma recente (la sessione condivisa e' vecchia).
+    await reconfirm(page.context());
     await page.goto("/impostazioni/backup");
     await page.getByRole("button", { name: "Crea un backup" }).click();
     await expect(page.getByText("Backup completato.")).toBeVisible();
@@ -39,6 +42,7 @@ test.describe("backup ed esportazione", () => {
   });
 
   test("l'esportazione completa e' uno ZIP in chiaro", async ({ page }) => {
+    await reconfirm(page.context());
     const response = await page.request.get("/api/esportazione");
     expect(response.status()).toBe(200);
     expect(response.headers()["content-type"]).toBe("application/zip");

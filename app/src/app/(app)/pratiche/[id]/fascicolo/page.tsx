@@ -11,6 +11,8 @@ import { getDb } from "@/platform/db/client";
 import { isUuid } from "@/lib/ids";
 import { formatDate, formatEuro } from "@/lib/format";
 import { loadMatterDossier } from "@/lib/matter-dossier";
+import { listEngagements } from "@/modules/engagements";
+import { EngagementSummary } from "../../incarichi/_components/engagement-summary";
 import { PrintButton } from "./print-button";
 
 type Props = PageProps<"/pratiche/[id]/fascicolo">;
@@ -33,6 +35,8 @@ export default async function MatterDossierPage({ params }: Props) {
   const { matter: m, timeline, checklist, parties, documents, rents, claimTotals } = dossier;
   const rows = [...timeline.dated, ...timeline.undated];
   const lawyer = parties.find((p) => p.roles.includes("lawyer"));
+  const engagements = await listEngagements(getDb(), { matterId: m.id });
+  const te = await getTranslations("engagements");
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6">
@@ -69,7 +73,7 @@ export default async function MatterDossierPage({ params }: Props) {
             ))}
           </ul>
           <div className="flex flex-wrap gap-2">
-            <Link href={`/condivisione/nuovo?pratica=${m.id}&mostra=1&destinatario=lawyer${lawyer ? `&contatto=${lawyer.id}` : ""}`} className={buttonVariants({ variant: "secondary" })}>
+            <Link href={`/condivisione/nuovo?pratica=${m.id}&mostra=1&destinatario=lawyer&scheda=lawyer${lawyer ? `&contatto=${lawyer.id}` : ""}`} className={buttonVariants({ variant: "secondary" })}>
               {t("package")}
             </Link>
             <Link href={`/scadenze/nuova?${[m.assetId ? `immobile=${m.assetId}` : null, lawyer ? `professionista=${lawyer.id}` : null].filter(Boolean).join("&")}`} className={buttonVariants({ variant: "secondary" })}>
@@ -144,6 +148,13 @@ export default async function MatterDossierPage({ params }: Props) {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section aria-labelledby="h-engagements" className="flex flex-col gap-2">
+        <h2 id="h-engagements" className="text-lg font-medium">
+          {te("summary.heading")}
+        </h2>
+        <EngagementSummary items={engagements} testId="dossier-engagements" />
       </section>
 
       <section aria-labelledby="h-timeline" className="flex flex-col gap-2">

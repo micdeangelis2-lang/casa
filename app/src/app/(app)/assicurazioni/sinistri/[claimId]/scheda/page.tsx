@@ -56,7 +56,7 @@ export default async function ClaimSheetPage({ params }: Props) {
         <div className="flex flex-wrap gap-2 print:hidden">
           <PrintButton />
           {packageAssetId ? (
-            <Link href={`/condivisione/nuovo?immobile=${packageAssetId}&destinatario=insurer`} className={buttonVariants({ variant: "outline" })}>
+            <Link href={`/condivisione/nuovo?immobile=${packageAssetId}&destinatario=insurer&scheda=insurer`} className={buttonVariants({ variant: "outline" })}>
               {t("package")}
             </Link>
           ) : null}
@@ -150,6 +150,8 @@ export default async function ClaimSheetPage({ params }: Props) {
                 <dd>{ta(`kind.${a.kindKey as "dwelling"}`)}</dd>
                 <dt className="text-muted-foreground">{t("address")}</dt>
                 <dd>{[a.address, a.postalCode, a.locality, a.territoryLabel].filter(Boolean).join(", ") || t("notIndicated")}</dd>
+                <dt className="text-muted-foreground">{t("declaredValue")}</dt>
+                <dd data-testid="sheet-declared-value">{a.declaredValueCents === null ? t("notIndicated") : `${formatEuro(a.declaredValueCents)} €`}</dd>
                 <dt className="text-muted-foreground">{t("use")}</dt>
                 <dd>{a.useKey ? ta(`use.${a.useKey as "other"}`) : t("notIndicated")}</dd>
                 <dt className="text-muted-foreground">{t("holders")}</dt>
@@ -188,7 +190,6 @@ export default async function ClaimSheetPage({ params }: Props) {
                         {d.title}
                       </Link>
                       {` — ${d.categoryName}${d.issuedOn ? `, ${formatDate(d.issuedOn)}` : ""}`}
-                      {d.isImage ? ` (${t("photoMark")})` : ""}
                     </li>
                   ))}
                 </ul>
@@ -197,6 +198,27 @@ export default async function ClaimSheetPage({ params }: Props) {
           </Card>
         ))}
       </section>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <h2>{t("claimDocuments")}</h2>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {c.documents.length === 0 ? <p className="text-sm text-muted-foreground">{t("noClaimDocuments")}</p> : null}
+          <ul className="list-disc pl-5 text-sm" data-testid="sheet-claim-documents">
+            {c.documents.map((d) => (
+              <li key={d.documentId} data-role={d.role}>
+                <Link href={`/documenti/${d.documentId}`} className="underline underline-offset-2">
+                  {d.title}
+                </Link>
+                {` — ${t(`role.${d.role}`)}`}
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

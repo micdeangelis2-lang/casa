@@ -1,5 +1,6 @@
+import { changedKeys } from "@/shared/changed";
 import { fail, failGeneral, ok, parseInput, type FieldErrors, type Result } from "@/shared/result";
-import { COMPENSATION_LABEL, MANDATE_PREFIX, mandateSchema, mandateState, type MandateLine } from "../domain/management";
+import { COMPENSATION_LABEL, MANDATE_PREFIX, mandateSchema, mandateState, type MandateInput, type MandateLine } from "../domain/management";
 import type { MandateDeps, MandateReadDeps } from "./ports";
 
 /**
@@ -8,11 +9,10 @@ import type { MandateDeps, MandateReadDeps } from "./ports";
  * non cambia il mandato.
  */
 
-/** Registra un mandato e la scadenza di fine collegata. Restituisce l'id del mandato. */
-export async function createMandate(deps: MandateDeps, raw: unknown): Promise<Result<{ id: string }>> {
-  const p = parseInput(mandateSchema, raw);
-  if (!p.ok) return p;
-  const v = p.value;
+type Resolved = { managerName: string; assetName: string | null };
+
+/** Controlla i riferimenti (gestore, immobile, documento) e restituisce i nomi che servono al promemoria collegato. */
+async function resolveRefs(deps: MandateDeps, v: MandateInput): Promise<Result<Resolved>> {
   const errors: FieldErrors = {};
   const parties = await deps.others.partyNames();
   const managerName = parties.get(v.managerPartyId);
@@ -24,22 +24,56 @@ export async function createMandate(deps: MandateDeps, raw: unknown): Promise<Re
   }
   if (v.documentId && !(await deps.others.documentTitles([v.documentId])).has(v.documentId)) errors.documentId = ["Il documento non esiste"];
   if (Object.keys(errors).length > 0) return fail(errors);
+  return ok({ managerName: managerName!, assetName });
+}
 
-  const description = [v.compensation ? `${COMPENSATION_LABEL}${v.compensation}` : null, v.note ?? null].filter(Boolean).join("\n");
-  const deadlineId = await deps.others.createEndDeadline({ title: `${MANDATE_PREFIX}: ${managerName}${assetName ? ` (${assetName})` : ""}`, assetId: v.assetId ?? null, managerPartyId: v.managerPartyId, description, endsOn: v.endsOn });
+/** Titolo e descrizione del promemoria di fine mandato. */
+const reminderTexts = (v: MandateInput, r: Resolved) => ({
+  title: `${MANDATE_PREFIX}: ${r.managerName}${r.assetName ? ` (${r.assetName})` : ""}`,
+  description: [v.compensation ? `${COMPENSATION_LABEL}${v.compensation}` : null, v.note ?? null].filter(Boolean).join("\n"),
+});
+
+const mandateData = (v: MandateInput) => ({
+  assetId: v.assetId ?? null,
+  managerPartyId: v.managerPartyId,
+  startsOn: v.startsOn ?? null,
+  endsOn: v.endsOn,
+  compensation: v.compensation ?? null,
+  documentId: v.documentId ?? null,
+  note: v.note ?? null,
+});
+
+/** Registra un mandato e la scadenza di fine collegata. Restituisce l'id del mandato. */
+export async function createMandate(deps: MandateDeps, raw: unknown): Promise<Result<{ id: string }>> {
+  const p = parseInput(mandateSchema, raw);
+  if (!p.ok) return p;
+  const v = p.value;
+  const resolved = await resolveRefs(deps, v);
+  if (!resolved.ok) return resolved;
+
+  const deadlineId = await deps.others.createEndDeadline({ ...reminderTexts(v, resolved.value), assetId: v.assetId ?? null, managerPartyId: v.managerPartyId, endsOn: v.endsOn });
   if (!deadlineId) return failGeneral("Non è stato possibile registrare il mandato");
-  const id = await deps.repo.insert({
-    assetId: v.assetId ?? null,
-    managerPartyId: v.managerPartyId,
-    startsOn: v.startsOn ?? null,
-    endsOn: v.endsOn,
-    compensation: v.compensation ?? null,
-    documentId: v.documentId ?? null,
-    note: v.note ?? null,
-    deadlineId,
-    archived: false,
-  });
+  const id = await deps.repo.insert({ ...mandateData(v), deadlineId, archived: false });
   await deps.audit.record({ action: "management.mandate.create", entityType: "management_mandate", entityId: id, diff: { hasCompensation: Boolean(v.compensation), hasAsset: Boolean(v.assetId), deadlineId } });
+  return ok({ id });
+}
+
+/**
+ * Modifica un mandato (gestore, immobile, date, compenso, documento, note): stesse regole della registrazione. La scadenza di
+ * fine collegata segue (titolo, descrizione e, se la data di fine cambia, la data ancora aperta).
+ */
+export async function updateMandate(deps: MandateDeps, id: string, raw: unknown): Promise<Result<{ id: string }>> {
+  const row = await deps.repo.get(id);
+  if (!row) return failGeneral("Mandato non trovato");
+  const p = parseInput(mandateSchema, raw);
+  if (!p.ok) return p;
+  const v = p.value;
+  const resolved = await resolveRefs(deps, v);
+  if (!resolved.ok) return resolved;
+  const data = mandateData(v);
+  await deps.repo.update(id, data);
+  if (row.deadlineId) await deps.others.updateEndDeadline({ deadlineId: row.deadlineId, ...reminderTexts(v, resolved.value), assetId: data.assetId, managerPartyId: data.managerPartyId, previousEndsOn: row.endsOn, endsOn: v.endsOn });
+  await deps.audit.record({ action: "management.mandate.update", entityType: "management_mandate", entityId: id, diff: { changed: changedKeys(row, { ...row, ...data }) } });
   return ok({ id });
 }
 
@@ -63,6 +97,10 @@ export async function listMandates(deps: MandateReadDeps, today: string, assetId
       const assetName = m.assetId ? (assets.get(m.assetId) ?? null) : null;
       return {
         id: m.id,
+        managerPartyId: m.managerPartyId,
+        assetId: m.assetId,
+        documentId: m.documentId,
+        note: m.note,
         title: `${MANDATE_PREFIX}${managerName ? `: ${managerName}` : ""}${assetName ? ` (${assetName})` : ""}`,
         managerName,
         assetName,

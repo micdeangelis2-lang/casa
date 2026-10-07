@@ -1,5 +1,6 @@
 import { csvDocument } from "@/shared/csv";
 import { optionalText, requiredText, z } from "@/shared/zod";
+import { SHEET_PATH, type PackageSheet } from "./sheet";
 
 /** Destinatari tipici di un pacchetto (sezione 10 del prompt). Il pacchetto lo invia il proprietario a mano. */
 export const RECIPIENT_TYPES = ["administrator", "technician", "lawyer", "notary", "accountant", "insurer", "tenant", "manager", "agent", "other"] as const;
@@ -19,7 +20,8 @@ export const packageInputSchema = z.object({
   note: optionalText(500),
   documents: z
     .array(z.object({ documentId: z.uuid("Documento non valido"), overrideAboveCap: z.boolean().default(false) }))
-    .min(1, "Scegli almeno un documento")
+    // Un pacchetto puo' contenere la sola scheda: il controllo «almeno un documento o una scheda» sta nel caso d'uso.
+    .min(0)
     .max(500, "Troppi documenti in un solo pacchetto (massimo 500)"),
 });
 
@@ -61,6 +63,8 @@ export type ManifestInput = {
   confidentialityCap: ConfidentialityLevel;
   note: string | null;
   items: PackageItemInfo[];
+  /** La scheda in HTML inclusa nel pacchetto, se c'e'. */
+  sheet?: PackageSheet | null;
 };
 
 export const buildManifest = (m: ManifestInput) =>
@@ -72,6 +76,7 @@ export const buildManifest = (m: ManifestInput) =>
       recipient: { type: m.recipientType, name: m.recipientName },
       confidentialityCap: m.confidentialityCap,
       note: m.note,
+      sheet: m.sheet ? { path: SHEET_PATH, kind: m.sheet.kind, title: m.sheet.title, contentSha256: m.sheet.sha256 } : null,
       files: m.items.map((i) => ({
         path: i.path,
         title: i.title,
@@ -94,10 +99,11 @@ export const buildManifest = (m: ManifestInput) =>
   );
 
 /** Elenco CSV (separatore «;», con BOM: si apre bene in Excel in italiano). */
-export function buildCsv(items: PackageItemInfo[]): string {
+export function buildCsv(items: PackageItemInfo[], sheet?: PackageSheet | null): string {
   const header = ["File", "Titolo", "Categoria", "Immobili", "Riservatezza", "Emesso da", "Data di emissione", "Valido dal", "Valido fino al", "Stato di verifica", "Dimensione (byte)", "SHA-256"];
   const rows = items.map((i) => [i.path, i.title, i.categoryName, i.assetNames.join(" / "), i.confidentiality, i.issuerName, i.issuedOn, i.validFrom, i.validTo, i.verificationStatus, i.sizeBytes, i.sha256]);
-  return csvDocument([header, ...rows], { alwaysQuote: true });
+  const sheetRow = sheet ? [[SHEET_PATH, sheet.title, "Scheda", "", "", "", "", "", "", "", "", sheet.sha256]] : [];
+  return csvDocument([header, ...sheetRow, ...rows], { alwaysQuote: true });
 }
 
 const escapeHtml = (value: string | null) => (value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
@@ -149,7 +155,8 @@ th{background:#f2f2f2}
 <p><strong>Destinatario:</strong> ${escapeHtml(m.recipientName)} (${escapeHtml(labels.recipient[m.recipientType])})<br>
 <strong>Preparato il:</strong> ${escapeHtml(dateIt(m.createdAt.slice(0, 10)))}<br>
 <strong>Livello massimo di riservatezza scelto:</strong> ${escapeHtml(labels.confidentiality[m.confidentialityCap])}<br>
-<strong>Documenti:</strong> ${m.items.length}</p>
+<strong>Documenti:</strong> ${m.items.length}${m.sheet ? `<br>
+<strong>Scheda:</strong> <a href="${SHEET_PATH}">${escapeHtml(m.sheet.title)}</a> (pagina da stampare, preparata con i dati registrati)` : ""}</p>
 ${m.note ? `<p><strong>Nota del proprietario:</strong> ${escapeHtml(m.note)}</p>` : ""}
 <p class="note">Questo pacchetto è stato preparato dal proprietario con i documenti che ha caricato. Non attesta la conformità del bene né la correttezza o la completezza dei documenti: lo stato di verifica indicato è quello assegnato dal proprietario. Per ogni decisione serve il parere di un professionista.</p>
 <table>

@@ -137,6 +137,9 @@ export default async function StatementPage({ searchParams }: PageProps<"/locazi
         <a href={csvHref} className={buttonVariants({ variant: "outline" })}>
           <Download aria-hidden /> {t("csv")}
         </a>
+        <Link href={`/condivisione/nuovo?destinatario=manager&scheda=manager&immobile=${assetId}&dal=${from}&al=${to}&mostra=1`} className={buttonVariants({ variant: "outline" }) + " print:hidden"}>
+          {t("sharePackage")}
+        </Link>
       </div>
       <p id="declared-hint" className="text-xs text-muted-foreground print:hidden">
         {t("filters.declaredHint")}

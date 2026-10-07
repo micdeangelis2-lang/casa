@@ -12,6 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SettingsPage() {
   await requireOwner();
   const t = await getTranslations("settings");
+  const tc = await getTranslations("documentCategories");
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
       <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
@@ -32,6 +33,16 @@ export default async function SettingsPage() {
               <h2>{t("territoriesTitle")}</h2>
             </CardTitle>
             <CardDescription>{t("territoriesBody")}</CardDescription>
+          </CardHeader>
+        </Card>
+      </Link>
+      <Link href="/impostazioni/categorie" className="rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2">
+        <Card className="transition-colors hover:bg-accent/40">
+          <CardHeader>
+            <CardTitle>
+              <h2>{tc("cardTitle")}</h2>
+            </CardTitle>
+            <CardDescription>{tc("cardBody")}</CardDescription>
           </CardHeader>
         </Card>
       </Link>

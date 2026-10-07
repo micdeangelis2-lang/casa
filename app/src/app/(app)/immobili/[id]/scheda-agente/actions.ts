@@ -1,6 +1,6 @@
 "use server";
 
-import { addEngagement, addListingEvent, removeEngagement, removeListingEvent, setEngagementStatus } from "@/modules/agent";
+import { addEngagement, addListingEvent, removeEngagement, removeListingEvent, setEngagementStatus, updateEngagement, updateListingEvent } from "@/modules/agent";
 import { isUuid } from "@/lib/ids";
 import { ownerAction, type MiniResult } from "@/lib/owner-action";
 import type { FormValues } from "@/components/simple-form";
@@ -49,4 +49,34 @@ export async function addListingEventAction(assetId: string, engagementId: strin
 
 export async function removeListingEventAction(assetId: string, eventId: string): Promise<void> {
   if (isUuid(assetId) && isUuid(eventId)) await ownerAction((uow) => removeListingEvent(uow, eventId), pages(assetId));
+}
+
+export async function updateEngagementAction(assetId: string, engagementId: string, values: FormValues): Promise<MiniResult> {
+  if (!isUuid(assetId) || !isUuid(engagementId)) return notFound();
+  const payload = {
+    assetId,
+    kind: text(values, "kind"),
+    agentPartyId: text(values, "agentPartyId"),
+    startsOn: text(values, "startsOn"),
+    endsOn: text(values, "endsOn"),
+    exclusive: values.exclusive === true,
+    asking: text(values, "asking"),
+    commission: text(values, "commission"),
+    documentId: text(values, "documentId"),
+    note: text(values, "note"),
+  };
+  return ownerAction((uow) => updateEngagement(uow, engagementId, payload), pages(assetId));
+}
+
+export async function updateListingEventAction(assetId: string, eventId: string, values: FormValues): Promise<MiniResult> {
+  if (!isUuid(assetId) || !isUuid(eventId)) return notFound();
+  const payload = {
+    kind: text(values, "kind"),
+    occurredOn: text(values, "occurredOn"),
+    amount: text(values, "amount"),
+    outcome: text(values, "outcome"),
+    contactPartyId: text(values, "contactPartyId"),
+    note: text(values, "note"),
+  };
+  return ownerAction((uow) => updateListingEvent(uow, eventId, payload), pages(assetId));
 }

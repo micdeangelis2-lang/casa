@@ -171,6 +171,7 @@ export async function addRent(deps: LettingDeps, lettingId: string, raw: unknown
   const p = parseInput(rentRowSchema, raw);
   if (!p.ok) return p;
   if (!(await deps.repo.getLetting(lettingId))) return failGeneral("Locazione non trovata");
+  if ((await deps.repo.rents(lettingId)).some((r) => r.dueOn === p.value.dueOn)) return fail({ dueOn: ["Esiste già un canone con questa scadenza"] });
   const [id] = await deps.repo.insertRents([{ lettingId, dueOn: p.value.dueOn, amountCents: p.value.amount, paidOn: null, paidCents: 0, documentId: null, deadlineId: null }]);
   await deps.audit.record({ action: "letting.rent.add", entityType: "letting", entityId: lettingId, diff: { rentId: id } });
   return ok({ id: lettingId });
@@ -258,6 +259,7 @@ export async function addCode(deps: LettingDeps, lettingId: string, raw: unknown
   if (!p.ok) return p;
   if (!(await deps.repo.getLetting(lettingId))) return failGeneral("Locazione non trovata");
   const v = p.value;
+  if ((await deps.repo.codes(lettingId)).some((c) => c.label === v.label && c.value === v.value)) return fail({ value: ["Questo codice è già registrato per la locazione"] });
   const id = await deps.repo.insertCode({ lettingId, label: v.label, value: v.value, issuer: v.issuer ?? null, issuedOn: v.issuedOn ?? null, validUntil: v.validUntil ?? null, note: v.note ?? null });
   await deps.audit.record({ action: "letting.code.add", entityType: "letting", entityId: lettingId, diff: { codeId: id } });
   return ok({ id: lettingId });

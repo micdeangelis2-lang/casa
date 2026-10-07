@@ -2,15 +2,15 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { territory } from "@/platform/db/schema";
 import { runInUnitOfWork } from "@/platform/db/unit-of-work";
 import { LocalFileStorage } from "@/platform/storage";
-import { createAsset } from "@/modules/assets";
+import { createAsset, getAssetDetail, setAssetDeclaredValue } from "@/modules/assets";
 import { createDocument, listDocumentCategories } from "@/modules/documents";
 import { importIstat } from "@/modules/territory";
 import { createWork } from "@/modules/maintenance";
-import { addClaimEntry, addCoverage, createClaim, createPolicy, getClaimSheet, policiesByAsset, setPolicyArchived } from "@/modules/insurance";
+import { addClaimDocument, addClaimEntry, addCoverage, createClaim, createPolicy, getClaimSheet, policiesByAsset, removeClaimDocument, setPolicyArchived, updatePolicy } from "@/modules/insurance";
 import { groupPoliciesByAsset, isPolicyCurrent, sheetChecks, type OverviewPolicy } from "@/modules/insurance/domain/assicuratore-overview";
 import { conclusiveClaims } from "./helpers/neutral";
 import messages from "../messages/it.json";
@@ -104,7 +104,7 @@ describe("assicuratore: polizze per bene e scheda sinistro", () => {
     expect(byId.get(assetB)!.status).toBe("current");
     expect(byId.get(assetC)!.status).toBe("none");
     expect(byId.get(assetB)!.policies.map((p) => p.title)).toEqual(["Polizza vecchia", "Polizza casa"]);
-    expect(byId.get(assetA)!.policies[0]!.coverages).toEqual([{ title: "Incendio", sumInsuredCents: 10_000_000, deductibleCents: 25_000 }]);
+    expect(byId.get(assetA)!.policies[0]!.coverages).toEqual([{ title: "Incendio", assetId: null, sumInsuredCents: 10_000_000, deductibleCents: 25_000 }]);
     expect(withoutAsset.map((p) => p.title)).toEqual(["Polizza senza beni"]);
     const later = await policiesByAsset(t.db, "2027-02-01");
     expect(later.rows.find((r) => r.assetId === assetA)!.status).toBe("notCurrent");
@@ -119,11 +119,50 @@ describe("assicuratore: polizze per bene e scheda sinistro", () => {
     expect(a).toMatchObject({ name: "Appartamento A", kindKey: "dwelling", address: "Via Prova 1" });
     expect(a.attributes).toEqual([{ key: "anno_costruzione", value: 1975 }]);
     expect(a.works.map((w) => w.title)).toEqual(["Rifacimento tetto"]);
-    expect(a.documents.map((d) => [d.title, d.isImage])).toEqual([["Foto soffitto", true]]);
+    expect(a.documents.map((d) => d.title)).toEqual(["Foto soffitto"]);
     expect(sheet.otherClaims.map((c) => [c.title, c.claimedCents, c.receivedCents])).toEqual([["Vecchio danno", 80_000, 60_000]]);
     expect(sheet.claim.entries).toHaveLength(1);
     const present = Object.fromEntries(sheet.checks.map((c) => [c.key, c.present]));
-    expect(present).toMatchObject({ description: true, claimed: true, coverages: true, entries: true, documents: true, photos: true, works: true, reportedOn: false, claimNumber: false, adjuster: false });
+    expect(present).toMatchObject({ description: true, claimed: true, coverages: true, entries: true, documents: true, photos: false, works: true, reportedOn: false, claimNumber: false, adjuster: false });
     expect(await getClaimSheet(t.db, "00000000-0000-4000-8000-000000000000", TODAY)).toBeNull();
+  });
+
+  it("documenti del sinistro con ruolo: le fotografie dell'elenco di controllo sono quelle scelte, non un'euristica", async () => {
+    const docId = (await getClaimSheet(t.db, claimId, TODAY))!.assets[0]!.documents[0]!.id;
+    expect(await run((uow) => addClaimDocument(uow, claimId, { documentId: docId, role: "boh" }))).toMatchObject({ ok: false, errors: { role: expect.any(Array) } });
+    expect(await run((uow) => addClaimDocument(uow, claimId, { documentId: "00000000-0000-4000-8000-000000000000", role: "photo" }))).toMatchObject({ ok: false, errors: { documentId: expect.any(Array) } });
+    expect(await run((uow) => addClaimDocument(uow, "00000000-0000-4000-8000-000000000000", { documentId: docId, role: "photo" }))).toMatchObject({ ok: false });
+    expect(await run((uow) => addClaimDocument(uow, claimId, { documentId: docId, role: "photo" }))).toMatchObject({ ok: true });
+    expect(await run((uow) => addClaimDocument(uow, claimId, { documentId: docId, role: "invoice" }))).toMatchObject({ ok: false, errors: { documentId: ["Questo documento è già collegato al sinistro"] } });
+    const sheet = (await getClaimSheet(t.db, claimId, TODAY))!;
+    expect(sheet.claim.documents).toEqual([{ claimId, documentId: docId, role: "photo", title: "Foto soffitto" }]);
+    expect(sheet.checks.find((c) => c.key === "photos")).toMatchObject({ present: true, count: 1 });
+    expect(await run((uow) => removeClaimDocument(uow, claimId, docId))).toMatchObject({ ok: true });
+    expect(await run((uow) => removeClaimDocument(uow, claimId, docId))).toMatchObject({ ok: false });
+    expect((await getClaimSheet(t.db, claimId, TODAY))!.checks.find((c) => c.key === "photos")!.present).toBe(false);
+  });
+
+  it("valore dichiarato: facoltativo, mai negativo, mostrato nella scheda e nelle polizze per immobile", async () => {
+    expect((await getAssetDetail(t.db, assetA))!.declaredValueCents).toBeNull();
+    expect(await run((uow) => setAssetDeclaredValue(uow, assetA, { declaredValue: "-5" }))).toMatchObject({ ok: false, errors: { declaredValue: expect.any(Array) } });
+    expect(await run((uow) => setAssetDeclaredValue(uow, "00000000-0000-4000-8000-000000000000", { declaredValue: "10,00" }))).toMatchObject({ ok: false });
+    expect(await run((uow) => setAssetDeclaredValue(uow, assetA, { declaredValue: "250.000,00" }))).toMatchObject({ ok: true });
+    expect((await getAssetDetail(t.db, assetA))!.declaredValueCents).toBe(25_000_000);
+    expect((await policiesByAsset(t.db, TODAY)).rows.find((r) => r.assetId === assetA)!.declaredValueCents).toBe(25_000_000);
+    expect((await getClaimSheet(t.db, claimId, TODAY))!.assets[0]!.declaredValueCents).toBe(25_000_000);
+    await expect(t.db.execute(sql`update asset set declared_value_cents = -1 where id = ${assetA}`)).rejects.toThrow();
+    expect(await run((uow) => setAssetDeclaredValue(uow, assetA, { declaredValue: "" }))).toMatchObject({ ok: true });
+    expect((await getAssetDetail(t.db, assetA))!.declaredValueCents).toBeNull();
+  });
+
+  it("garanzie per singolo bene: valide solo per i beni della polizza, mostrate solo sul bene indicato, tolte se il bene esce dalla polizza", async () => {
+    expect(await run((uow) => addCoverage(uow, policyId, { title: "Furto", assetId: assetC, sumInsured: "5.000,00" }))).toMatchObject({ ok: false, errors: { assetId: expect.any(Array) } });
+    expect(await run((uow) => addCoverage(uow, policyId, { title: "Furto", assetId: assetB, sumInsured: "5.000,00" }))).toMatchObject({ ok: true });
+    const titles = async (assetId: string) => (await policiesByAsset(t.db, TODAY)).rows.find((r) => r.assetId === assetId)!.policies.find((p) => p.id === policyId)!.coverages.map((c) => c.title);
+    expect(await titles(assetA)).toEqual(["Incendio"]);
+    expect((await titles(assetB)).sort()).toEqual(["Furto", "Incendio"]);
+    // Il bene B esce dalla polizza: la garanzia che lo riguardava resta alla polizza, senza bene.
+    expect(await run((uow) => updatePolicy(uow, policyId, { title: "Polizza casa", policyNumber: "POL-1", startsOn: "2026-01-01", endsOn: "2026-12-31", premium: "400,00", assetIds: [assetA] }))).toMatchObject({ ok: true });
+    expect((await titles(assetA)).sort()).toEqual(["Furto", "Incendio"]);
   });
 });

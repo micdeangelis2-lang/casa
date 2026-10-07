@@ -30,10 +30,12 @@ export type EncumbranceRow = {
 export interface NotaryRepository {
   provenances(assetId: string): Promise<ProvenanceRow[]>;
   insertProvenance(d: Omit<ProvenanceRow, "id">): Promise<string>;
+  updateProvenance(id: string, d: Omit<ProvenanceRow, "id" | "assetId">): Promise<void>;
   getProvenance(id: string): Promise<ProvenanceRow | null>;
   deleteProvenance(id: string): Promise<void>;
   encumbrances(assetId: string): Promise<EncumbranceRow[]>;
   insertEncumbrance(d: Omit<EncumbranceRow, "id">): Promise<string>;
+  updateEncumbrance(id: string, d: Omit<EncumbranceRow, "id" | "assetId">): Promise<void>;
   getEncumbrance(id: string): Promise<EncumbranceRow | null>;
   deleteEncumbrance(id: string): Promise<void>;
 }

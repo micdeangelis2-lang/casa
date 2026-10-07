@@ -1,16 +1,19 @@
 import { NextResponse } from "next/server";
 import { getOwnerForApi } from "@/platform/auth/owner";
+import { requireRecentAuthForApi } from "@/platform/auth/recent-auth";
 import { rejectCrossSite } from "@/platform/auth/request-guard";
 import { getDb } from "@/platform/db/client";
 import { backupSettingsFromEnv, getBackupRun, openBackupArchive } from "@/modules/backup";
 import { isUuid } from "@/lib/ids";
 
-/** Scarica un backup (resta cifrato). Serve la sessione del proprietario. */
-export async function GET(_request: Request, { params }: RouteContext<"/api/backup/[id]">) {
+/** Scarica un backup (resta cifrato). Serve la sessione del proprietario e una riconferma recente (F-04). */
+export async function GET(request: Request, { params }: RouteContext<"/api/backup/[id]">) {
   const crossSite = await rejectCrossSite();
   if (crossSite) return crossSite;
   const owner = await getOwnerForApi();
   if (!owner) return new NextResponse(null, { status: 401 });
+  const recent = await requireRecentAuthForApi(request, owner);
+  if (recent) return recent;
 
   const { id } = await params;
   if (!isUuid(id)) return new NextResponse(null, { status: 404 });

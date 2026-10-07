@@ -6,6 +6,7 @@
  * Dice solo cio' che risulta dai dati inseriti: non dice se una regola si applica, ne' se qualcosa e' in regola.
  * Nessuna norma, aliquota o termine e' scritto nel codice: sono dati dell'utente.
  */
+import type { UnitOfWork } from "@/platform/db/unit-of-work";
 import type { Db } from "@/platform/db/types";
 import { todayInItaly } from "@/platform/clock";
 import { getAssetDetail } from "@/modules/assets";
@@ -16,10 +17,14 @@ import { effectiveVersion, loadActiveRules, type RuleLevel, type RuleVerificatio
 import { describeTerritories, territoryChainIds } from "@/modules/territory";
 import { buildOfficeView, type OfficeCounts, type OfficeDeadlineInput, type OfficeMatterInput, type OfficeView } from "./domain/office";
 import { DEFAULT_REVIEW_MONTHS, classifyReview, countByState, REVIEW_STATE_ORDER, type ReviewState } from "./domain/review";
+import * as formCases from "./application/form-templates";
+import type { FormTemplateCollaborators } from "./application/ports";
+import { drizzleFormTemplateRepository } from "./infrastructure/drizzle-form-template-repository";
 import { lastVerificationAt } from "./infrastructure/rule-checks";
 
 export { DEFAULT_REVIEW_MONTHS, REVIEW_MONTHS_CHOICES, classifyReview, monthsBefore, type ReviewState } from "./domain/review";
 export { type OfficeCounts, type OfficeDeadline, type OfficeMatter, type OfficeView } from "./domain/office";
+export type { FormTemplateItem } from "./application/form-templates";
 
 const OFFICE_ROLE = "public_office" as const;
 
@@ -159,3 +164,24 @@ export async function reviewRules(db: Db, args: { assetId?: string; maxAgeMonths
   rows.sort((a, b) => REVIEW_STATE_ORDER.indexOf(a.state) - REVIEW_STATE_ORDER.indexOf(b.state) || a.title.localeCompare(b.title, "it"));
   return { asset, territoryLabels, maxAgeMonths, rows, counts: countByState(rows) };
 }
+
+// ----------------------------------------------------------------------------------------------- modulistica
+
+function formCollaborators(db: Db): FormTemplateCollaborators {
+  return {
+    async officeName(partyId) {
+      const party = await getParty(db, partyId);
+      return party && party.roles.includes(OFFICE_ROLE) ? party.displayName : null;
+    },
+  };
+}
+
+const formWriteDeps = (uow: UnitOfWork) => ({ repo: drizzleFormTemplateRepository(uow.tx), others: formCollaborators(uow.tx), audit: uow.audit });
+
+/** Registra un modulo di un ufficio: nome, checklist di documenti (una voce per riga), fonte, data e stato di verifica. */
+export const createFormTemplate = (uow: UnitOfWork, input: unknown) => formCases.createFormTemplate(formWriteDeps(uow), input);
+export const updateFormTemplate = (uow: UnitOfWork, id: string, input: unknown) => formCases.updateFormTemplate(formWriteDeps(uow), id, input);
+export const setFormTemplateArchived = (uow: UnitOfWork, id: string, archived: boolean) => formCases.setFormTemplateArchived(formWriteDeps(uow), id, archived);
+/** I moduli (non archiviati) di un ufficio, o di tutti, con lo stato di verifica rispetto a oggi. */
+export const listFormTemplates = (db: Db, args: { officePartyId?: string; includeArchived?: boolean } = {}, today = todayInItaly(), maxAgeMonths = DEFAULT_REVIEW_MONTHS) =>
+  formCases.listFormTemplates({ repo: drizzleFormTemplateRepository(db) }, args, today, maxAgeMonths);

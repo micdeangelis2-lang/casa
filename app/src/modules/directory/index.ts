@@ -28,6 +28,7 @@ const competenceDeps = (uow: UnitOfWork) => ({ repo: drizzleCompetenceRepository
 
 /** Competenze di un contatto (iscrizione a un albo, abilitazione, polizza...): dati scritti dal proprietario, non verificati. */
 export const addCompetence = (uow: UnitOfWork, partyId: string, input: unknown) => competenceCases.addCompetence(competenceDeps(uow), partyId, input);
+export const updateCompetence = (uow: UnitOfWork, competenceId: string, input: unknown) => competenceCases.updateCompetence(competenceDeps(uow), competenceId, input);
 export const removeCompetence = (uow: UnitOfWork, competenceId: string) => competenceCases.removeCompetence(competenceDeps(uow), competenceId);
 export const listCompetences = (db: Db, partyId: string, today = todayInItaly()) => competenceCases.listCompetences({ repo: drizzleCompetenceRepository(db) }, partyId, today);
 

@@ -10,12 +10,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireOwner } from "@/platform/auth/owner";
 import { getDb } from "@/platform/db/client";
 import { listDocumentOptions } from "@/modules/documents";
-import { CLAIM_STATUSES, ENTRY_DIRECTIONS, getClaimDetail } from "@/modules/insurance";
+import { CLAIM_DOCUMENT_ROLES, CLAIM_STATUSES, ENTRY_DIRECTIONS, getClaimDetail } from "@/modules/insurance";
 import { ActionButton } from "@/components/action-button";
 import { InlineForm } from "@/components/inline-form";
 import { isUuid } from "@/lib/ids";
 import { formatDate, formatEuro } from "@/lib/format";
-import { addClaimEntryAction, removeClaimEntryAction, setClaimStatusAction } from "../../actions";
+import { addClaimDocumentAction, addClaimEntryAction, removeClaimDocumentAction, removeClaimEntryAction, setClaimStatusAction } from "../../actions";
 
 type Props = PageProps<"/assicurazioni/sinistri/[claimId]">;
 
@@ -152,6 +152,42 @@ export default async function ClaimPage({ params }: Props) {
             initial={{ entryOn: "", direction: "note", summary: "", documentId: "" }}
             submitLabel={td("entryAdd")}
             onSubmit={addClaimEntryAction.bind(null, c.id)}
+          />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <h2>{td("documents")}</h2>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <p className="text-sm text-muted-foreground">{td("documentsHint")}</p>
+          {c.documents.length === 0 ? <p className="text-sm text-muted-foreground">{td("noDocuments")}</p> : null}
+          <ul className="flex flex-col divide-y" data-testid="claim-documents">
+            {c.documents.map((d) => (
+              <li key={d.documentId} className="flex flex-wrap items-center gap-2 py-2 text-sm first:pt-0 last:pb-0">
+                <Badge variant="outline">{td(`role.${d.role}`)}</Badge>
+                <Link href={`/documenti/${d.documentId}`} className="underline underline-offset-2">
+                  {d.title}
+                </Link>
+                <ActionButton action={removeClaimDocumentAction.bind(null, c.id, d.documentId)} srLabel={d.title}>
+                  {td("remove")}
+                </ActionButton>
+              </li>
+            ))}
+          </ul>
+          <InlineForm
+            idPrefix="claim-document"
+            title={td("documentAdd")}
+            fields={[
+              { kind: "select", name: "documentId", label: td("documentField"), options: documents, emptyLabel: "—" },
+              { kind: "select", name: "role", label: td("roleField"), options: CLAIM_DOCUMENT_ROLES.map((r) => ({ value: r, label: td(`role.${r}`) })) },
+            ]}
+            initial={{ documentId: "", role: "other" }}
+            submitLabel={td("documentAdd")}
+            onSubmit={addClaimDocumentAction.bind(null, c.id)}
           />
         </CardContent>
       </Card>

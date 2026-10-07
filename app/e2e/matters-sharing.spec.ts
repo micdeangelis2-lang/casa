@@ -1,8 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
-import { Client } from "pg";
+import { Client } from "./support/pg-client";
 import { makePdf } from "../tests/helpers/sample-pdf";
 import { a11yViolations } from "./support/a11y";
 import { E2E_DATABASE_URL, clientIp } from "./support/env";
+import { reconfirm } from "./support/reconfirm";
 import { STORAGE_STATE } from "./support/secrets";
 
 // Gira prima di registry.spec.ts: il contatto che crea lo rimuove alla fine (la rubrica non deve cambiare per gli altri test).
@@ -187,8 +188,9 @@ test.describe("condivisione", () => {
   });
 
   test("il pacchetto si scarica come ZIP con indice, manifest ed elenco, e lo scarico e' registrato", async ({ page }) => {
+    await reconfirm(page.context());
     await page.goto(packageUrl);
-    const href = `/api/condivisione/${packageUrl.split("/").pop()}`;
+    const href =`/api/condivisione/${packageUrl.split("/").pop()}`;
     const response = await page.request.get(href);
     expect(response.status()).toBe(200);
     expect(response.headers()["content-type"]).toBe("application/zip");
@@ -216,6 +218,7 @@ test.describe("condivisione", () => {
 
   test("un pacchetto revocato non si scarica piu' e resta nel registro", async ({ page }) => {
     await page.goto(packageUrl);
+    await reconfirm(page.context());
     await page.getByRole("button", { name: "Revoca" }).click();
     await expect(page.getByText("Pacchetto revocato: non si può più scaricare")).toBeVisible();
     await expect(page.getByRole("link", { name: "Scarica il pacchetto" })).toHaveCount(0);

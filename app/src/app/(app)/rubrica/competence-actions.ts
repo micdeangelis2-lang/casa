@@ -1,6 +1,6 @@
 "use server";
 
-import { addCompetence, removeCompetence } from "@/modules/directory";
+import { addCompetence, removeCompetence, updateCompetence } from "@/modules/directory";
 import { isUuid } from "@/lib/ids";
 import { ownerAction, type MiniResult } from "@/lib/owner-action";
 import type { FormValues } from "@/components/simple-form";
@@ -25,4 +25,19 @@ export async function addCompetenceAction(partyId: string, values: FormValues): 
 
 export async function removeCompetenceAction(partyId: string, competenceId: string): Promise<void> {
   if (isUuid(partyId) && isUuid(competenceId)) await ownerAction((uow) => removeCompetence(uow, competenceId), pages(partyId));
+}
+
+export async function updateCompetenceAction(partyId: string, competenceId: string, values: FormValues): Promise<MiniResult> {
+  if (!isUuid(partyId) || !isUuid(competenceId)) return { errors: { _: ["Elemento non trovato"] } };
+  const payload = {
+    kind: text(values, "kind"),
+    label: text(values, "label"),
+    reference: text(values, "reference"),
+    issuer: text(values, "issuer"),
+    validFrom: text(values, "validFrom"),
+    validUntil: text(values, "validUntil"),
+    documentId: text(values, "documentId"),
+    note: text(values, "note"),
+  };
+  return ownerAction((uow) => updateCompetence(uow, competenceId, payload), pages(partyId));
 }

@@ -73,6 +73,7 @@ export const deadline = pgTable(
       .$onUpdate(() => new Date()),
   },
   (t) => [
+    check("deadline_category_check", sql`${t.category} in ('fiscal','insurance','technical','condominium','contractual','letting','hospitality','administrative','other')`),
     check("deadline_priority_check", sql`${t.priority} in ('low','normal','high','urgent')`),
     check("deadline_origin_check", sql`${t.origin} in ('manual','rule')`),
     check("deadline_level_check", sql`${t.level} in ('national','regional','municipal','condominium','contract')`),
@@ -122,7 +123,7 @@ export const deadlineProof = pgTable(
     occurrenceId: uuid("occurrence_id")
       .notNull()
       .references(() => deadlineOccurrence.id, { onDelete: "cascade" }),
-    documentId: uuid("document_id").references(() => document.id, { onDelete: "cascade" }),
+    documentId: uuid("document_id").references(() => document.id, { onDelete: "restrict" }),
     reference: text("reference"),
     createdAt,
   },

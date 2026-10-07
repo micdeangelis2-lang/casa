@@ -81,7 +81,7 @@ Regole (menu) e Dossier (scheda di ogni immobile). Le regole dicono quali voci a
 
 ## Rilascio su Vercel (procedura, NON ancora provata)
 
-1. **Database**: crea un progetto Neon in regione UE, copia la stringa *pooled* in `DATABASE_URL` e applica le migrazioni dal tuo computer con `pnpm db:migrate` (le migrazioni sono in `drizzle/`, 0000-0022).
+1. **Database**: crea un progetto Neon in regione UE, copia la stringa *pooled* in `DATABASE_URL` e applica le migrazioni dal tuo computer con `pnpm db:migrate` (le migrazioni sono in `drizzle/`, 0000-0027).
 2. **Archiviazione dei file**: l'adattatore su disco **non funziona su Vercel** (filesystem a sola lettura). Prima del primo deploy con documenti serve un adattatore Blob privato o S3-compatibile dietro `StoragePort` (`src/platform/storage`) e uno per `BackupDestination`.
 3. **Variabili d'ambiente** (Project Settings > Environment Variables): `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` (il dominio di produzione: le passkey sono legate al dominio), `OWNER_BOOTSTRAP_TOKEN` (solo per la prima configurazione, poi rimuovilo), `BACKUP_PUBLIC_KEY`, `CRON_SECRET`, facoltative `RESEND_API_KEY` e `MAIL_FROM`. L'elenco commentato è in `.env.example`.
 4. **Cron**: `vercel.json` pianifica `/api/cron/giornaliero` alle 05:00 UTC (rivalutazione dei dossier, date delle scadenze, avvisi ed email). Vercel lo chiama con `Authorization: Bearer <CRON_SECRET>`. Il cron del backup (`/api/cron/backup`) si aggiunge quando c'è una destinazione utilizzabile su Vercel.

@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { verifiedStream } from "@/shared/archive/stream";
 import { zipStream, type ZipEntry } from "@/shared/archive/zip";
 import { fail, failGeneral, ok, zodIssuesToErrors, type FieldErrors, type Result } from "@/shared/result";
+import { renderSheetHtml, SHEET_PATH, type SheetKind } from "../domain/sheet";
 import { buildCsv, buildIndexHtml, buildManifest, exceedsCap, packageInputSchema, safeFileName, type ConfidentialityLevel, type IndexLabels, type ManifestInput, type PackageItemInfo } from "../domain/sharing";
 import type { CandidateDocument, DocumentForPackage, LogRow, PackageItemRow, PackageRow, SharingDeps, SharingReadDeps } from "./ports";
 
@@ -38,7 +39,9 @@ function toInfo(doc: DocumentForPackage, position: number, override: boolean): P
  * Crea un pacchetto: registra destinatario, contenuto (con le impronte), tetto di riservatezza e quali documenti
  * superavano il tetto e sono stati inclusi comunque. Il file ZIP non si salva: si genera quando lo si scarica.
  */
-export async function createPackage(deps: SharingDeps, raw: unknown, now: Date): Promise<Result<{ id: string }>> {
+export type SheetInput = { kind: SheetKind; title: string; csv: string };
+
+export async function createPackage(deps: SharingDeps, raw: unknown, now: Date, sheetInput?: SheetInput | null): Promise<Result<{ id: string }>> {
   const parsed = packageInputSchema.safeParse(raw);
   if (!parsed.success) return fail(zodIssuesToErrors(parsed.error));
   const input = parsed.data;
@@ -56,6 +59,7 @@ export async function createPackage(deps: SharingDeps, raw: unknown, now: Date):
       problems.push(`«${doc.title}» supera il livello di riservatezza scelto: toglilo oppure includilo comunque dopo aver letto l'avviso`);
     } else if (!chosen.some((c) => c.doc.id === doc.id)) chosen.push({ doc, override: exceedsCap(doc.confidentiality, input.confidentialityCap) });
   }
+  if (input.documents.length === 0 && !sheetInput) problems.push("Scegli almeno un documento");
   if (problems.length > 0) errors.documents = [...new Set(problems)];
   if (Object.keys(errors).length > 0) return fail(errors);
 
@@ -67,6 +71,7 @@ export async function createPackage(deps: SharingDeps, raw: unknown, now: Date):
     confidentialityCap: input.confidentialityCap,
     note: input.note ?? null,
     items,
+    sheet: sheetInput ? { ...sheetInput, sha256: createHash("sha256").update(sheetInput.csv).digest("hex") } : null,
   };
   const id = await deps.repo.insertPackage({
     recipientType: input.recipientType,
@@ -87,7 +92,7 @@ export async function createPackage(deps: SharingDeps, raw: unknown, now: Date):
     action: "share.create",
     entityType: "share_package",
     entityId: id,
-    diff: { recipientType: input.recipientType, files: items.length, cap: input.confidentialityCap, aboveCap: items.filter((i) => i.overrideAboveCap).length },
+    diff: { recipientType: input.recipientType, files: items.length, cap: input.confidentialityCap, aboveCap: items.filter((i) => i.overrideAboveCap).length, ...(sheetInput ? { sheet: sheetInput.kind } : {}) },
   });
   return ok({ id });
 }
@@ -125,7 +130,11 @@ export async function packageStream(deps: SharingReadDeps, download: PackageDown
   async function* entries(): AsyncGenerator<ZipEntry> {
     yield { name: "INDEX.html", data: encoder.encode(buildIndexHtml(snapshot, labels)), compress: true };
     yield { name: "manifest.json", data: encoder.encode(buildManifest(snapshot)), compress: true };
-    yield { name: "elenco.csv", data: encoder.encode(buildCsv(snapshot.items)), compress: true };
+    yield { name: "elenco.csv", data: encoder.encode(buildCsv(snapshot.items, snapshot.sheet)), compress: true };
+    // La scheda si genera dall'istantanea registrata alla creazione, come l'indice: e' cio' che il proprietario ha deciso di condividere.
+    if (snapshot.sheet) {
+      yield { name: SHEET_PATH, data: encoder.encode(renderSheetHtml(snapshot.sheet, { createdAt: snapshot.createdAt, recipientName: snapshot.recipientName, recipientLabel: labels.recipient[snapshot.recipientType], capLabel: labels.confidentiality[snapshot.confidentialityCap] })), compress: true };
+    }
     for (const item of download.items) {
       const stream = await deps.others.openFile(item.documentId, item.versionId);
       if (!stream) throw new Error(`Il file ${item.path} non è più nello storage`);

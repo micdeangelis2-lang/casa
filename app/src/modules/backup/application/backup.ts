@@ -14,7 +14,7 @@ const BACKUP_KEY = /^backup-\d{8}T\d{9}Z-[0-9a-f]{8}\.gibk$/;
 export async function performBackup(deps: BackupDeps, now = new Date()): Promise<RunResult> {
   if (!deps.publicKey) throw new Error("Manca BACKUP_PUBLIC_KEY: genera la coppia di chiavi con `pnpm backup:keygen`");
 
-  const { manifest, stream } = await createArchive(deps, { includeAuth: true, now });
+  const { manifest, stream } = await createArchive(deps, { includeAuth: true, now, signingSecret: deps.signingSecret });
   const key = `backup-${stamp(now)}-${randomBytes(4).toString("hex")}.gibk`;
   const written = await deps.destination.put(key, encryptStream(stream, deps.publicKey));
 

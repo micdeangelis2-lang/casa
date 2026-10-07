@@ -1,6 +1,6 @@
 "use server";
 
-import { createMandate, setMandateArchived } from "@/modules/management";
+import { createMandate, setMandateArchived, updateMandate } from "@/modules/management";
 import { isUuid } from "@/lib/ids";
 import { ownerAction, type MiniResult } from "@/lib/owner-action";
 import type { FormValues } from "@/components/simple-form";
@@ -25,4 +25,19 @@ export async function createMandateAction(values: FormValues): Promise<MiniResul
 
 export async function archiveMandateAction(mandateId: string): Promise<void> {
   if (isUuid(mandateId)) await ownerAction((uow) => setMandateArchived(uow, mandateId, true), PATHS);
+}
+
+/** Modifica un mandato di gestione; la scadenza di fine collegata segue. */
+export async function updateMandateAction(mandateId: string, values: FormValues): Promise<MiniResult> {
+  if (!isUuid(mandateId)) return { errors: { _: ["Mandato non trovato"] } };
+  const payload = {
+    assetId: text(values, "assetId"),
+    managerPartyId: text(values, "managerPartyId"),
+    startsOn: text(values, "startsOn"),
+    endsOn: text(values, "endsOn"),
+    compensation: text(values, "compensation"),
+    documentId: text(values, "documentId"),
+    note: text(values, "note"),
+  };
+  return ownerAction((uow) => updateMandate(uow, mandateId, payload), PATHS);
 }

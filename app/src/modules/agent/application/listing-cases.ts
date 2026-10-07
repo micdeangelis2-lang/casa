@@ -1,5 +1,6 @@
+import { changedKeys } from "@/shared/changed";
 import { fail, failGeneral, ok, parseInput, type FieldErrors, type Result } from "@/shared/result";
-import { engagementSchema, listingEventSchema, LISTING_STATUSES, type ListingStatus } from "../domain/listing";
+import { engagementSchema, listingEventSchema, LISTING_STATUSES, type EngagementInput, type ListingEventInput, type ListingStatus } from "../domain/listing";
 import type { EngagementRow, ListingDeps, ListingEventRow, ListingReadDeps } from "./ports";
 
 type Id = Result<{ id: string }>;
@@ -17,6 +18,36 @@ async function refs(deps: ListingDeps, r: { assetId?: string; parties: (string |
   return errors;
 }
 
+const engagementData = (v: EngagementInput): Omit<EngagementRow, "id" | "assetId" | "status"> => ({
+  kind: v.kind,
+  agentPartyId: v.agentPartyId ?? null,
+  startsOn: v.startsOn ?? null,
+  endsOn: v.endsOn ?? null,
+  exclusive: v.exclusive,
+  askingCents: v.asking ?? null,
+  commission: v.commission ?? null,
+  documentId: v.documentId ?? null,
+  note: v.note ?? null,
+});
+
+const eventData = (v: ListingEventInput): Omit<ListingEventRow, "id" | "engagementId"> => ({
+  kind: v.kind,
+  occurredOn: v.occurredOn,
+  amountCents: v.amount ?? null,
+  outcome: v.outcome ?? null,
+  contactPartyId: v.contactPartyId ?? null,
+  note: v.note ?? null,
+});
+
+/** L'importo e l'esito si indicano solo per una proposta o una controproposta. */
+function eventRuleErrors(v: ListingEventInput): FieldErrors {
+  const plain = v.kind === "visit" || v.kind === "note";
+  const errors: FieldErrors = {};
+  if (plain && v.amount !== undefined) errors.amount = ["L'importo si indica solo per una proposta o una controproposta"];
+  if (plain && v.outcome !== undefined) errors.outcome = ["L'esito si indica solo per una proposta o una controproposta"];
+  return errors;
+}
+
 /** Registra un mandato di vendita o affitto (agente dalla rubrica, durata, prezzo richiesto e provvigione scritti dal proprietario). */
 export async function addEngagement(deps: ListingDeps, raw: unknown): Promise<Id> {
   const p = parseInput(engagementSchema, raw);
@@ -24,21 +55,25 @@ export async function addEngagement(deps: ListingDeps, raw: unknown): Promise<Id
   const v = p.value;
   const errors = await refs(deps, { assetId: v.assetId, parties: [v.agentPartyId], documentId: v.documentId });
   if (hasErrors(errors)) return fail(errors);
-  const id = await deps.repo.insertEngagement({
-    assetId: v.assetId,
-    kind: v.kind,
-    agentPartyId: v.agentPartyId ?? null,
-    startsOn: v.startsOn ?? null,
-    endsOn: v.endsOn ?? null,
-    exclusive: v.exclusive,
-    askingCents: v.asking ?? null,
-    commission: v.commission ?? null,
-    documentId: v.documentId ?? null,
-    note: v.note ?? null,
-    status: "active",
-  });
+  const id = await deps.repo.insertEngagement({ assetId: v.assetId, ...engagementData(v), status: "active" });
   await deps.audit.record({ action: "agent.engagement.add", entityType: "listing_engagement", entityId: id, diff: { kind: v.kind, assetId: v.assetId, exclusive: v.exclusive } });
   return ok({ id: v.assetId });
+}
+
+/** Modifica un mandato (tipo, agente, durata, prezzo, provvigione, documento, note): stesse regole della registrazione; lo stato resta com'e'. */
+export async function updateEngagement(deps: ListingDeps, id: string, raw: unknown): Promise<Id> {
+  const row = await deps.repo.getEngagement(id);
+  if (!row) return failGeneral("Mandato non trovato");
+  const p = parseInput(engagementSchema, raw);
+  if (!p.ok) return p;
+  const v = p.value;
+  if (v.assetId !== row.assetId) return failGeneral("Mandato non trovato");
+  const errors = await refs(deps, { assetId: v.assetId, parties: [v.agentPartyId], documentId: v.documentId });
+  if (hasErrors(errors)) return fail(errors);
+  const data = engagementData(v);
+  await deps.repo.updateEngagement(id, data);
+  await deps.audit.record({ action: "agent.engagement.update", entityType: "listing_engagement", entityId: id, diff: { assetId: row.assetId, changed: changedKeys(row, { ...row, ...data }) } });
+  return ok({ id: row.assetId });
 }
 
 export async function setEngagementStatus(deps: ListingDeps, id: string, status: string): Promise<Id> {
@@ -67,10 +102,29 @@ export async function addListingEvent(deps: ListingDeps, engagementId: string, r
   const v = p.value;
   const errors = await refs(deps, { parties: [v.contactPartyId] });
   if (hasErrors(errors)) return fail(errors);
-  if ((v.kind === "visit" || v.kind === "note") && v.amount !== undefined) return fail({ amount: ["L'importo si indica solo per una proposta o una controproposta"] });
-  if ((v.kind === "visit" || v.kind === "note") && v.outcome !== undefined) return fail({ outcome: ["L'esito si indica solo per una proposta o una controproposta"] });
-  const id = await deps.repo.insertEvent({ engagementId, kind: v.kind, occurredOn: v.occurredOn, amountCents: v.amount ?? null, outcome: v.outcome ?? null, contactPartyId: v.contactPartyId ?? null, note: v.note ?? null });
+  const rules = eventRuleErrors(v);
+  if (hasErrors(rules)) return fail(rules);
+  const id = await deps.repo.insertEvent({ engagementId, ...eventData(v) });
   await deps.audit.record({ action: "agent.engagement.event.add", entityType: "listing_engagement", entityId: engagementId, diff: { eventId: id, kind: v.kind } });
+  return ok({ id: engagement.assetId });
+}
+
+/** Modifica una visita, una proposta, una controproposta o una nota: stesse regole dell'aggiunta; il mandato non cambia. */
+export async function updateListingEvent(deps: ListingDeps, eventId: string, raw: unknown): Promise<Id> {
+  const event = await deps.repo.getEvent(eventId);
+  if (!event) return failGeneral("Voce non trovata");
+  const engagement = await deps.repo.getEngagement(event.engagementId);
+  if (!engagement) return failGeneral("Mandato non trovato");
+  const p = parseInput(listingEventSchema, raw);
+  if (!p.ok) return p;
+  const v = p.value;
+  const errors = await refs(deps, { parties: [v.contactPartyId] });
+  if (hasErrors(errors)) return fail(errors);
+  const rules = eventRuleErrors(v);
+  if (hasErrors(rules)) return fail(rules);
+  const data = eventData(v);
+  await deps.repo.updateEvent(eventId, data);
+  await deps.audit.record({ action: "agent.engagement.event.update", entityType: "listing_engagement", entityId: event.engagementId, diff: { eventId, changed: changedKeys(event, { ...event, ...data }) } });
   return ok({ id: engagement.assetId });
 }
 

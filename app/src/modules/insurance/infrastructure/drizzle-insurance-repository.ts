@@ -1,8 +1,8 @@
-import { and, asc, desc, eq, gte, isNull, lte, type SQL } from "drizzle-orm";
+import { and, asc, desc, eq, gte, isNotNull, isNull, lte, notInArray, type SQL } from "drizzle-orm";
 import type { Db } from "@/platform/db/types";
-import { insClaim, insClaimEntry, insCoverage, insPolicy, insPolicyAsset, insPremium } from "@/platform/db/schema";
+import { insClaim, insClaimDocument, insClaimEntry, insCoverage, insPolicy, insPolicyAsset, insPremium } from "@/platform/db/schema";
 import type { ClaimEntryRow, ClaimRow, CoverageRow, InsuranceRepository, PolicyRow, PremiumRow } from "../application/ports";
-import type { ClaimStatus, EntryDirection } from "../domain/insurance";
+import type { ClaimDocumentRole, ClaimStatus, EntryDirection } from "../domain/insurance";
 
 const toPolicy = (r: typeof insPolicy.$inferSelect): PolicyRow => ({
   id: r.id,
@@ -18,7 +18,7 @@ const toPolicy = (r: typeof insPolicy.$inferSelect): PolicyRow => ({
   deadlineId: r.deadlineId,
   archived: r.archivedAt !== null,
 });
-const toCoverage = (r: typeof insCoverage.$inferSelect): CoverageRow => ({ id: r.id, policyId: r.policyId, title: r.title, sumInsuredCents: r.sumInsuredCents, deductibleCents: r.deductibleCents, note: r.note });
+const toCoverage = (r: typeof insCoverage.$inferSelect): CoverageRow => ({ id: r.id, policyId: r.policyId, assetId: r.assetId, title: r.title, sumInsuredCents: r.sumInsuredCents, deductibleCents: r.deductibleCents, note: r.note });
 const toPremium = (r: typeof insPremium.$inferSelect): PremiumRow => ({ id: r.id, policyId: r.policyId, dueOn: r.dueOn, amountCents: r.amountCents, paidOn: r.paidOn, documentId: r.documentId, deadlineId: r.deadlineId });
 const toClaim = (r: typeof insClaim.$inferSelect): ClaimRow => ({
   id: r.id,
@@ -85,6 +85,10 @@ export function drizzleInsuranceRepository(db: Db): InsuranceRepository {
     async deleteCoverage(id) {
       await db.delete(insCoverage).where(eq(insCoverage.id, id));
     },
+    async clearCoverageAssetsOutside(policyId, assetIds) {
+      const outside = assetIds.length > 0 ? notInArray(insCoverage.assetId, assetIds) : isNotNull(insCoverage.assetId);
+      await db.update(insCoverage).set({ assetId: null }).where(and(eq(insCoverage.policyId, policyId), isNotNull(insCoverage.assetId), outside));
+    },
 
     async premiums(policyId) {
       return (await db.select().from(insPremium).where(eq(insPremium.policyId, policyId)).orderBy(asc(insPremium.dueOn))).map(toPremium);
@@ -141,6 +145,16 @@ export function drizzleInsuranceRepository(db: Db): InsuranceRepository {
     },
     async deleteEntry(id) {
       await db.delete(insClaimEntry).where(eq(insClaimEntry.id, id));
+    },
+    async claimDocuments(claimId) {
+      const rows = await db.select().from(insClaimDocument).where(eq(insClaimDocument.claimId, claimId)).orderBy(asc(insClaimDocument.createdAt));
+      return rows.map((r) => ({ claimId: r.claimId, documentId: r.documentId, role: r.role as ClaimDocumentRole }));
+    },
+    async insertClaimDocument(d) {
+      await db.insert(insClaimDocument).values(d);
+    },
+    async deleteClaimDocument(claimId, documentId) {
+      await db.delete(insClaimDocument).where(and(eq(insClaimDocument.claimId, claimId), eq(insClaimDocument.documentId, documentId)));
     },
   };
 }

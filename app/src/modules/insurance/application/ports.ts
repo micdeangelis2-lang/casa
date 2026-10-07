@@ -1,5 +1,5 @@
 import type { AuditRecorder } from "@/platform/audit";
-import type { ClaimStatus, EntryDirection } from "../domain/insurance";
+import type { ClaimDocumentRole, ClaimStatus, EntryDirection } from "../domain/insurance";
 
 export type PolicyRow = {
   id: string;
@@ -15,7 +15,7 @@ export type PolicyRow = {
   deadlineId: string | null;
   archived: boolean;
 };
-export type CoverageRow = { id: string; policyId: string; title: string; sumInsuredCents: number | null; deductibleCents: number | null; note: string | null };
+export type CoverageRow = { id: string; policyId: string; assetId: string | null; title: string; sumInsuredCents: number | null; deductibleCents: number | null; note: string | null };
 export type PremiumRow = { id: string; policyId: string; dueOn: string; amountCents: number; paidOn: string | null; documentId: string | null; deadlineId: string | null };
 export type ClaimRow = {
   id: string;
@@ -34,6 +34,7 @@ export type ClaimRow = {
   closedOn: string | null;
 };
 export type ClaimEntryRow = { id: string; claimId: string; entryOn: string; direction: EntryDirection; summary: string; documentId: string | null };
+export type ClaimDocumentRow = { claimId: string; documentId: string; role: ClaimDocumentRole };
 
 type Insert<T> = Omit<T, "id">;
 
@@ -50,6 +51,8 @@ export interface InsuranceRepository {
   insertCoverage(d: Insert<CoverageRow>): Promise<string>;
   getCoverage(id: string): Promise<CoverageRow | null>;
   deleteCoverage(id: string): Promise<void>;
+  /** Toglie il riferimento al bene dalle garanzie della polizza che puntano a un bene non piu' tra i suoi. */
+  clearCoverageAssetsOutside(policyId: string, assetIds: string[]): Promise<void>;
 
   premiums(policyId: string): Promise<PremiumRow[]>;
   allPremiums(): Promise<PremiumRow[]>;
@@ -68,10 +71,13 @@ export interface InsuranceRepository {
   insertEntry(d: Insert<ClaimEntryRow>): Promise<string>;
   getEntry(id: string): Promise<ClaimEntryRow | null>;
   deleteEntry(id: string): Promise<void>;
+  claimDocuments(claimId: string): Promise<ClaimDocumentRow[]>;
+  insertClaimDocument(d: ClaimDocumentRow): Promise<void>;
+  deleteClaimDocument(claimId: string, documentId: string): Promise<void>;
 }
 
 export interface InsuranceCollaborators {
-  assets(): Promise<{ id: string; name: string }[]>;
+  assets(): Promise<{ id: string; name: string; declaredValueCents: number | null }[]>;
   parties(): Promise<Map<string, string>>;
   documentTitles(): Promise<Map<string, string>>;
   matterTitles(): Promise<Map<string, string>>;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -73,7 +73,12 @@ export default async function PoliciesByAssetPage({ searchParams }: PageProps<"/
       </Link>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
-        <PrintButton />
+        <div className="flex flex-wrap gap-2 print:hidden">
+          <PrintButton />
+          <a href="/api/assicurazioni/per-immobile" className={buttonVariants({ variant: "outline", size: "sm" })}>
+            <Download aria-hidden /> {t("csv")}
+          </a>
+        </div>
       </div>
       <Alert>
         <AlertDescription>{t("intro")}</AlertDescription>
@@ -102,7 +107,10 @@ export default async function PoliciesByAssetPage({ searchParams }: PageProps<"/
                 </Link>
               </h2>
               <Badge variant={r.status === "current" ? "secondary" : "outline"}>{t(`status.${r.status}`)}</Badge>
-              <Link href={`/condivisione/nuovo?immobile=${r.assetId}&destinatario=insurer`} className="ml-auto text-sm underline underline-offset-2 print:hidden">
+              <span className="text-sm text-muted-foreground" data-testid="declared-value">
+                {r.declaredValueCents === null ? t("declaredNone") : t("declared", { amount: formatEuro(r.declaredValueCents) })}
+              </span>
+              <Link href={`/condivisione/nuovo?immobile=${r.assetId}&destinatario=insurer&scheda=insurer`} className="ml-auto text-sm underline underline-offset-2 print:hidden">
                 {t("sheetsLink")}
               </Link>
             </div>
