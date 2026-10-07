@@ -1,0 +1,34 @@
+name: Sicurezza delle dipendenze
+
+# Controllo settimanale (e a richiesta) delle vulnerabilita' note nelle dipendenze di produzione. Resta fuori dalla CI di ogni
+# modifica: un avviso nuovo su un pacchetto che non abbiamo toccato non deve bloccare un lavoro che non c'entra.
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  audit:
+    name: pnpm audit (produzione)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: app/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - name: Vulnerabilita' note (gravita' alta o critica)
+        run: pnpm audit --prod --audit-level high

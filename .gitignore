@@ -1,0 +1,46 @@
+# dipendenze e build
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# variabili d'ambiente e segreti
+.env
+.env.*
+!.env.example
+.vercel/
+
+# log e temporanei
+*.log
+*.tmp
+*.bak
+*.old
+tmp_*
+temp_*
+debug_*
+.pytest_cache/
+__pycache__/
+
+# test
+playwright-report/
+test-results/
+
+# editor e sistema
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# Claude Code: impostazioni locali e worktree
+.claude/settings.local.json
+.claude/worktrees/
+
+# backup e archivi generati dall'app (non devono mai finire nel repository)
+backups/
+*.ndjson.enc
+**/e2e/.auth/
+*.gibk
+*.pem

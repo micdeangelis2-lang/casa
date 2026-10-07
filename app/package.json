@@ -1,0 +1,84 @@
+{
+  "name": "gestione-immobili",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "knip": "knip",
+    "arch": "depcruise src --config .dependency-cruiser.cjs",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "dotenv -e .env.local -- tsx scripts/migrate.ts",
+    "check": "pnpm typecheck && pnpm lint && pnpm arch && pnpm knip && pnpm test",
+    "auth:schema": "pnpm dlx @better-auth/cli@latest generate --config scripts/auth-cli-config.ts --output src/platform/db/schema/auth.ts -y",
+    "dev:db": "tsx scripts/dev-db.ts",
+    "territory:import": "dotenv -e .env.local -- tsx scripts/import-istat.ts",
+    "doctor": "dotenv -e .env.local -- tsx scripts/doctor.ts",
+    "backup:keygen": "tsx scripts/backup-keygen.ts",
+    "backup:run": "dotenv -e .env.local -- tsx scripts/backup-run.ts",
+    "backup:restore": "dotenv -e .env.local -- tsx scripts/backup-restore.ts"
+  },
+  "dependencies": {
+    "@better-auth/drizzle-adapter": "^1.7.7",
+    "@better-auth/passkey": "^1.7.7",
+    "better-auth": "^1.7.7",
+    "class-variance-authority": "^0.7.1",
+    "cn": "^0.4.0",
+    "drizzle-orm": "^0.45.3",
+    "fflate": "^0.8.3",
+    "lucide-react": "^1.52.0",
+    "next": "16.3.8",
+    "next-intl": "^4.14.9",
+    "pg": "^8.23.1",
+    "radix-ui": "^1.6.7",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-qr-code": "^2.2.0",
+    "server-only": "^0.0.1",
+    "shadcn": "^4.21.1",
+    "tw-animate-css": "^1.4.0",
+    "unpdf": "^1.8.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-socket": "^0.2.11",
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "5.0.3",
+    "dependency-cruiser": "^18.5.0",
+    "dotenv-cli": "^11.0.0",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "fast-check": "^4.10.2",
+    "knip": "^6.39.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.3"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": "24.x",
+    "pnpm": ">=10"
+  },
+  "pnpm": {
+    "auditConfig": {
+      "ignoreGhsas": [
+        "GHSA-vfj7-8cjw-p6xm"
+      ]
+    }
+  }
+}

@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  check:
+    name: Tipi, lint, confini, test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      # Stessa major di Neon. Il nome del database contiene "test": i test rifiutano altri nomi.
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: gestione_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: app/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+
+      - name: Tipi
+        run: pnpm typecheck
+      - name: Lint
+        run: pnpm lint
+      - name: Confini tra moduli
+        run: pnpm arch
+
+      - name: Migrazioni allineate allo schema
+        run: |
+          pnpm exec drizzle-kit generate
+          if [ -n "$(git status --porcelain -- drizzle)" ]; then
+            echo "Lo schema Drizzle e' cambiato senza una migrazione. Esegui 'pnpm db:generate' e committa i file."
+            git status --porcelain -- drizzle
+            exit 1
+          fi
+
+      - name: Test (PGlite in-process)
+        run: pnpm test
+      - name: Test (Postgres reale)
+        run: pnpm test
+        env:
+          TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/gestione_test
+
+      - name: Copertura dei test (soglie in vitest.config.mts)
+        run: pnpm test:coverage
+      - name: Report di copertura
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: app/coverage/
+          retention-days: 7
+
+      # Codice morto: file, export e dipendenze inutilizzati (i tipi dei barrel sono solo avvisi, vedi knip.json).
+      - name: Codice morto (knip)
+        run: pnpm knip
+
+  e2e:
+    name: End-to-end (build di produzione)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: app/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright test
+        env:
+          CI: "true"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            app/playwright-report/
+            app/test-results/
+          retention-days: 7

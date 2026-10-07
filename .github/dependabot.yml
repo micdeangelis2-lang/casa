@@ -1,0 +1,38 @@
+# Aggiornamenti delle dipendenze: una volta a settimana, raggruppati per non inondare di richieste.
+# Le richieste passano dalla stessa CI di ogni modifica (tipi, lint, confini, test, e2e sulla build di produzione):
+# un aggiornamento si fonde solo se e' verde. Gli aggiornamenti di versione maggiore restano separati, uno per pacchetto,
+# perche' possono cambiare il comportamento e vanno letti.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /app
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Rome
+    open-pull-requests-limit: 5
+    labels: [dipendenze]
+    commit-message:
+      prefix: "deps"
+    groups:
+      minori-e-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Il runtime e' fissato in app/package.json ("node": "24.x") e in .nvmrc: si cambia a mano, con il resto dell'ambiente.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Rome
+    labels: [dipendenze]
+    commit-message:
+      prefix: "ci"
+    groups:
+      azioni:
+        patterns: ["*"]

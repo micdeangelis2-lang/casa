@@ -1,0 +1,18 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "src/app/**/{page,layout,route,error,not-found,global-error,loading,template,default}.{ts,tsx}",
+    "scripts/*.ts",
+    "tests/**/*.test.ts",
+    "e2e/**/*.ts"
+  ],
+  "project": ["src/**/*.{ts,tsx}", "scripts/**/*.ts", "tests/**/*.ts", "e2e/**/*.ts"],
+  "ignoreExportsUsedInFile": true,
+  "ignoreDependencies": ["tailwindcss", "tw-animate-css", "shadcn"],
+  "ignoreIssues": {
+    "src/components/ui/**": ["exports", "types"]
+  },
+  "rules": {
+    "types": "warn"
+  }
+}

@@ -1,0 +1,406 @@
+registro_codebase:
+  ultimo_aggiornamento: "2026-10-06 (seconda tornata con agenti: sicurezza dell'account, caricamento multiplo, indici, doctor e log, tema e icone, porte di qualita', documentazione verificata, revisione di sicurezza; prima: pulizia del codice e funzionalita' di un progetto professionale: pagine di errore, CSV condiviso, quadro economico, da controllare, ricerca globale, calendario .ics, registro delle modifiche, /api/health, manuale operativo, Dependabot e audit delle dipendenze)"
+  ultima_pulizia: "2026-10-06 (/cleanup eseguita su approvazione dell'utente: simboli e chiavi di messaggio mai usati, nessun file eliminato; nessun file temporaneo nel progetto)"
+
+  moduli_esistenti:
+    # Piattaforma (incremento 0) e moduli di business dell'incremento 1 (territory, directory, assets).
+    - nome: "platform/audit"
+      file: "app/src/platform/audit/index.ts"
+      responsabilita: "Registro di audit append-only con catena di hash; verifica di integrita'; letture per il visualizzatore (righe a pagine, aree, ultima riga con impronta)"
+      funzioni_chiave: ["createAuditRecorder", "verifyAuditChain", "listAuditEntries", "listAuditAreas", "auditHead"]
+    - nome: "platform/db"
+      file: "app/src/platform/db/"
+      responsabilita: "Connessione Postgres (pool su globalThis), tipo Db comune ai driver, unita' di lavoro con audit, schema Drizzle"
+      funzioni_chiave: ["getDb", "runInUnitOfWork", "schema/audit.ts (auditLog)", "schema/auth.ts (GENERATO da Better Auth)"]
+    - nome: "platform/auth"
+      file: "app/src/platform/auth/"
+      responsabilita: "Account unico del proprietario: Better Auth (passkey + TOTP + password di riserva), bootstrap con token, controllo sessione"
+      funzioni_chiave: ["getAuth", "bootstrapOwner", "ownerExists", "tokensMatch", "requireOwner", "getOwnerSession", "getOwnerSetup"]
+    - nome: "platform/config"
+      file: "app/src/platform/config/env.ts"
+      responsabilita: "Validazione lazy delle variabili d'ambiente (Zod); negli errori solo i nomi, mai i valori"
+      funzioni_chiave: ["getServerEnv", "getAuthEnv"]
+    - nome: "platform/clock"
+      file: "app/src/platform/clock/index.ts"
+      responsabilita: "Tempo iniettato per dominio e scadenze deterministici"
+      funzioni_chiave: ["ClockPort", "systemClock", "fixedClock"]
+    - nome: "app (shell, accesso, sicurezza)"
+      file: "app/src/app/"
+      responsabilita: "Route Next.js: area protetta (sidebar in italiano, panoramica), accesso, configurazione iniziale, configurazione sicurezza, handler /api/auth"
+      funzioni_chiave: ["(app)/layout.tsx", "(auth)/accesso", "(auth)/configurazione-iniziale", "(auth)/sicurezza/configurazione", "api/auth/[...all]/route.ts"]
+    - nome: "proxy + i18n"
+      file: "app/src/proxy.ts, app/src/i18n/request.ts, app/messages/it.json"
+      responsabilita: "CSP con nonce per richiesta; stringhe dell'interfaccia esternalizzate (solo italiano), chiavi tipizzate"
+      funzioni_chiave: ["proxy", "getRequestConfig"]
+    - nome: "database: oggetti SQL"
+      file: "app/drizzle/0001_audit_chain.sql, 0003_single_owner.sql"
+      responsabilita: "Trigger e funzioni dell'audit (catena di hash, append-only, verifica); indice che limita la tabella user a una riga"
+      funzioni_chiave: ["audit_log_compute_hash", "audit_log_before_insert", "audit_log_reject_change", "audit_log_verify", "user_single_owner"]
+
+    - nome: "modules/territory"
+      file: "app/src/modules/territory/"
+      responsabilita: "Gerarchia Stato>Regione>Provincia>Comune>Localita' a dati; import ISTAT; ricerca con etichette"
+      funzioni_chiave: ["createTerritory", "importIstat", "searchTerritories", "describeTerritories", "countTerritories", "parseIstatCsv"]
+    - nome: "modules/directory"
+      file: "app/src/modules/directory/"
+      responsabilita: "Rubrica di persone ed enti con piu' ruoli; contatto proprietario creato alla prima richiesta"
+      funzioni_chiave: ["createParty", "updateParty", "setPartyArchived", "ensureOwnerParty", "listParties"]
+    - nome: "modules/assets"
+      file: "app/src/modules/assets/"
+      responsabilita: "Immobili e pertinenze (stesso record): titolarita' con quote, catasto a storico, collegamenti dichiarati"
+      funzioni_chiave: ["createAsset", "updateAsset", "setAssetArchived", "listAssets", "getAssetDetail", "quotasExceedWhole", "parseEuroToCents"]
+    - nome: "UI registro"
+      file: "app/src/app/(app)/{immobili,rubrica,impostazioni}, app/src/components/{territory-picker,form-field}.tsx, app/src/app/api/territori"
+      responsabilita: "Elenchi, moduli, schede; selettore di territori accessibile; ricerca protetta da sessione"
+      funzioni_chiave: ["AssetForm", "PartyForm", "TerritoryForm", "TerritoryPicker", "Field"]
+    - nome: "platform/storage"
+      file: "app/src/platform/storage/"
+      responsabilita: "StoragePort per i byte dei file (put/get/delete) con adattatore su disco locale (STORAGE_DIR, .storage/); chiavi validate. Adattatore Vercel Blob NON ancora scritto (D3)"
+      funzioni_chiave: ["getStorage", "LocalFileStorage", "assertSafeKey", "StoragePort"]
+    - nome: "modules/documents"
+      file: "app/src/modules/documents/ (+ client.ts: costanti per i componenti client)"
+      responsabilita: "Documenti con versioni, categorie a dati, collegamento ai beni, riconoscimento del tipo dai byte, testo dei PDF e ricerca FTS italiano, avviso duplicati, apertura autenticata dei file"
+      funzioni_chiave: ["createDocument", "addDocumentVersion", "updateDocument", "setDocumentArchived", "listDocuments", "getDocumentDetail", "listDocumentCategories", "openDocumentFile", "sniffFile", "pdfTextExtractor"]
+    - nome: "UI documenti"
+      file: "app/src/app/(app)/documenti/, app/src/app/api/documenti/[id]/[versionId]/route.ts, scheda immobile (card Documenti)"
+      responsabilita: "Elenco con ricerca e filtri, caricamento, scheda con versioni, modifica, nuova versione, archivio; route del file con sessione (401 senza)"
+      funzioni_chiave: ["DocumentForm", "saveDocumentAction", "addVersionAction", "archiveDocumentAction", "loadDocumentFormOptions", "GET /api/documenti/[id]/[versionId]"]
+    - nome: "database: documenti (migrazione 0005)"
+      file: "app/drizzle/0005_documents.sql, app/src/platform/db/schema/documents.ts"
+      responsabilita: "document_category (12 categorie generiche come dati), file_object, document, document_version (search_vector generato, GIN), document_asset"
+      funzioni_chiave: ["document", "document_version", "file_object", "document_category", "document_asset"]
+    - nome: "modules/backup"
+      file: "app/src/modules/backup/"
+      responsabilita: "Backup cifrato con chiave pubblica, esportazione completa in chiaro senza credenziali, storico dei backup, ripristino verificato su ambiente vuoto"
+      funzioni_chiave: ["runBackup", "createExport", "restoreFromArchive", "listBackupRuns", "currentAuditHead", "backupSettingsFromEnv", "createArchive", "performBackup", "restoreArchive", "postgresSnapshotReader", "postgresRestoreTarget", "LocalBackupDestination"]
+    - nome: "shared/archive"
+      file: "app/src/shared/archive/{zip,crypto,stream}.ts"
+      responsabilita: "ZIP in streaming (scrittura e lettura, rifiuta percorsi pericolosi), cifratura a blocchi AES-256-GCM con chiave dati avvolta in RSA-OAEP, conversioni tra generatori e flussi web"
+      funzioni_chiave: ["zipStream", "unzipStream", "encryptStream", "decryptStream", "generateBackupKeyPair", "toWebStream", "fromWebStream"]
+    - nome: "UI e route backup"
+      file: "app/src/app/(app)/impostazioni/backup/, app/src/app/api/{backup/[id],esportazione,cron/backup}/route.ts, app/scripts/backup-{keygen,run,restore}.ts"
+      responsabilita: "Pagina Backup ed esportazione; download del backup (cifrato) e dell'esportazione con sessione; cron protetto da CRON_SECRET; script per chiavi, backup a mano e ripristino"
+      funzioni_chiave: ["BackupPage", "runBackupAction", "RunBackupButton", "pnpm backup:keygen", "pnpm backup:run", "pnpm backup:restore"]
+    - nome: "database: backup (migrazione 0006)"
+      file: "app/drizzle/0006_backup.sql, app/src/platform/db/schema/backup.ts"
+      responsabilita: "backup_run: storico dei backup con esito, dimensione, impronta e hash di testa dell'audit"
+      funzioni_chiave: ["backup_run"]
+    - nome: "modules/rules"
+      file: "app/src/modules/rules/ (+ client.ts: costanti e funzioni pure per i componenti client)"
+      responsabilita: "Regole versionate come dati (versioni immutabili), condizioni validate, motore puro di valutazione con spiegazione, regole di esempio"
+      funzioni_chiave: ["createRule", "addRuleVersion", "cloneRule", "setVersionVerification", "setRuleActive", "seedExampleRules", "listRules", "getRule", "loadActiveRules", "evaluateRules", "evaluateCondition", "effectiveVersion", "toFlat/fromFlat", "exampleRules"]
+    - nome: "modules/dossier"
+      file: "app/src/modules/dossier/ (+ client.ts)"
+      responsabilita: "Voci del dossier di ogni bene (manuali o derivate), stato/nota/documenti solo del proprietario, valutazione che non sovrascrive mai le scelte, voci 'da rivedere', riepilogo per stato"
+      funzioni_chiave: ["evaluateDossier", "evaluateAllDossiers", "getDossier", "addManualItem", "setItemStatus", "setItemNote", "removeManualItem", "linkDocument", "unlinkDocument", "listDossierCategories", "listLinkableDocuments"]
+    - nome: "UI regole e dossier"
+      file: "app/src/app/(app)/regole/, app/src/app/(app)/immobili/[id]/dossier/"
+      responsabilita: "Elenco, modulo a campi (condizioni ed esiti), dettaglio, storico, confronto tra versioni, verifica, clonazione, disattivazione, regole di esempio; dossier con spiegazione 'perche' compare', collegamento documenti, note, voci manuali, stampa"
+      funzioni_chiave: ["RuleForm", "ConditionText", "TraceText", "useFactLabels", "OutcomeList", "saveRuleAction", "seedRulesAction", "evaluateAction", "StatusSelect", "LinkDocument", "NoteForm", "formToPayload/versionToForm"]
+    - nome: "caratteristiche tecniche dei beni"
+      file: "app/src/modules/assets (attributes), app/src/app/(app)/immobili/_components/asset-form.tsx"
+      responsabilita: "Attributi tipizzati del bene (testo, numero, si/no) modificabili dal modulo: sono i fatti delle regole"
+      funzioni_chiave: ["attributeSchema", "AttributeFields", "ATTRIBUTE_TYPES"]
+    - nome: "database: regole e dossier (migrazione 0007)"
+      file: "app/drizzle/0007_rules_dossier.sql, app/src/platform/db/schema/rules.ts"
+      responsabilita: "rule, rule_version (trigger rule_version_guard: immutabile e non cancellabile), dossier_category (13 categorie come dati), dossier_item, dossier_item_document"
+      funzioni_chiave: ["rule_version_guard", "dossier_item_rule_uq"]
+    - nome: "dev-db"
+      file: "app/scripts/dev-db.ts"
+      responsabilita: "Database di sviluppo locale persistente (PGlite su disco in app/.pglite, socket 54320) finche' non c'e' un branch Neon"
+      funzioni_chiave: ["pnpm dev:db"]
+
+    # --- Incrementi 5-12 (2026-10-05 / 2026-10-06) -------------------------------------------------------------------
+    - nome: "modules/deadlines"
+      file: "app/src/modules/deadlines/ (+ client.ts)"
+      responsabilita: "Scadenze con calcolo relativo a un'ancora (annuale fissa, relativa, ricorrente, manuale), spostamento al giorno lavorativo con festivi a dati, date (occurrences) generate in un orizzonte, prove di chiusura, avvisi in-app, outbox email idempotente, escalation dei ritardi, impostazioni di notifica"
+      funzioni_chiave: ["createDeadline", "updateDeadline", "setDeadlineArchived", "syncDerivedDeadlines", "completeOccurrence", "completeOpenOccurrences", "reopenOccurrence", "snoozeOccurrence", "addProof", "runDailyCycle", "listOccurrences", "getDeadlineDetail", "listDeadlines", "deadlineSummary", "listNotifications", "saveNotificationSettings", "noMail", "resendMail"]
+    - nome: "giro giornaliero"
+      file: "app/src/lib/daily-job.ts, app/src/app/api/cron/giornaliero/route.ts, app/vercel.json"
+      responsabilita: "Rivaluta tutti i dossier e allinea scadenze e avvisi; chiamato dal cron (CRON_SECRET, confronto a tempo costante) e dal pulsante in Impostazioni > Notifiche. vercel.json lo pianifica alle 05:00 UTC (NON verificato su Vercel)"
+      funzioni_chiave: ["runDailyJob", "GET /api/cron/giornaliero"]
+    - nome: "modules/matters"
+      file: "app/src/modules/matters/"
+      responsabilita: "Pratiche con contatti assegnati (dalla rubrica), richieste di documenti, pareri 'informativi' o 'validati formalmente' come li indica il proprietario, documenti collegati"
+      funzioni_chiave: ["createMatter", "updateMatter", "assignParty", "unassignParty", "addRequest", "resolveRequest", "addOpinion", "linkMatterDocument", "listMatters", "getMatterDetail"]
+    - nome: "modules/sharing"
+      file: "app/src/modules/sharing/ (+ shared/archive)"
+      responsabilita: "Pacchetti ZIP per un destinatario: snapshot memorizzato (jsonb) e servito identico, file con impronta verificata in streaming, tetto di riservatezza con consenso esplicito per documento, registro delle condivisioni, revoca (410). Il link a scadenza (D7) NON c'e'"
+      funzioni_chiave: ["buildPackage", "createPackage", "revokePackage", "listPackages", "getPackageDetail", "streamPackage", "verifiedStream"]
+    - nome: "modules/condominium"
+      file: "app/src/modules/condominium/"
+      responsabilita: "Condominio: immobili (uno solo per immobile), tabelle millesimali (millesimi interi x10000), esercizi con preventivi e rate ripartite a resto maggiore, assemblee con ordine del giorno, deleghe e delibere (soglia scritta dal proprietario, confronto neutro), lavori, sinistri, contratti"
+      funzioni_chiave: ["createCondominium", "addMember", "createTable", "saveShares", "createFiscalYear", "createBudget", "generateInstallments", "recordPayment", "createMeeting", "addAgendaItem", "addResolution", "createResolutionDeadline", "createWork", "createClaim", "getCondominiumDetail", "getMeetingDetail", "allocateByShares", "checkVotes", "parseMilli"]
+    - nome: "modules/taxes"
+      file: "app/src/modules/taxes/"
+      responsabilita: "Tributi e pagamenti: tipi scritti dal proprietario, voci per bene/tipo/anno con importo indicato a mano, pagamenti con prova, chiusura con motivo, dichiarazioni, riepilogo per il consulente e CSV. Nessuna aliquota, nessun calcolo di imposta"
+      funzioni_chiave: ["createTaxType", "createObligation", "recordPayment", "removePayment", "closeObligation", "reopenObligation", "createReturn", "updateReturn", "listObligations", "adviserSummary", "summaryCsv", "obligationState", "summarize", "csvCell"]
+    - nome: "modules/maintenance"
+      file: "app/src/modules/maintenance/"
+      responsabilita: "Manutenzioni e lavori: interventi con preventivi (accettare porta ad 'approvato', mai indietro), avanzamenti con percentuale facoltativa, fatture pagate/da pagare, garanzie, piani di ispezione = scadenze ricorrenti ancorate alla prima data"
+      funzioni_chiave: ["createWork", "setWorkStatus", "addQuote", "setQuoteStatus", "addInvoice", "setInvoicePaid", "addProgress", "removeEntry", "createWarranty", "createInspectionPlan", "listWorks", "getWorkDetail", "listWarranties", "listInspectionPlans", "workFinancials"]
+    - nome: "modules/insurance"
+      file: "app/src/modules/insurance/"
+      responsabilita: "Assicurazioni: polizze (piu' immobili), garanzie copiate a mano, premi con scadenza e ricevuta, sinistri e comunicazioni. Non interpreta le condizioni ne' dice se un evento e' coperto"
+      funzioni_chiave: ["createPolicy", "setPolicyArchived", "createPolicyDeadline", "addCoverage", "addPremium", "setPremiumPaid", "createClaim", "setClaimStatus", "addClaimEntry", "listPolicies", "getPolicyDetail", "listClaims", "getClaimDetail"]
+    - nome: "modules/lettings"
+      file: "app/src/modules/lettings/ (+ client.ts)"
+      responsabilita: "Locazioni e ricettivita': tipo reale scelto per primo (abitativa, transitoria, studenti, breve/turistica, struttura ricettiva), contratto e cauzione solo per le locazioni di durata, persone dalla rubrica, calendario dei canoni, codici identificativi, adempimenti (comunicazioni, imposta di soggiorno, statistiche). I requisiti per territorio sono REGOLE: il tipo in corso e' il fatto letting.types"
+      funzioni_chiave: ["createLetting", "setLettingStatus", "addLettingParty", "generateRentSchedule", "recordRentPayment", "addCode", "addReport", "markReportDone", "reopenReport", "listLettings", "getLettingDetail", "activeLettingTypes", "rentDates", "rentState"]
+    - nome: "UI dei moduli 5-10"
+      file: "app/src/app/(app)/{scadenze,avvisi,pratiche,condivisione,condominio,tributi,manutenzioni,assicurazioni,locazioni}/ + impostazioni/notifiche"
+      responsabilita: "Elenchi, moduli a campi (SimpleForm), piccoli moduli nella pagina (InlineForm), azioni del server con ownerAction, sezioni con ?sezione=, scheda con pagamenti/prove, riepiloghi stampabili e CSV (api/tributi/riepilogo)"
+      funzioni_chiave: ["SimpleForm", "InlineForm", "ActionButton", "PrintButton", "ownerAction", "ownerActionWithValue"]
+    - nome: "limiti dell'assistenza"
+      file: "app/src/app/(app)/limiti/page.tsx, app/src/app/(app)/_components/app-sidebar.tsx"
+      responsabilita: "Pagina 'Cosa fa e cosa non fa l'app' (sezione 12 della specifica): cosa non dichiara mai, quando serve un professionista, come leggere le formule neutre, limiti per area. Collegamento sempre visibile nella barra laterale e nella panoramica"
+      funzioni_chiave: ["LimitsPage", "disclaimer.link"]
+    - nome: "database: migrazioni 0008-0013"
+      file: "app/drizzle/0008_deadlines.sql ... 0013_lettings.sql, app/src/platform/db/schema/{deadlines,matters,condominium,taxes,maintenance,insurance,lettings}.ts"
+      responsabilita: "Scadenze (11 regole dei festivi come dati), pratiche e condivisione, condominio, tributi, manutenzioni, assicurazioni, locazioni; tutte le tabelle nell'archivio del backup"
+      funzioni_chiave: ["holiday_rule", "deadline", "deadline_occurrence", "notification", "share_package", "condominium", "tax_obligation", "maint_work", "ins_policy", "letting"]
+
+    - nome: "modules/economy"
+      file: "app/src/modules/economy/ (domain/economy.ts, application/use-cases.ts, index.ts)"
+      responsabilita: "Quadro economico, sola lettura: somma per anno e immobile i pagamenti e gli incassi registrati in tributi, assicurazioni, manutenzioni, condominio, locazioni (letture *Ledger dei moduli). Non ripartisce mai: le voci non attribuibili vanno in 'Non ripartito'. CSV con csvDocument"
+      funzioni_chiave: ["getEconomy", "economyYears", "economyCsv", "COST_AREAS", "INCOME_AREAS"]
+    - nome: "modules/attention"
+      file: "app/src/modules/attention/ (domain/findings.ts, index.ts)"
+      responsabilita: "'Da controllare', sola lettura: fatti ricavati dai dati degli altri moduli (scadenze, documenti, tributi, condominio, manutenzioni, assicurazioni, locazioni, dossier, backup) con gravita' alta/normale e rimando alla scheda. Linguaggio neutro: nessun verdetto"
+      funzioni_chiave: ["gatherSources", "computeFindings", "countBySeverity", "ATTENTION_AREAS", "SOON_DAYS"]
+    - nome: "modules/search"
+      file: "app/src/modules/search/ (domain/search.ts, index.ts)"
+      responsabilita: "Ricerca globale, sola lettura, senza schema ne' log delle ricerche: 11 gruppi (immobili, documenti, rubrica, scadenze, tributi, condominio, manutenzioni, assicurazioni, locazioni, pratiche, regole); insensibile a maiuscole e accenti, tutte le parole devono comparire; 8 risultati per gruppo con totale vero"
+      funzioni_chiave: ["searchAll", "cleanQuery", "matchesAll", "normalize", "limitGroup", "SEARCH_GROUPS", "MIN_QUERY", "PER_GROUP"]
+    - nome: "letture dei movimenti (ledger)"
+      file: "app/src/modules/{taxes,insurance,maintenance,condominium,lettings}/ (application/use-cases.ts, ports, repository, index.ts)"
+      responsabilita: "Una lettura per modulo che elenca i movimenti con data, importo, immobile ed etichetta, per il quadro economico; il modulo economy non entra mai nelle tabelle degli altri"
+      funzioni_chiave: ["taxLedger", "insuranceLedger", "maintenanceLedger", "condominiumLedger", "lettingLedger"]
+    - nome: "UI di economia, controlli, ricerca, registro, calendario, salute"
+      file: "app/src/app/(app)/{economia,controlli,cerca,impostazioni/registro}/, app/src/app/api/{economia,calendario,health}/route.ts, app/src/app/(app)/layout.tsx (casella di ricerca), app/src/app/(app)/page.tsx (scheda 'Da controllare')"
+      responsabilita: "Quadro economico (stampa e CSV), 'Da controllare', pagina di ricerca e casella nell'intestazione, registro delle modifiche con verifica della catena, calendario .ics delle scadenze aperte (sessione obbligatoria), controllo di salute pubblico (solo select 1)"
+      funzioni_chiave: ["EconomyPage", "AttentionPage", "AttentionList", "SearchPage", "AuditLogPage", "GET /api/economia", "GET /api/calendario", "GET /api/health"]
+    - nome: "calendario delle scadenze (.ics)"
+      file: "app/src/modules/deadlines/application/calendar.ts, app/src/modules/deadlines/index.ts (deadlinesCalendar), app/src/shared/ics.ts"
+      responsabilita: "Scadenze aperte e non archiviate come eventi di un giorno intero con UID stabile, categoria, immobile, link e un promemoria alle 9:00 per ogni preavviso. Il costruttore e' generico (nessun legame con le scadenze)"
+      funzioni_chiave: ["deadlinesCalendar", "openDeadlinesCalendar", "calendarEvents", "buildIcs", "icsText", "foldLine", "alarmTrigger"]
+    - nome: "pagine di errore e non trovato"
+      file: "app/src/components/not-found-card.tsx, app/src/app/not-found.tsx, app/src/app/(app)/not-found.tsx, app/src/app/(app)/error.tsx, app/src/app/global-error.tsx"
+      responsabilita: "404 e errori imprevisti con testo neutro; l'errore mostra solo il codice digest, mai il messaggio. Nessun loading.tsx a livello (app): trasformerebbe i 404 in 200"
+      funzioni_chiave: ["NotFoundCard", "AppError", "GlobalError"]
+    - nome: "operativita' (manuale, Dependabot, controllo dipendenze)"
+      file: "docs/RUNBOOK.md, .github/dependabot.yml, .github/workflows/{ci,security}.yml, app/package.json (pnpm.auditConfig)"
+      responsabilita: "Manuale operativo (routine, backup e ripristino, migrazioni, segreti, accesso perso, registro, sintomi) con cio' che e' provato e non; aggiornamenti settimanali raggruppati; audit settimanale delle dipendenze di produzione con una sola esclusione motivata"
+      funzioni_chiave: ["RUNBOOK.md", "dependabot.yml", "security.yml"]
+
+    - nome: "sicurezza dell'account"
+      file: "app/src/platform/auth/account-security.ts, app/src/shared/account-security.ts, app/src/app/(app)/impostazioni/sicurezza/*, app/src/components/passkey-add-form.tsx, hooks in app/src/platform/auth/auth.ts"
+      responsabilita: "Passkey (elenco, rinomina, rimozione mai dell'ultima, aggiunta), sessioni attive e revoca, codici di recupero, cambio password; audit di soli nomi e conteggi; rotte delete/update-passkey di Better Auth chiuse (403)"
+      funzioni_chiave: ["listPasskeys", "removePasskey", "renamePasskey", "listActiveSessions", "revokeSession", "revokeOtherSessions", "canRemovePasskey", "describeUserAgent", "maskIpAddress"]
+    - nome: "caricamento multiplo di documenti"
+      file: "app/src/app/(app)/documenti/carica-piu/*, app/src/modules/documents (findDocumentsWithSameFile)"
+      responsabilita: "Fino a 20 file per lotto, un'azione per file, esito per file, controllo sha256 prima dell'invio, titolo dal nome del file"
+      funzioni_chiave: ["uploadOneDocumentAction", "BulkUploadForm", "titleFromFilename", "findDocumentsWithSameFile"]
+    - nome: "platform/doctor e platform/logging"
+      file: "app/src/platform/doctor/checks.ts, app/scripts/doctor.ts, app/src/platform/logging/request-error.ts, app/src/instrumentation.ts"
+      responsabilita: "pnpm doctor (esiti ok/avviso/errore, uscita 1 con errori); riga JSON per errore del server con soli campi in lista bianca"
+      funzioni_chiave: ["runChecks", "formatReport", "checkMigrations", "checkBackupKey", "formatRequestError", "onRequestError"]
+    - nome: "tema, icone, manifest, intestazioni"
+      file: "app/src/lib/theme.ts, app/src/components/theme-toggle.tsx, app/src/app/(app)/_components/theme-actions.ts, app/src/app/{layout,robots,manifest}.ts(x), icon.svg, apple-icon.png, public/icon-*.png, app/next.config.ts"
+      responsabilita: "Tema Chiaro/Scuro/Sistema in cookie, identita' dell'app, robots che vieta tutto, intestazioni di sicurezza"
+      funzioni_chiave: ["parseTheme", "ThemeToggle", "setThemeAction"]
+    - nome: "porte di qualita' e documentazione verificata"
+      file: "app/vitest.config.mts, app/knip.json, app/eslint.config.mjs, .github/workflows/ci.yml, docs/{ARCHITECTURE,API,SECURITY_REVIEW}.md, CONTRIBUTING.md, SECURITY.md, CHANGELOG.md, app/tests/{docs-routes,docs-links,db-indexes,env-example,shared-pure}.test.ts"
+      responsabilita: "Copertura con soglie, knip non bloccante, test sul catalogo del database (indici delle chiavi esterne), test che tengono allineati route e link dei documenti"
+      funzioni_chiave: ["test:coverage", "knip", "db-indexes.test.ts", "docs-routes.test.ts"]
+
+    - nome: "viste per figura professionale (sola lettura)"
+      file: "app/src/modules/{notary,technical,agent,management,offices}/, app/src/modules/{matters,economy,condominium,insurance,maintenance}/ (domain|application: dossier, owner-review, assicuratore-*, plants, dossier), app/src/app/(app)/{immobili/[id]/{notaio,scheda-tecnica,scheda-agente},pratiche/[id]/fascicolo,condominio/controllo,economia/dossier,assicurazioni/per-immobile,assicurazioni/sinistri/[claimId]/scheda,manutenzioni/impianti,locazioni/{rendiconto,calendario,mandati},uffici}/, app/src/app/api/{pratiche/[id]/cronologia,immobili/[id]/scheda-tecnica,condominio/controllo,economia/dossier,locazioni/rendiconto}/"
+      responsabilita: "Schede, riepiloghi e viste stampabili/CSV per il proprietario che lavora con avvocato, notaio, tecnico, agente, amministratore, commercialista, impiantista, assicuratore, gestore e uffici. Solo cio' che risulta registrato; nessun verdetto. Unica scrittura: createMandate (scadenza contrattuale)"
+      funzioni_chiave: ["getNotarySheet", "getTechnicalBrief", "getAgentSheet", "getOwnerReview", "getDossier (economy)", "getPlantRegister", "policiesByAsset", "getClaimSheet", "getManagementStatement", "getManagementCalendar", "createMandate", "listOfficesOverview", "reviewRules", "loadMatterDossier", "buildTimeline"]
+
+    - nome: "schema delle figure professionali (migrazioni 0014-0022)"
+      file: "app/drizzle/0014..0022, app/src/platform/db/schema/{notary,listings,competence}.ts + estensioni di matters, deadlines, condominium, taxes, lettings, maintenance, documents, audit"
+      responsabilita: "Indici delle chiavi esterne; pratica con ufficio/protocollo/termini ed eventi; deadline.matter_id; prove di pagamento (rate, tributi con sanzioni, incassi multipli dei canoni); plant; preventivo del palazzo; provenienza e gravami; mandati di gestione, mandati di vendita/affitto con visite e proposte; competenze dei contatti; destinatario agent"
+      funzioni_chiave: ["addEvent", "addRentReceipt", "createPlant", "saveOtherShares", "allocateOwnerParts", "addProvenance", "addEncumbrance", "createMandate", "addEngagement", "addListingEvent", "addCompetence", "takePasswordAttempt", "rejectCrossSite"]
+
+  funzioni_utility:
+    - nome: "tokensMatch"
+      file: "app/src/platform/auth/bootstrap.ts"
+      usata_in: ["bootstrapOwner"]
+    - nome: "makePdf"
+      file: "app/tests/helpers/sample-pdf.ts"
+      usata_in: ["tests/documents.test.ts", "e2e/documents.spec.ts"]
+    - nome: "import-istat"
+      file: "app/scripts/import-istat.ts"
+      usata_in: ["pnpm territory:import"]
+    - nome: "createTestDb"
+      file: "app/tests/helpers/test-db.ts"
+      usata_in: ["tests/audit.test.ts", "tests/single-owner.test.ts"]
+    - nome: "a11yViolations"
+      file: "app/e2e/support/a11y.ts"
+      usata_in: ["e2e/auth.setup.ts", "e2e/auth.spec.ts", "e2e/shell.spec.ts"]
+    - nome: "totp"
+      file: "app/e2e/support/totp.ts"
+      usata_in: ["e2e/auth.setup.ts", "e2e/auth.spec.ts"]
+    - nome: "addVirtualAuthenticator / exportCredentials / importCredentials"
+      file: "app/e2e/support/webauthn.ts"
+      usata_in: ["e2e/auth.setup.ts", "e2e/auth.spec.ts"]
+
+    - nome: "ownerAction / ownerActionWithValue"
+      file: "app/src/lib/owner-action.ts"
+      usata_in: ["tutte le actions.ts dei moduli 7-10"]
+    - nome: "parseInput, euroAmount, optionalEuroAmount, optionalUuid, requiredDate"
+      file: "app/src/shared/{result,zod}.ts"
+      usata_in: ["modules/condominium", "modules/taxes", "modules/maintenance", "modules/insurance", "modules/lettings"]
+    - nome: "periodState"
+      file: "app/src/shared/dates.ts"
+      usata_in: ["modules/maintenance (garanzie)", "modules/insurance (polizze)", "modules/lettings (codici)"]
+    - nome: "formatCents / parseEuroToCents (sempre con il separatore delle migliaia)"
+      file: "app/src/shared/money.ts, app/src/lib/format.ts (formatDate, formatEuro)"
+      usata_in: ["pagine di condominio, tributi, manutenzioni, assicurazioni, locazioni"]
+    - nome: "listDocumentOptions / documentTitles / countDocuments"
+      file: "app/src/modules/documents/index.ts"
+      usata_in: ["tutti i menu dei documenti e i collaboratori dei moduli (letture leggere, limite PICKER_LIMIT=1000)"]
+    - nome: "ActionButton, InlineForm, PrintButton"
+      file: "app/src/components/{action-button,inline-form,print-button}.tsx"
+      usata_in: ["tutte le schede dei moduli 7-10, dossier, limiti"]
+    - nome: "conclusiveClaims"
+      file: "app/tests/helpers/neutral.ts"
+      usata_in: ["tests/neutral-language.test.ts", "e2e/neutral-language.spec.ts"]
+    - nome: "PAGES (elenco delle schermate)"
+      file: "app/e2e/support/pages.ts"
+      usata_in: ["e2e/neutral-language.spec.ts", "e2e/accessibility-responsive.spec.ts"]
+
+    - nome: "csvCell / csvLine / csvDocument / CSV_BOM"
+      file: "app/src/shared/csv.ts"
+      usata_in: ["modules/taxes (riepilogo)", "modules/economy (quadro economico)", "modules/sharing (indice dei pacchetti, con alwaysQuote)"]
+    - nome: "buildIcs / icsText / foldLine / alarmTrigger"
+      file: "app/src/shared/ics.ts"
+      usata_in: ["modules/deadlines/application/calendar.ts"]
+    - nome: "NotFoundCard"
+      file: "app/src/components/not-found-card.tsx"
+      usata_in: ["app/not-found.tsx", "app/(app)/not-found.tsx"]
+    - nome: "listAuditEntries / listAuditAreas / auditHead"
+      file: "app/src/platform/audit/index.ts"
+      usata_in: ["app/(app)/impostazioni/registro/page.tsx"]
+
+  pattern_ricorrenti:
+    - descrizione: "Unita' di lavoro: ogni scrittura in una transazione con la riga di audit (atomiche)"
+      dove: "src/platform/db/unit-of-work.ts"
+    - descrizione: "requireOwner() in OGNI pagina/azione/route che tocca dati; layout e proxy sono solo ottimistici"
+      dove: "src/platform/auth/owner.ts"
+    - descrizione: "Singleton lazy su globalThis (db, auth): Next puo' istanziare i moduli piu' volte"
+      dove: "src/platform/db/client.ts, src/platform/auth/auth.ts"
+    - descrizione: "Regole normative come dati versionati con fonte e stato di verifica (PROPOSTO, non ancora implementato)"
+      dove: "docs/Stage A - Proposta di architettura.md §5"
+    - descrizione: "Confini architetturali applicati da dependency-cruiser + test che vieta nomi di territori nel codice"
+      dove: "app/.dependency-cruiser.cjs, app/tests/architecture.test.ts"
+    - descrizione: "e2e sulla build di produzione con PGlite via socket; un IP (x-real-ip) diverso per flusso per non sommare i rate limit"
+      dove: "app/e2e/, app/playwright.config.ts"
+    - descrizione: "Chiavi di navigazione vincolate ai messaggi (un menu senza traduzione non compila)"
+      dove: "app/src/app/(app)/_components/nav-items.ts"
+
+    - descrizione: "Il motore possiede la derivazione di una voce, il proprietario possiede lo stato: la valutazione crea/aggiorna/segna 'da rivedere' ma non tocca mai stato, nota e documenti"
+      dove: "src/modules/dossier/application/use-cases.ts (evaluateDossier)"
+    - descrizione: "Confronto canonico (chiavi ordinate) per JSON letto da jsonb: Postgres riordina le chiavi"
+      dove: "src/modules/rules/application/use-cases.ts, src/modules/dossier/application/use-cases.ts"
+    - descrizione: "Chiavi dei messaggi con punti sono percorsi annidati in next-intl: i fatti delle regole sono annidati (facts.asset.kind), non chiavi piatte con il punto"
+      dove: "messages/it.json (rules.facts)"
+    - descrizione: "Controlli con stato locale che il server puo' cambiare (stato di una voce, nota) si rimontano con una key che include il valore del server"
+      dove: "src/app/(app)/immobili/[id]/dossier/page.tsx"
+    - descrizione: "Archivio: manifest con impronte di tabelle e file verificate in lettura; ripristino in transazione con trigger dell'audit spento solo li' e catena ricontrollata prima del commit"
+      dove: "src/modules/backup/application/{archive,restore}.ts, infrastructure/postgres-snapshot.ts"
+    - descrizione: "Una tabella nuova deve stare nell'archivio o in EXCLUDED_TABLES (con motivo): lo impone un test; le tabelle riempite da migrazioni vanno in SEEDED_TABLES"
+      dove: "src/modules/backup/domain/archive.ts, tests/backup.test.ts"
+    - descrizione: "Prima i byte nello storage, poi le righe nel database; se il database fallisce si rimuovono i byte (storage non transazionale)"
+      dove: "src/modules/documents/application/use-cases.ts (storeAndRecord)"
+    - descrizione: "Punto d'ingresso client (client.ts) con sole costanti e tipi: l'index del modulo non va nel bundle del browser se importa codice Node"
+      dove: "src/modules/documents/client.ts"
+    - descrizione: "Moduli con file: FormData verso una server action (non JSON); campi controllati nel client e file in un input non controllato"
+      dove: "src/app/(app)/documenti/"
+    - descrizione: "Scadenze collegate coerenti con i dati: si chiudono quando l'importo e' coperto o l'adempimento eseguito, si RIAPRONO se il dato viene corretto (pagamento tolto, canone ridotto, adempimento riaperto), si ARCHIVIANO quando la voce e' sostituita o tolta"
+      dove: "modules/{taxes,lettings,condominium,maintenance,insurance}/index.ts (completeDeadline, reopenDeadline, archiveDeadline)"
+    - descrizione: "Linguaggio neutro: nessuna schermata afferma conformita', non dovuto, validita' o avviabilita'. Verificato su tutti i messaggi, su tutte le stringhe del codice e sul testo reso di ogni schermata"
+      dove: "tests/neutral-language.test.ts, e2e/neutral-language.spec.ts, tests/helpers/neutral.ts"
+    - descrizione: "Controlli statici che fanno fallire la CI: chiavi dei messaggi esistenti, accessi (pagine/route/azioni), confine server-client (indici dei moduli non nel bundle del browser, vocabolario via client.ts)"
+      dove: "tests/messages.test.ts, tests/authz.test.ts, tests/client-boundary.test.ts"
+    - descrizione: "Importi in centesimi (interi), date di calendario come stringhe AAAA-MM-GG con aritmetica in UTC, millesimi interi x10000; l'audit registra azioni e identificativi, mai testi, importi o nomi"
+      dove: "src/shared/{money,dates}.ts, tests/*.test.ts (ultimo test di ogni modulo)"
+    - descrizione: "Elenchi grandi: paginazione (50 per pagina), conteggio con gli stessi filtri, titoli per identificativo e opzioni dei menu con letture leggere"
+      dove: "src/modules/documents/, src/app/(app)/documenti/page.tsx, tests/documents-scale.test.ts"
+    - descrizione: "Tipo di attivita' in corso come fatto del bene per le regole (letting.types); il dossier si riallinea dopo ogni cambiamento di locazione, nella stessa transazione"
+      dove: "src/modules/rules/domain/condition.ts, src/modules/dossier/index.ts, src/app/(app)/locazioni/actions.ts"
+
+    - descrizione: "Modulo di sola lettura che compone i dati di altri moduli tramite i loro index.ts (economy, attention, search): nessuno schema proprio, nessuna scrittura, nessuna riga di audit"
+      dove: "src/modules/{economy,attention,search}/index.ts"
+    - descrizione: "Route di file/dati per il browser: getOwnerForApi() (401 senza sessione), Cache-Control private no-store, X-Content-Type-Options nosniff; l'unica eccezione pubblica e' /api/health, vincolata da tests/authz.test.ts"
+      dove: "src/app/api/{economia,calendario,documenti,tributi,esportazione,health}/route.ts"
+    - descrizione: "CSV con iniezione di formule neutralizzata in un solo punto (shared/csv.ts); anche i CSV che partono per terzi"
+      dove: "src/shared/csv.ts"
+
+  file_temporanei: []   # nessun file [TEMPORANEO] presente nel progetto
+
+  file_eliminati_ultima_sessione:
+    - "itemAssetId in modules/dossier/index.ts, listAllAssetsForSharing in modules/sharing/index.ts, fixedClock in platform/clock/index.ts, CALC_TYPES in shared/calc.ts"  # mai usati (cercati uno per uno prima di toglierli)
+    - "~16 tipi esportati senza altri riferimenti in modules/{assets,backup,deadlines,documents,dossier,matters,sharing,territory}/domain, platform/config/env.ts e platform/db/schema/audit.ts"  # solo esportazioni, non il codice che usano
+    - "31 chiavi di messaggio senza riferimento statico in messages/it.json"  # il test dei messaggi continua a passare
+    - "csvCell duplicato in modules/taxes/domain/taxes.ts"  # sostituito da shared/csv.ts (E51)
+    - "buildCsv con escape proprio in modules/sharing/domain/sharing.ts"  # ora csvDocument: chiude la gap sulle formule
+    - "app/src/app/(app)/loading.tsx e il messaggio problems.loading"  # creati e tolti nella stessa sessione: trasformavano i 404 in 200 (E50)
+    - "nessun file del progetto e' stato eliminato senza conferma; script di prova solo nella cartella di sessione, fuori dal repository"
+
+  gitignore_pattern_aggiunti:
+    - "node_modules/, .next/, out/, dist/, coverage/, *.tsbuildinfo, next-env.d.ts"
+    - ".env, .env.*, !.env.example, .vercel/"
+    - "*.log, *.tmp, *.bak, *.old, tmp_*, temp_*, debug_*"
+    - "playwright-report/, test-results/, **/e2e/.auth/"
+    - ".claude/settings.local.json, .claude/worktrees/"
+    - "backups/, *.ndjson.enc"
+    - ".pglite/ (database di sviluppo locale)"
+    - "/.storage/ (file dei documenti in locale)"
+    - "*.gibk, *.pem (archivi cifrati e chiavi private: mai nel repository)"
+
+  todo_e_criticita:
+    - "Node locale 25.2.0: dependency-cruiser non lo supporta (pnpm arch richiede Node 24). Installare Node 24."
+    - "La CI (.github/workflows/ci.yml, con il lavoro e2e), il controllo settimanale delle dipendenze (security.yml) e Dependabot sono scritti ma mai eseguiti: non c'e' ancora un repository remoto."
+    - "Nessun commit effettuato: repository git inizializzato ma vuoto."
+    - "Test di concorrenza sull'audit validi solo su Postgres reale (CI); in locale girano su PGlite."
+    - "Da verificare con l'account: x-real-ip su Vercel, passkey sul dominio di produzione, Blob privato (D3), limiti del cron."
+    - "tsconfig include anche e2e/: un errore di tipo nei test blocca anche `next build`. Valutare un tsconfig separato."
+    - "Lingua di commenti/doc tecnici: ora italiano, il prompt finale prevede inglese (DECISIONS.md, E9)."
+    - "Apostrofi: messages/it.json usa ’ (tipografico) nelle sezioni auth e ' nelle altre. Uniformare."
+    - "Giro giornaliero: scritto (runDailyJob, /api/cron/giornaliero, vercel.json) ma MAI provato su Vercel: serve l'account e CRON_SECRET."
+    - "Regole: non c'e' una schermata per modificare le categorie del dossier (dati di partenza) ne' per creare scadenze come esito (incremento 5). Il contenuto delle regole di esempio e' illustrativo e va validato da un professionista."
+    - "Regole: l'editor non rappresenta condizioni annidate (si mostrano in sola lettura); i fatti disponibili non includono ancora locazione/ricettivita'/condominio come entita' (arrivano con gli incrementi 7 e 10: per ora si usano le caratteristiche tecniche)."
+    - "Stampa del dossier: le spiegazioni 'Perche' compare?' si stampano solo se aperte; la stampa nasconde menu e barra ma non e' stata rifinita (intestazioni, interruzioni di pagina)."
+    - "Backup: manca il secondo fornitore (la destinazione e' una cartella su disco) e il cron del backup non e' in vercel.json (su Vercel il disco e' a sola lettura): serve l'adattatore Blob/S3 (E24, E25, E15)."
+    - "Backup: la chiave privata non e' ancora stata generata dal proprietario. Finche' BACKUP_PUBLIC_KEY non e' impostata i backup non partono. Il ripristino a mano su un ambiente vuoto va provato prima di caricare documenti reali."
+    - "Backup: lo snapshot delle tabelle e' costruito in memoria (ok per uso personale, i file invece passano a flusso). Con testo estratto molto grande valutare lettura a cursore."
+    - "dev-db: eseguire script (backup:run, db:migrate) mentre l'app e' aperta puo' bloccare il socket di PGlite (accade se uno script fallisce a meta'): riavviare pnpm dev:db."
+    - "Documenti: manca l'adattatore Vercel Blob (E15). Il disco locale non funziona su Vercel: da fare prima del deploy."
+    - "Documenti: nessuna anteprima incorporata (X-Frame-Options DENY, E19); nessuna schermata per modificare le categorie (E16); OCR spento (D6); hook antivirus non implementato."
+    - "Documenti: il caricamento e il testo estratto dei PDF avvengono nella richiesta (timeout di estrazione 20 s). Con molti file grossi valutare un'elaborazione in background."
+    - "e2e/documents.spec.ts importa tests/helpers/sample-pdf.ts (fuori da e2e/)."
+    - "Schema auth generato usa timestamp senza fuso orario; Drizzle li gestisce in UTC. Valutare timestamptz se si personalizza."
+    - "Email degli avvisi: adattatore Resend scritto ma mai provato con un account reale; senza RESEND_API_KEY gli avvisi restano solo nell'app."
+    - "Link di condivisione a scadenza (D7): NON fatto, resta rimandato (solo pacchetti ZIP)."
+    - "Il titolo delle scadenze create dalle voci (rate, canoni, tributi...) e' una fotografia al momento della creazione: se si rinomina la voce, la scadenza collegata si modifica da Scadenze."
+    - "Tributi, manutenzioni, assicurazioni, locazioni: le voci tolte si cancellano davvero (non c'e' un cestino); la traccia resta solo nell'audit (azione e identificativo)."
+    - "Menu dei documenti: mostrano i 1000 piu' recenti non archiviati (PICKER_LIMIT). Oltre non c'e' una ricerca nel menu: valutare un selettore con ricerca se l'archivio supera quella soglia."
+    - "Locazioni: gli ospiti delle locazioni brevi non si registrano (nessun dato personale di terzi non necessario); registri o comunicazioni richiesti dal territorio si descrivono con le Regole e gli adempimenti."
+    - "Regole: nessuna regola di esempio per le locazioni (cambierebbe i conteggi dei test e va scritta con un professionista); il fatto letting.types e' pronto nell'editor."
+    - "Test e2e: gli indirizzi x-real-ip distinti per file vanno da 10 a 240; il prossimo libero e' 355 (usati fino a 351). e2e/audit-log.spec.ts aggiunge righe al registro (append-only, non si tolgono): il database degli e2e e' in memoria."
+    - "Calendario .ics: e' un file scaricato, non un abbonamento (non si aggiorna da solo) e contiene titoli e nomi degli immobili. Un abbonamento con URL a token richiederebbe un segreto in un indirizzo: non fatto senza decisione (E55)."
+    - "Ricerca globale: i dati strutturati si filtrano in memoria (accenti e maiuscole): va bene per centinaia di righe di un solo proprietario; con volumi molto maggiori valutare un indice (unaccent / pg_trgm)."
+    - "Registro delle modifiche: la verifica ricalcola tutta la catena a ogni richiesta (solo su 'Verifica ora'); con centinaia di migliaia di righe valutare una verifica incrementale. La rimozione delle ultime righe resta rilevabile solo col confronto con l'impronta dei backup."
+    - "Dipendenze: GHSA-vfj7-8cjw-p6xm (braces, dentro la CLI shadcn) esclusa in package.json perche' senza versione corretta; la moderata di esbuild (drizzle-kit annidato in better-auth) resta visibile sotto soglia. Da riguardare a ogni aggiornamento di shadcn e better-auth."
+    - "/api/health controlla solo il database: non il cron, le email, la cartella dei documenti o l'eta' dei backup (vedi docs/RUNBOOK.md, §2)."
+    - "Revisione di sicurezza (docs/SECURITY_REVIEW.md): da decidere F-01 (verifica utente non imposta dal server nel login con passkey), F-02 (x-real-ip), F-03 (change-password e codici di recupero senza rate limit, rotte dirette senza audit), F-04 (freshAge mai preteso), F-05 (Sec-Fetch-Site su /api/esportazione), F-06 (backup non autenticati)."
+    - "knip (non bloccante in CI): 33 export e 92 tipi inutilizzati nei barrel dei moduli; script auth:schema chiama un binario `auth` non presente tra le dipendenze; da decidere la pulizia e poi rendere knip bloccante."
+    - "Schema: da decidere indici univoci (canoni, premi, tributi per bene/tipo/anno, partita IVA), CHECK sulle enumerazioni testuali, ON DELETE di document e letting_party (docs/SECURITY_REVIEW e rapporto db-indexes)."
+    - "Migrazioni 0014 e 0015 (indici): da applicare al database di sviluppo dell'utente con la procedura solita (copia di .pglite, riavvio di dev:db)."
+    - "Schema delle dieci figure applicato in gran parte (E74); non fatti office_form_template, engagement, matter_deliverable, ins_claim_document, asset.declared_value_cents, ins_coverage.asset_id. generateInstallments risolto con condo_budget.scope (E75)."
+    - "e2e/uffici.spec.ts lascia una regola disattivata nel database e2e (le versioni di regola non si cancellano): innocuo, il database e' in memoria."
+    - "Sicurezza non risolta (E76): F-04 sessione recente per esportazioni e scarichi, F-06 backup non autenticati (firma del manifest), F-10, F-02 da provare su Vercel. Verifica dell'utente delle passkey provata solo con l'autenticatore virtuale."
+    - "knip e' bloccante (E77); 134 tipi riesportati dai barrel restano come avviso. Le migrazioni 0014-0022 vanno ancora applicate al database di sviluppo dell'utente (0017 e 0021 contengono un INSERT di riporto)."
