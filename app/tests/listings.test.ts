@@ -93,7 +93,8 @@ describe("mandati di vendita o affitto, visite e proposte", () => {
     ]);
 
     const audits = await t.db.select().from(auditLog).where(eq(auditLog.entityId, e!.id));
-    expect(JSON.stringify(audits.map((a) => a.diff))).not.toMatch(/230|240|Interessato|agente/);
+    // Gli importi si cercano interi (centesimi): «230» o «240» possono comparire per caso dentro un identificativo casuale.
+    expect(JSON.stringify(audits.map((a) => a.diff))).not.toMatch(/23000000|24000000|Interessato|agente/);
 
     expect(await run((uow) => removeListingEvent(uow, after!.events[4]!.id))).toMatchObject({ ok: true });
     expect(await run((uow) => removeListingEvent(uow, MISSING))).toMatchObject({ ok: false });
