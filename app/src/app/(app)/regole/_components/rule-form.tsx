@@ -33,6 +33,7 @@ import {
   type ValueType,
 } from "../rule-form-state";
 import { ConditionText } from "./condition-text";
+import { useFocusOn } from "@/components/use-focus-on";
 
 export type CategoryOption = { code: string; name: string };
 
@@ -55,6 +56,7 @@ export function RuleForm({ mode, initial, dossierCategories, documentCategories,
   const [errors, setErrors] = useState<FieldErrors>({});
   const [pending, startTransition] = useTransition();
   const summaryRef = useRef<HTMLDivElement>(null);
+  useFocusOn(summaryRef, Object.keys(errors).length > 0 ? errors : null);
 
   const err = (path: string) => errors[path]?.[0];
   const set = <K extends keyof RuleFormValues>(key: K, value: RuleFormValues[K]) => setValues((v) => ({ ...v, [key]: value }));
@@ -69,7 +71,6 @@ export function RuleForm({ mode, initial, dossierCategories, documentCategories,
       // Con successo la azione reindirizza e non torna qui; se torna, ci sono errori da mostrare.
       if (result?.errors) {
         setErrors(result.errors);
-        requestAnimationFrame(() => summaryRef.current?.focus());
       }
     });
   }

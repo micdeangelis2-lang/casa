@@ -16,6 +16,7 @@ import { TerritoryPicker } from "@/components/territory-picker";
 import { ASSET_KINDS, ATTRIBUTE_TYPES, LINK_VALIDATION, RIGHT_TYPES, USE_TYPES } from "@/modules/assets/client";
 import type { FieldErrors } from "@/shared/result";
 import type { SaveResult } from "../actions";
+import { useFocusOn } from "@/components/use-focus-on";
 import {
   formStateToPayload,
   newAttributeRow,
@@ -52,6 +53,7 @@ export function AssetForm({ mode, initial, parties, ownerPartyId, otherAssets, o
   const [errors, setErrors] = useState<FieldErrors>({});
   const [pending, startTransition] = useTransition();
   const summaryRef = useRef<HTMLDivElement>(null);
+  useFocusOn(summaryRef, Object.keys(errors).length > 0 ? errors : null);
 
   const err = (path: string) => errors[path]?.[0];
   const set = <K extends keyof AssetFormState>(key: K, value: AssetFormState[K]) => setState((s) => ({ ...s, [key]: value }));
@@ -73,7 +75,6 @@ export function AssetForm({ mode, initial, parties, ownerPartyId, otherAssets, o
       // Con successo la azione reindirizza e non torna qui; se torna, ci sono errori da mostrare.
       if (result?.errors) {
         setErrors(result.errors);
-        requestAnimationFrame(() => summaryRef.current?.focus());
       }
     });
   }

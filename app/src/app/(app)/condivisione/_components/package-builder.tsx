@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Field } from "@/components/form-field";
 import type { FieldErrors } from "@/shared/result";
 import { createPackageAction } from "../actions";
+import { useFocusOn } from "@/components/use-focus-on";
 
 export type CandidateView = { id: string; title: string; categoryName: string; confidentiality: string; exceedsCap: boolean; assetNames: string[]; sizeBytes: number };
 
@@ -37,6 +38,7 @@ export function PackageBuilder({ candidates, cap, recipientTypes, initialRecipie
   const [errors, setErrors] = useState<FieldErrors>({});
   const [pending, startTransition] = useTransition();
   const summaryRef = useRef<HTMLDivElement>(null);
+  useFocusOn(summaryRef, Object.keys(errors).length > 0 ? errors : null);
 
   const toggle = (set: Set<string>, id: string, on: boolean) => {
     const next = new Set(set);
@@ -62,7 +64,6 @@ export function PackageBuilder({ candidates, cap, recipientTypes, initialRecipie
       });
       if (result?.errors) {
         setErrors(result.errors);
-        requestAnimationFrame(() => summaryRef.current?.focus());
       }
     });
   }

@@ -14,6 +14,7 @@ import { PARTY_ROLES } from "@/modules/directory/client";
 import type { FieldErrors } from "@/shared/result";
 import { archivePartyAction, type SaveResult } from "../actions";
 import type { PartyFormState } from "../party-form-state";
+import { useFocusOn } from "@/components/use-focus-on";
 
 type Props = {
   mode: "create" | "edit";
@@ -30,6 +31,7 @@ export function PartyForm({ mode, initial, partyId, archived, onSubmit }: Props)
   const [errors, setErrors] = useState<FieldErrors>({});
   const [pending, startTransition] = useTransition();
   const summaryRef = useRef<HTMLDivElement>(null);
+  useFocusOn(summaryRef, Object.keys(errors).length > 0 ? errors : null);
 
   const err = (path: string) => errors[path]?.[0];
   const set = <K extends keyof PartyFormState>(key: K, value: PartyFormState[K]) => setState((s) => ({ ...s, [key]: value }));
@@ -43,7 +45,6 @@ export function PartyForm({ mode, initial, partyId, archived, onSubmit }: Props)
       const result = await onSubmit(state);
       if (result?.errors) {
         setErrors(result.errors);
-        requestAnimationFrame(() => summaryRef.current?.focus());
       }
     });
   }

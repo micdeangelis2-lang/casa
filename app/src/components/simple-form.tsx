@@ -12,6 +12,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Field } from "@/components/form-field";
 import type { FieldErrors } from "@/shared/result";
+import { useFocusOn } from "@/components/use-focus-on";
 
 export type Option = { value: string; label: string };
 
@@ -125,6 +126,7 @@ export function SimpleForm({ title, intro, sections, initial, submitLabel, onSub
   const [errors, setErrors] = useState<FieldErrors>({});
   const [pending, startTransition] = useTransition();
   const summaryRef = useRef<HTMLDivElement>(null);
+  useFocusOn(summaryRef, Object.keys(errors).length > 0 ? errors : null);
 
   const set = (name: string, value: FormValue) => setValues((v) => ({ ...v, [name]: value }));
   const text = (name: string) => (typeof values[name] === "string" ? (values[name] as string) : "");
@@ -137,11 +139,9 @@ export function SimpleForm({ title, intro, sections, initial, submitLabel, onSub
         const result = await onSubmit(values);
         if (result?.errors) {
           setErrors(result.errors);
-          requestAnimationFrame(() => summaryRef.current?.focus());
         }
       } catch {
         setErrors({ _: [tc("generalError")] });
-        requestAnimationFrame(() => summaryRef.current?.focus());
       }
     });
   }

@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Field } from "@/components/form-field";
 import { ScrollRegion } from "@/components/scroll-region";
+import { useFocusOn } from "@/components/use-focus-on";
 import { importAction, type ImportActionResult } from "./actions";
 
 const KINDS = ["contacts", "assets", "deadlines", "rents", "taxes", "taxPayments", "policies"] as const;
@@ -40,6 +41,8 @@ export function ImportForm() {
   const [result, setResult] = useState<ImportActionResult | null>(null);
   const [pending, setPending] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+  // Il risultato prende il focus: chi usa la tastiera o un lettore di schermo lo trova subito.
+  useFocusOn(resultRef, result);
 
   async function send(mode: "preview" | "import") {
     if (!file) {
@@ -58,8 +61,6 @@ export function ImportForm() {
       setResult({ phase: "error", message: t("errors.generic") });
     } finally {
       setPending(false);
-      // Il risultato prende il focus: chi usa la tastiera o un lettore di schermo lo trova subito.
-      requestAnimationFrame(() => resultRef.current?.focus());
     }
   }
 

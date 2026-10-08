@@ -15,6 +15,7 @@ import { CONFIDENTIALITY, MAX_FILE_BYTES, VERIFICATION_STATUS } from "@/modules/
 import type { FieldErrors } from "@/shared/result";
 import type { SaveResult } from "../actions";
 import { formValuesToFormData, type DocumentFormValues } from "../document-form-state";
+import { useFocusOn } from "@/components/use-focus-on";
 
 export type Option = { id: string; label: string };
 
@@ -40,6 +41,7 @@ export function DocumentForm({ mode, initial, categories, assets, parties, onSub
   const [pending, startTransition] = useTransition();
   const fileRef = useRef<HTMLInputElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
+  useFocusOn(summaryRef, Object.keys(errors).length > 0 ? errors : null);
 
   const err = (path: string) => errors[path]?.[0];
   const set = <K extends keyof DocumentFormValues>(key: K, value: DocumentFormValues[K]) => setValues((v) => ({ ...v, [key]: value }));
@@ -48,7 +50,6 @@ export function DocumentForm({ mode, initial, categories, assets, parties, onSub
 
   function fail(next: FieldErrors) {
     setErrors(next);
-    requestAnimationFrame(() => summaryRef.current?.focus());
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
