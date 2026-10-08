@@ -33,6 +33,9 @@ const rename = (errors: FieldErrors, from: string, to: string): FieldErrors => O
 
 // -------------------------------------------------------------------------------------------------- polizze
 
+/** Convalida a secco dei campi di una polizza (le stesse regole di `createPolicy`, senza consultare il database e senza scrivere). */
+export const validatePolicy = (input: unknown): Result<unknown> => parseInput(policySchema, input);
+
 export async function createPolicy(deps: InsuranceDeps, raw: unknown): Promise<Id> {
   const p = parseInput(policySchema, raw);
   if (!p.ok) return p;

@@ -13,6 +13,8 @@ import { drizzleAssetRepository } from "./infrastructure/drizzle-asset-repositor
 
 export {
   ASSET_KINDS,
+  RIGHT_TYPES,
+  USE_TYPES,
   
   
   
@@ -53,6 +55,8 @@ const writeDeps = (uow: UnitOfWork, owner: { displayName: string; email?: string
 type Owner = { displayName: string; email?: string };
 
 export const createAsset = (uow: UnitOfWork, owner: Owner, input: unknown) => useCases.createAsset(writeDeps(uow, owner), input);
+/** Convalida a secco dei campi di un bene (nessuna scrittura, nessuna lettura del database). */
+export const validateAssetInput = (input: unknown) => useCases.validateAsset(input);
 export const updateAsset = (uow: UnitOfWork, owner: Owner, id: string, input: unknown) =>
   useCases.updateAsset(writeDeps(uow, owner), id, input);
 export const setAssetDeclaredValue = (uow: UnitOfWork, id: string, input: unknown) =>

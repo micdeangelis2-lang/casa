@@ -229,6 +229,11 @@ registro_codebase:
       responsabilita: "Riconferma recente a cookie firmato; manifest dei backup firmato con HMAC; incarichi ed elaborati per professionista; modulistica degli uffici; modifica sul posto; categorie documentali; CSV e scheda HTML nei pacchetti; client pg degli e2e con tentativi"
       funzioni_chiave: ["signReconfirmation", "verifyReconfirmation", "requireRecentAuthForApi", "signManifest", "verifyManifestSignature", "createEngagement", "addDeliverable", "createFormTemplate", "addDocumentCategory", "removeDocumentCategory", "renderSheetHtml", "csvResponse", "EditInline", "clickWhenHydrated"]
 
+    - nome: "modules/import (importazione da CSV)"
+      file: "app/src/modules/import/ (domain: csv-reader, columns, dates, contacts, assets, quota, deadlines, rents, taxes, policies; application: classify, check-records, checked, run, ports), app/src/app/(app)/importa/, app/src/app/api/importa/modello/route.ts"
+      responsabilita: "Importazione da CSV con modello scaricabile, anteprima senza scritture e importazione atomica; convalida a secco con gli schemi dei moduli (validatePartyInput, validateAssetInput, validateDeadlineInput, validateRentInput, validateRentPaymentInput, validateObligationInput, validateTaxPaymentInput, validatePolicyInput); audit di soli conteggi"
+      funzioni_chiave: ["parseCsv", "mapColumns", "classifyFile", "previewImport", "runImport", "importTemplate", "importPorts", "parseFlexibleDate", "isExampleRow"]
+
   funzioni_utility:
     - nome: "tokensMatch"
       file: "app/src/platform/auth/bootstrap.ts"
@@ -395,7 +400,7 @@ registro_codebase:
     - "Menu dei documenti: mostrano i 1000 piu' recenti non archiviati (PICKER_LIMIT). Oltre non c'e' una ricerca nel menu: valutare un selettore con ricerca se l'archivio supera quella soglia."
     - "Locazioni: gli ospiti delle locazioni brevi non si registrano (nessun dato personale di terzi non necessario); registri o comunicazioni richiesti dal territorio si descrivono con le Regole e gli adempimenti."
     - "Regole: nessuna regola di esempio per le locazioni (cambierebbe i conteggi dei test e va scritta con un professionista); il fatto letting.types e' pronto nell'editor."
-    - "Test e2e: gli indirizzi x-real-ip distinti per file vanno da 10 a 240; il prossimo libero e' 380 (usati fino a 376). Gli e2e usano e2e/support/pg-client.ts (Client con tentativi) al posto di pg. e2e/audit-log.spec.ts aggiunge righe al registro (append-only, non si tolgono): il database degli e2e e' in memoria."
+    - "Test e2e: gli indirizzi x-real-ip distinti per file vanno da 10 a 240; il prossimo libero e' 385 (usati fino a 381). Gli e2e usano e2e/support/pg-client.ts (Client con tentativi) al posto di pg. e2e/audit-log.spec.ts aggiunge righe al registro (append-only, non si tolgono): il database degli e2e e' in memoria."
     - "Calendario .ics: e' un file scaricato, non un abbonamento (non si aggiorna da solo) e contiene titoli e nomi degli immobili. Un abbonamento con URL a token richiederebbe un segreto in un indirizzo: non fatto senza decisione (E55)."
     - "Ricerca globale: i dati strutturati si filtrano in memoria (accenti e maiuscole): va bene per centinaia di righe di un solo proprietario; con volumi molto maggiori valutare un indice (unaccent / pg_trgm)."
     - "Registro delle modifiche: la verifica ricalcola tutta la catena a ogni richiesta (solo su 'Verifica ora'); con centinaia di migliaia di righe valutare una verifica incrementale. La rimozione delle ultime righe resta rilevabile solo col confronto con l'impronta dei backup."
@@ -410,3 +415,4 @@ registro_codebase:
     - "Sicurezza non risolta (E76): F-04 sessione recente per esportazioni e scarichi, F-06 backup non autenticati (firma del manifest), F-10, F-02 da provare su Vercel. Verifica dell'utente delle passkey provata solo con l'autenticatore virtuale."
     - "knip e' bloccante (E77); 134 tipi riesportati dai barrel restano come avviso. Le migrazioni 0014-0022 vanno ancora applicate al database di sviluppo dell'utente (0017 e 0021 contengono un INSERT di riporto)."
     - "Aperti dopo la quinta tornata (E78-E84): le migrazioni 0023-0027 non sono ancora applicate al database di sviluppo dell'utente; archiviazione delle categorie documentali (serve document_category.archived_at); editor delle categorie del dossier; univoci su codice fiscale e partita IVA (servono dati reali); la 0023 e la CI con le Actions pinnate per hash vanno viste girare su GitHub; backup precedenti alle migrazioni lasciano vuote le nuove tabelle."
+    - "Importazione CSV (E85): un file per volta, max 500 righe; non crea contatti, locazioni o tipi di tributo mancanti; pagamenti di tributo con metodo 'altro' e natura 'ordinaria'; non provata con file Excel reali di terzi."

@@ -60,6 +60,8 @@ const writeDeps = (uow: UnitOfWork) => ({ repo: drizzleDeadlineRepository(uow.tx
 const readDeps = (db: Db) => ({ repo: drizzleDeadlineRepository(db), others: collaborators(db) });
 
 export const createDeadline = (uow: UnitOfWork, input: unknown, today = todayInItaly()) => useCases.createDeadline(writeDeps(uow), input, today);
+/** Convalida a secco di una scadenza (stesse regole di `createDeadline`, nessuna scrittura). */
+export const validateDeadlineInput = (input: unknown) => useCases.validateDeadline(input);
 export const updateDeadline = (uow: UnitOfWork, id: string, input: unknown, today = todayInItaly()) => useCases.updateDeadline(writeDeps(uow), id, input, today);
 export const updateOwnerFields = (uow: UnitOfWork, id: string, input: Parameters<typeof useCases.updateOwnerFields>[2]) => useCases.updateOwnerFields(writeDeps(uow), id, input);
 export const setDeadlineArchived = (uow: UnitOfWork, id: string, archived: boolean) => useCases.setDeadlineArchived(writeDeps(uow), id, archived);

@@ -1,4 +1,4 @@
-import { fail, failGeneral, ok, zodIssuesToErrors, type Result } from "@/shared/result";
+import { fail, failGeneral, ok, parseInput, zodIssuesToErrors, type Result } from "@/shared/result";
 import { partyInputSchema, type Party, type PartyInput, type PartyRole } from "../domain/party";
 import type { DirectoryDeps, PartyRepository } from "./ports";
 
@@ -82,6 +82,9 @@ export async function ensureOwnerParty(
   });
   return created;
 }
+
+/** Convalida a secco (nessuna scrittura): le stesse regole di `createParty`, usate dall'anteprima di importazione. */
+export const validateParty = (input: unknown): Result<PartyInput> => parseInput(partyInputSchema, input);
 
 export const listParties = (
   repo: PartyRepository,

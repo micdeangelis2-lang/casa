@@ -37,6 +37,7 @@ Il test `app/tests/docs-routes.test.ts` fallisce se esiste un `route.ts` che non
 | `GET /api/manutenzioni/impianti` | `src/app/api/manutenzioni/impianti/route.ts` | sessione | CSV |
 | `GET /api/assicurazioni/per-immobile` | `src/app/api/assicurazioni/per-immobile/route.ts` | sessione | CSV |
 | `GET /api/esportazione` | `src/app/api/esportazione/route.ts` | sessione | ZIP in chiaro |
+| `GET /api/importa/modello` | `src/app/api/importa/modello/route.ts` | sessione | CSV (modello) |
 | `GET /api/health` | `src/app/api/health/route.ts` | nessuna | JSON |
 | `GET /api/territori` | `src/app/api/territori/route.ts` | sessione | JSON |
 | `GET /api/tributi/riepilogo` | `src/app/api/tributi/riepilogo/route.ts` | sessione | CSV |
@@ -76,6 +77,15 @@ File: `src/app/api/esportazione/route.ts`. Esportazione completa **in chiaro e s
 - **Parametri**: nessuno.
 - **Risposta 200**: ZIP generato a flusso (`application/zip`), nome `gestione-immobili-esportazione-AAAA-MM-GG.zip`, stesse intestazioni di sicurezza e di cache di sopra. L'evento `backup.export` entra nell'audit (solo conteggi).
 - **Codici**: 401.
+
+### `GET /api/importa/modello`
+
+File: `src/app/api/importa/modello/route.ts`. Modello CSV per la pagina `/importa`: intestazioni e una riga di esempio fittizia. Formato come gli altri CSV dell'app: separatore `;`, UTF-8 con BOM, fine riga CRLF (`csvDocument`).
+
+- **Autenticazione**: sessione del proprietario; richieste da altri siti rifiutate (`rejectCrossSite`).
+- **Parametri**: `tipo` = `contatti`, `immobili`, `scadenze`, `canoni`, `tributi`, `pagamenti-tributi` oppure `polizze`. La riga di esempio inizia con «ESEMPIO»: in anteprima risulta «saltata (riga di esempio)» e non si importa mai.
+- **Risposta 200**: `text/csv; charset=utf-8`, `Content-Disposition: attachment; filename="modello-<tipo>.csv"` (per esempio `modello-contatti.csv`), `X-Content-Type-Options: nosniff`, `Cache-Control: private, no-store`.
+- **Codici**: 400 se `tipo` manca o non è valido; 401 senza sessione.
 
 ### `GET /api/condivisione/[id]`
 

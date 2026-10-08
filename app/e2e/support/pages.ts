@@ -38,6 +38,7 @@ export const PAGES = [
   "/controlli",
   "/cerca",
   "/rubrica",
+  "/importa",
   "/pratiche",
   "/uffici",
   "/uffici/regole",

@@ -81,6 +81,8 @@ const writeDeps = (uow: UnitOfWork) => ({ repo: drizzleInsuranceRepository(uow.t
 const readDeps = (db: Db) => ({ repo: drizzleInsuranceRepository(db), others: collaborators(db) });
 
 export const createPolicy = (uow: UnitOfWork, input: unknown) => useCases.createPolicy(writeDeps(uow), input);
+/** Convalida a secco di una polizza (stesse regole di `createPolicy`, nessuna scrittura). */
+export const validatePolicyInput = (input: unknown) => useCases.validatePolicy(input);
 export const updatePolicy = (uow: UnitOfWork, id: string, input: unknown) => useCases.updatePolicy(writeDeps(uow), id, input);
 export const setPolicyArchived = (uow: UnitOfWork, id: string, archived: boolean) => useCases.setPolicyArchived(writeDeps(uow), id, archived);
 export const createPolicyDeadline = (uow: UnitOfWork, id: string) => useCases.createPolicyDeadline(writeDeps(uow), id);

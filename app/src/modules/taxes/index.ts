@@ -56,6 +56,9 @@ export const createTaxType = (uow: UnitOfWork, input: unknown) => useCases.creat
 export const updateTaxType = (uow: UnitOfWork, id: string, input: unknown) => useCases.updateTaxType(writeDeps(uow), id, input);
 export const setTaxTypeArchived = (uow: UnitOfWork, id: string, archived: boolean) => useCases.setTaxTypeArchived(writeDeps(uow), id, archived);
 export const createObligation = (uow: UnitOfWork, input: unknown) => useCases.createObligation(writeDeps(uow), input);
+/** Convalida a secco di una voce / di un pagamento (stesse regole di `createObligation` e `recordPayment`, nessuna scrittura). */
+export const validateObligationInput = (input: unknown) => useCases.validateObligation(input);
+export const validateTaxPaymentInput = (input: unknown) => useCases.validatePayment(input);
 export const updateObligation = (uow: UnitOfWork, id: string, input: unknown) => useCases.updateObligation(writeDeps(uow), id, input);
 export const createObligationDeadline = (uow: UnitOfWork, id: string) => useCases.createObligationDeadline(writeDeps(uow), id);
 export const closeObligation = (uow: UnitOfWork, id: string, input: unknown, today = todayInItaly()) => useCases.closeObligation(writeDeps(uow), id, input, today);

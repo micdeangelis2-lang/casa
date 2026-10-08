@@ -55,6 +55,9 @@ export const addLettingParty = (uow: UnitOfWork, lettingId: string, input: unkno
 export const removeLettingParty = (uow: UnitOfWork, lettingId: string, partyId: string) => useCases.removeLettingParty(writeDeps(uow), lettingId, partyId);
 export const generateRentSchedule = (uow: UnitOfWork, lettingId: string, input: unknown) => useCases.generateRentSchedule(writeDeps(uow), lettingId, input);
 export const addRent = (uow: UnitOfWork, lettingId: string, input: unknown) => useCases.addRent(writeDeps(uow), lettingId, input);
+/** Convalida a secco di un canone / di un incasso (stesse regole di `addRent` e `recordRentPayment`, nessuna scrittura). */
+export const validateRentInput = (input: unknown) => useCases.validateRent(input);
+export const validateRentPaymentInput = (input: unknown) => useCases.validateRentPayment(input);
 export const recordRentPayment = (uow: UnitOfWork, rentId: string, input: unknown, today = todayInItaly()) => useCases.recordRentPayment(writeDeps(uow), rentId, input, today);
 export const addRentReceipt = (uow: UnitOfWork, rentId: string, input: unknown, today = todayInItaly()) => useCases.addRentReceipt(writeDeps(uow), rentId, input, today);
 export const removeRentReceipt = (uow: UnitOfWork, receiptId: string, today = todayInItaly()) => useCases.removeRentReceipt(writeDeps(uow), receiptId, today);

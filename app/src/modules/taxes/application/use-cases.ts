@@ -70,6 +70,10 @@ async function duplicateObligation(deps: TaxDeps, v: { assetId: string; taxTypeI
   return same.some((o) => o.id !== exceptId && (o.label ?? "") === (v.label ?? ""));
 }
 
+/** Convalida a secco di una voce e di un pagamento (le stesse regole di `createObligation` e `recordPayment`, senza scrivere). */
+export const validateObligation = (input: unknown): Result<unknown> => parseInput(obligationSchema, input);
+export const validatePayment = (input: unknown): Result<unknown> => parseInput(paymentSchema, input);
+
 export async function createObligation(deps: TaxDeps, raw: unknown): Promise<Id> {
   const p = parseInput(obligationSchema, raw);
   if (!p.ok) return p;

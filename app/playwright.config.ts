@@ -48,7 +48,9 @@ export default defineConfig({
       timeout: 60_000,
     },
     {
-      command: `pnpm build && pnpm exec next start -p ${E2E_PORT}`,
+      // keepAliveTimeout lungo: con il valore predefinito (5 s) il server chiude una connessione inattiva proprio mentre il browser la
+      // riusa e la richiesta cade con ERR_CONNECTION_RESET (visto a caso nelle corse complete, mai in isolamento).
+      command: `pnpm build && pnpm exec next start -p ${E2E_PORT} --keepAliveTimeout 65000`,
       url: E2E_ORIGIN,
       stdout: "pipe",
       stderr: "pipe",

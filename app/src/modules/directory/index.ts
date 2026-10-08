@@ -18,6 +18,8 @@ export type { CompetenceItem } from "./application/competence-cases";
 const deps = (uow: UnitOfWork) => ({ repo: drizzlePartyRepository(uow.tx), audit: uow.audit });
 
 export const createParty = (uow: UnitOfWork, input: unknown) => useCases.createParty(deps(uow), input);
+/** Convalida a secco di un contatto (stesse regole di `createParty`, nessuna scrittura). */
+export const validatePartyInput = (input: unknown) => useCases.validateParty(input);
 export const updateParty = (uow: UnitOfWork, id: string, input: unknown) => useCases.updateParty(deps(uow), id, input);
 export const setPartyArchived = (uow: UnitOfWork, id: string, archived: boolean) =>
   useCases.setPartyArchived(deps(uow), id, archived);

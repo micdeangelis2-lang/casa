@@ -1,4 +1,4 @@
-import { fail, failGeneral, ok, zodIssuesToErrors, type FieldErrors, type Result } from "@/shared/result";
+import { fail, failGeneral, ok, parseInput, zodIssuesToErrors, type FieldErrors, type Result } from "@/shared/result";
 import { assetInputSchema, declaredValueSchema, type AssetDetail, type AssetInput } from "../domain/asset";
 import type { AssetChildren, AssetCore, AssetDeps, AssetRepository } from "./ports";
 
@@ -50,6 +50,9 @@ async function prepare(deps: AssetDeps, input: AssetInput, selfAssetId?: string)
     },
   });
 }
+
+/** Convalida a secco dei campi di un bene (le stesse regole di `createAsset`, senza consultare il database e senza scrivere). */
+export const validateAsset = (input: unknown): Result<AssetInput> => parseInput(assetInputSchema, input);
 
 export async function createAsset(deps: AssetDeps, rawInput: unknown): Promise<Result<{ id: string }>> {
   const parsed = assetInputSchema.safeParse(rawInput);

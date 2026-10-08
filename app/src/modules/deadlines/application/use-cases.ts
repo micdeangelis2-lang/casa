@@ -1,7 +1,7 @@
 import { addDays, yearOf } from "@/shared/dates";
 import { sameJson } from "@/shared/json";
 import { occurrencesBetween, shiftToBusinessDay } from "@/shared/calc";
-import { fail, failGeneral, ok, zodIssuesToErrors, type FieldErrors, type Result } from "@/shared/result";
+import { fail, failGeneral, ok, parseInput, zodIssuesToErrors, type FieldErrors, type Result } from "@/shared/result";
 import { holidaySet } from "../domain/holidays";
 import {
   completionSchema,
@@ -85,6 +85,9 @@ export async function materialize(deps: DeadlineDeps, deadline: DeadlineRow, tod
   const cancelled = await deps.repo.cancelOpenAfter(deadline.id, today, unique);
   return { created, cancelled };
 }
+
+/** Convalida a secco dei campi di una scadenza (le stesse regole di `createDeadline`, senza consultare il database e senza scrivere). */
+export const validateDeadline = (input: unknown): Result<DeadlineInput> => parseInput(deadlineInputSchema, input);
 
 export async function createDeadline(deps: DeadlineDeps, raw: unknown, today: string): Promise<Result<{ id: string }>> {
   const parsed = deadlineInputSchema.safeParse(raw);

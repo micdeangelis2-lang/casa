@@ -167,6 +167,10 @@ export async function generateRentSchedule(deps: LettingDeps, lettingId: string,
   return ok({ id: lettingId, created: dates.length });
 }
 
+/** Convalida a secco di un canone e del suo incasso (le stesse regole di `addRent` e `recordRentPayment`, senza scrivere). */
+export const validateRent = (input: unknown): Result<unknown> => parseInput(rentRowSchema, input);
+export const validateRentPayment = (input: unknown): Result<unknown> => parseInput(rentPaymentSchema, input);
+
 export async function addRent(deps: LettingDeps, lettingId: string, raw: unknown): Promise<Id> {
   const p = parseInput(rentRowSchema, raw);
   if (!p.ok) return p;

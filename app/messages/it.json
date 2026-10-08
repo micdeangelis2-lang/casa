@@ -1,4 +1,77 @@
 {
+  "import": {
+    "title": "Importa da file CSV",
+    "intro": "Se hai già un archivio in un foglio di calcolo, puoi portarlo qui: scarica il modello, compilalo e caricalo. Prima di scrivere qualcosa vedrai un'anteprima riga per riga; il file caricato non viene conservato.",
+    "kindLabel": "Cosa vuoi importare",
+    "kind": {
+      "contacts": "Contatti (rubrica)",
+      "assets": "Immobili",
+      "deadlines": "Scadenze (con data scritta a mano)",
+      "rents": "Canoni di locazione",
+      "taxes": "Voci di tributo",
+      "taxPayments": "Pagamenti di tributo",
+      "policies": "Polizze"
+    },
+    "kindHint": {
+      "deadlines": "Colonne: titolo, categoria, livello, immobile già registrato (per denominazione), data (gg/mm/aaaa oppure aaaa-mm-gg), priorità, note. Si importano solo scadenze con una data; l'app non ne calcola nessuna. Una scadenza con lo stesso titolo, la stessa data e lo stesso immobile di una già presente viene saltata.",
+      "rents": "Colonne: locazione già registrata (per titolo), scadenza del canone, importo (es. 1.234,56) e, se vuoi, data e importo incassato. Un canone con la stessa locazione e la stessa scadenza di uno già presente viene saltato.",
+      "taxes": "Colonne: immobile già registrato, tipo di tributo già creato (per nome: l'importazione non crea i tipi), anno, etichetta e importo atteso facoltativi, note. Una voce con lo stesso immobile, tipo, anno ed etichetta di una già presente viene saltata.",
+      "taxPayments": "Colonne: immobile, tipo di tributo, anno ed etichetta (identificano la voce, che deve esistere ed essere aperta), data e importo del pagamento, riferimento facoltativo. Un pagamento con la stessa voce, data e importo di uno già registrato viene saltato.",
+      "policies": "Colonne: titolo, compagnia (un contatto già in rubrica), numero, data di inizio e di fine, premio, immobili collegati già registrati (separati da |), note. Una polizza con lo stesso titolo, numero e data di inizio di una già presente viene saltata.",
+      "contacts": "Colonne: nome, ruoli (separati da |), codice fiscale o partita IVA, email, telefono, PEC, indirizzo, note. Un contatto con lo stesso codice fiscale o la stessa email di uno già presente viene saltato.",
+      "assets": "Colonne: tipo, denominazione, indirizzo, Comune e sigla della Provincia, CAP, località, uso, note; facoltativi un titolare già in rubrica con quota e diritto, e una riga di dati catastali. Un immobile con la stessa denominazione e lo stesso indirizzo di uno già presente viene saltato."
+    },
+    "template": "Scarica il modello CSV",
+    "fileLabel": "File CSV",
+    "fileHint": "Separatore punto e virgola o virgola, al massimo 2 MB e 500 righe. Da Excel: Salva con nome, CSV.",
+    "check": "Controlla il file",
+    "working": "Attendi...",
+    "importButton": "Importa le {n} righe pronte",
+    "nothingToImport": "Non ci sono righe pronte da importare.",
+    "errors": {
+      "kind": "Scegli che cosa importare.",
+      "noFile": "Scegli un file CSV da caricare.",
+      "tooBig": "Il file è troppo grande (massimo 2 MB).",
+      "notCsv": "Il file non sembra un CSV: usa un file con estensione .csv.",
+      "generic": "Non è stato possibile leggere il file. Riprova."
+    },
+    "summary": {
+      "title": "Anteprima",
+      "line": "Righe lette: {total}. Pronte: {ready}. Già presenti (saltate): {duplicate}. Con errori: {error}.",
+      "skipped": "Righe di esempio del modello (saltate, non vengono mai importate): {n}.",
+      "noWrite": "Per ora non è stato scritto nulla. Le righe con errori non vengono importate.",
+      "ignored": "Colonne non riconosciute e ignorate: {list}."
+    },
+    "table": {
+      "label": "Esito di ogni riga del file",
+      "caption": "Esito per ogni riga del file",
+      "line": "Riga",
+      "name": "Nome",
+      "outcome": "Esito",
+      "detail": "Dettaglio",
+      "noName": "(senza nome)",
+      "column": "Colonna {column}"
+    },
+    "status": {
+      "ready": "Pronta",
+      "duplicate": "Già presente",
+      "error": "Errore",
+      "skipped": "Saltata (riga di esempio)"
+    },
+    "done": {
+      "title": "Importazione completata",
+      "line": "Righe importate: {imported}. Già presenti e saltate: {duplicate}. Con errori e non importate: {error}.",
+      "open": {
+        "contacts": "Vai alla rubrica",
+        "assets": "Vai agli immobili",
+        "deadlines": "Vai alle scadenze",
+        "rents": "Vai alle locazioni",
+        "taxes": "Vai ai tributi",
+        "taxPayments": "Vai ai tributi",
+        "policies": "Vai alle assicurazioni"
+      }
+    }
+  },
   "officeForms": {
     "title": "Modulistica",
     "intro": "I moduli e i documenti di questo ufficio, come li hai annotati tu: l'elenco dei documenti da presentare, la fonte da cui lo hai ricavato, la data in cui lo hai controllato e lo stato. L'app non conosce i moduli degli uffici e non dice cosa un ufficio richieda: l'elenco è quello che scrivi tu e va ricontrollato alla fonte.",
@@ -1554,6 +1627,8 @@
     "territoriesTitle": "Territori",
     "territoriesBody": "Regioni, province, Comuni e località. I Comuni italiani arrivano dall'elenco ISTAT; qui puoi aggiungere una località o un territorio che manca.",
     "backupTitle": "Backup ed esportazione",
+    "importTitle": "Importa da file CSV",
+    "importBody": "Porta qui contatti e immobili da un foglio di calcolo, con anteprima prima di scrivere.",
     "backupBody": "Copia cifrata di tutti i dati e dei documenti, ed esportazione completa in formato aperto.",
     "notificationsTitle": "Notifiche e email",
     "notificationsBody": "Dove arrivano gli avvisi sulle scadenze e quando partono.",

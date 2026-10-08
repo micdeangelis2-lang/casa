@@ -56,6 +56,16 @@ export default async function SettingsPage() {
           </CardHeader>
         </Card>
       </Link>
+      <Link href="/importa" className="rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2">
+        <Card className="transition-colors hover:bg-accent/40">
+          <CardHeader>
+            <CardTitle>
+              <h2>{t("importTitle")}</h2>
+            </CardTitle>
+            <CardDescription>{t("importBody")}</CardDescription>
+          </CardHeader>
+        </Card>
+      </Link>
       <Link href="/impostazioni/backup" className="rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2">
         <Card className="transition-colors hover:bg-accent/40">
           <CardHeader>
