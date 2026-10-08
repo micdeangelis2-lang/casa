@@ -1,0 +1,3847 @@
+{
+  "D:\\casa\\.claude\\settings.local.json": {
+    "mtime": 1791199914.7328424,
+    "ast_hash": "c8f997f02beaa8fdbf2e2117cbc81c9a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\components.json": {
+    "mtime": 1791200661.0607114,
+    "ast_hash": "f9b838065323828efd209f38da0e25f2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle.config.ts": {
+    "mtime": 1791200442.2858374,
+    "ast_hash": "9736ed866f0940b3e5dac6dbd6f9670a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\eslint.config.mjs": {
+    "mtime": 1791293910.6514232,
+    "ast_hash": "a39f1d9c006dd08ef8f63589a8ca17e3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\knip.json": {
+    "mtime": 1791387413.168999,
+    "ast_hash": "a7253c5056491d717b023594de14849d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\next-env.d.ts": {
+    "mtime": 1791444181.2101927,
+    "ast_hash": "8195d2c60ce847a459ae9d308d6a5724",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\next.config.ts": {
+    "mtime": 1791293712.3727956,
+    "ast_hash": "6438838dcdf2b308c09071c25e6bf467",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\package.json": {
+    "mtime": 1791399974.3753862,
+    "ast_hash": "c1e0e52154eaf545f53c20b47fcc5b69",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\playwright.config.ts": {
+    "mtime": 1791447070.6506994,
+    "ast_hash": "6d260a452fa237dcfc89769e45900740",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\postcss.config.mjs": {
+    "mtime": 1791200165.7918527,
+    "ast_hash": "239f3ebf717465dc636818a1a619398d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tsconfig.json": {
+    "mtime": 1791212157.4507592,
+    "ast_hash": "912e30fc1450b0e7be4b20ea24a2e0b2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\vercel.json": {
+    "mtime": 1791268224.98471,
+    "ast_hash": "9e71b67bfd9d0673d0b29956c84409c8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0000_audit_log.sql": {
+    "mtime": 1791200448.5057333,
+    "ast_hash": "3657c335466c5dafd75cf6335517e8e3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0001_audit_chain.sql": {
+    "mtime": 1791200473.7928543,
+    "ast_hash": "6ea399c19602ed95e7e2977056a7d671",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0002_auth_tables.sql": {
+    "mtime": 1791201072.3314974,
+    "ast_hash": "166ebd3715cd003c2dfeac85c205431c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0003_single_owner.sql": {
+    "mtime": 1791201078.0048378,
+    "ast_hash": "c4957b813830c734d3052a3b97a30bd4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0004_registry.sql": {
+    "mtime": 1791212230.4297657,
+    "ast_hash": "25769a7722b2586340d1fe1cdc016ce0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0005_documents.sql": {
+    "mtime": 1791214105.7877612,
+    "ast_hash": "6f400b94c12665d3078e0ca6d836ea36",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0006_backup.sql": {
+    "mtime": 1791214914.8568282,
+    "ast_hash": "affc2e1a9fffac31491c40c78620cda1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0007_rules_dossier.sql": {
+    "mtime": 1791227426.5054786,
+    "ast_hash": "df40e73601b89704b47352c89df0a55d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0008_deadlines.sql": {
+    "mtime": 1791230731.8025498,
+    "ast_hash": "36e40677a1e8eec7be4c92f74f7b05d2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0009_matters_sharing.sql": {
+    "mtime": 1791232476.53665,
+    "ast_hash": "023c27a2890a91be3dbea1596dfda437",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0010_condominium.sql": {
+    "mtime": 1791233273.454875,
+    "ast_hash": "800a47ca9c6f2f5b4002d19e1d67699a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0011_taxes.sql": {
+    "mtime": 1791234722.6016626,
+    "ast_hash": "7f33b1401e77e571e23a4c2c41de8a2a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0012_maintenance_insurance.sql": {
+    "mtime": 1791235547.3176534,
+    "ast_hash": "9ace6bf8b2c56100dd5fba812e500001",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0013_lettings.sql": {
+    "mtime": 1791236881.868956,
+    "ast_hash": "3649bd2a693f260c9cf72d79428cf461",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0014_fk_indexes.sql": {
+    "mtime": 1791293755.9111054,
+    "ast_hash": "8f6faf43ae391b7673c9e6a9ea6332f4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0015_audit_action_index.sql": {
+    "mtime": 1791293909.102776,
+    "ast_hash": "5d4769b245f063b604090572827ad63d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0016_matter_offices_events.sql": {
+    "mtime": 1791380373.5993302,
+    "ast_hash": "6881ae2ff67bc3303d28e1cc35cd8cec",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0017_payment_proofs.sql": {
+    "mtime": 1791381362.7403715,
+    "ast_hash": "6b3db0a16c2b8ec49c5444e24b0ffaa0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0018_plants.sql": {
+    "mtime": 1791382144.3335154,
+    "ast_hash": "b22e1f5c38ddf1d4652f49d769681acb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0019_condo_budget_scope.sql": {
+    "mtime": 1791382896.8693933,
+    "ast_hash": "6ca7de167f0bac829d3092f8254fe2ab",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0020_notary_provenance_encumbrance.sql": {
+    "mtime": 1791383357.5009754,
+    "ast_hash": "b42bffaef0c6971e4855ac66c0c055e4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0021_mandates_listings_agent.sql": {
+    "mtime": 1791383781.5463846,
+    "ast_hash": "85bc70ffc2ddc2171e8079fa6a7b080b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0022_party_competence.sql": {
+    "mtime": 1791384556.9475935,
+    "ast_hash": "40194196c26890e419ea315cc06e39ec",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0023_hardening_checks_uniques.sql": {
+    "mtime": 1791399188.1448963,
+    "ast_hash": "284b6d364871d096e43732043384f700",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0024_ins_claim_document.sql": {
+    "mtime": 1791399380.4735112,
+    "ast_hash": "549363ccd1df7bee7887251b7a15b19d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0025_declared_value_coverage_asset.sql": {
+    "mtime": 1791399650.541189,
+    "ast_hash": "19e0645a88839c3055d0a325d48bf9b4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0026_engagements.sql": {
+    "mtime": 1791399956.7342393,
+    "ast_hash": "36f325ed3ddc24dcfa890d8fb14780cc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\0027_office_form_template.sql": {
+    "mtime": 1791400569.1350093,
+    "ast_hash": "041650640847b130a2d5d8e6d319dbca",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0000_snapshot.json": {
+    "mtime": 1791200448.504208,
+    "ast_hash": "1e4a23eacf169450e85d9bec62cb62fd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0001_snapshot.json": {
+    "mtime": 1791200449.8790202,
+    "ast_hash": "933e7e9d01495c03a655c569dbfb424d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0002_snapshot.json": {
+    "mtime": 1791201072.326703,
+    "ast_hash": "cf50a6841b63308b2fc046c497380b07",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0003_snapshot.json": {
+    "mtime": 1791201073.5063822,
+    "ast_hash": "9f47490c15bf240510fed476f94718e8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0004_snapshot.json": {
+    "mtime": 1791212230.4277785,
+    "ast_hash": "49135602ab016915d0b07b586c3cc1f6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0005_snapshot.json": {
+    "mtime": 1791214100.417639,
+    "ast_hash": "f3c027ee3747a286d860cbb46a050251",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0006_snapshot.json": {
+    "mtime": 1791214914.8558285,
+    "ast_hash": "448c8cf21359dbcac1460b576f61e7d8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0007_snapshot.json": {
+    "mtime": 1791227417.347088,
+    "ast_hash": "248e056375643d1295d0b4e49b97d5a2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0008_snapshot.json": {
+    "mtime": 1791230719.1999025,
+    "ast_hash": "16c867a2802a26116131caae928b7113",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0009_snapshot.json": {
+    "mtime": 1791232476.5356493,
+    "ast_hash": "fac7b21f0315dc0d536b41351e5dc3d0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0010_snapshot.json": {
+    "mtime": 1791233273.4538841,
+    "ast_hash": "7a716e8198d3921bd8ac5930c027f696",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0011_snapshot.json": {
+    "mtime": 1791234722.600159,
+    "ast_hash": "6f03f0f22eacb19245b23623b8d078d1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0012_snapshot.json": {
+    "mtime": 1791235547.31614,
+    "ast_hash": "58cd858925f8eaad19c3a61c555500a5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0013_snapshot.json": {
+    "mtime": 1791236881.8667066,
+    "ast_hash": "5bdf577d0599952040689cf6d968348b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0014_snapshot.json": {
+    "mtime": 1791293755.909596,
+    "ast_hash": "fbbae5db92e051ce36ecbfeed72aa86e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0015_snapshot.json": {
+    "mtime": 1791293909.100567,
+    "ast_hash": "d7f194598756c2e8b8ed394b2680e4b0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0016_snapshot.json": {
+    "mtime": 1791380373.5988185,
+    "ast_hash": "094f4814ab20ada69c5a471b7308f65f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0017_snapshot.json": {
+    "mtime": 1791381357.990373,
+    "ast_hash": "304c6ffe5df43e142965cfdeaddc89fa",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0018_snapshot.json": {
+    "mtime": 1791382144.3290768,
+    "ast_hash": "6a7bd0d265b795f79bcebced87df6e01",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0019_snapshot.json": {
+    "mtime": 1791382896.8684015,
+    "ast_hash": "5cacb74e809d2cf7bae1e0bbc24f5546",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0020_snapshot.json": {
+    "mtime": 1791383357.4917061,
+    "ast_hash": "84f9d8d895d272d804a329b70e688902",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0021_snapshot.json": {
+    "mtime": 1791383771.7175891,
+    "ast_hash": "1d64d9ed74c219bf6068c57bea8da14a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0022_snapshot.json": {
+    "mtime": 1791384556.94558,
+    "ast_hash": "f518f4b0bd98d0bb204d7006823dfd0e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0023_snapshot.json": {
+    "mtime": 1791399176.1814888,
+    "ast_hash": "fece872f8650b4998616e107cedd15be",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0024_snapshot.json": {
+    "mtime": 1791399380.4715106,
+    "ast_hash": "b4e747c01731e04c642840af641fb64e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0025_snapshot.json": {
+    "mtime": 1791399650.540188,
+    "ast_hash": "fbc111243a84f1fa96dec5140655a5d7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0026_snapshot.json": {
+    "mtime": 1791399956.7322407,
+    "ast_hash": "c12eed6ffe21179bef18870f943ca76b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\0027_snapshot.json": {
+    "mtime": 1791400569.1340096,
+    "ast_hash": "d4a6fd3e8bd826225b789b87d26d7ab6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\drizzle\\meta\\_journal.json": {
+    "mtime": 1791400569.1350093,
+    "ast_hash": "e0de5f57ee2347767932580bda6ee99e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\accessibility-responsive.spec.ts": {
+    "mtime": 1791267809.4522884,
+    "ast_hash": "d690fff588710d139d792b1405ca0996",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\agente-mandati.spec.ts": {
+    "mtime": 1791403164.735095,
+    "ast_hash": "4b5f0c90512dcf50ee2206ee990a744b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\agente.spec.ts": {
+    "mtime": 1791403164.7360935,
+    "ast_hash": "d46c98bb0a02bbaf7ddc8846684d4d06",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\assicuratore.spec.ts": {
+    "mtime": 1791403164.7360935,
+    "ast_hash": "1850fca5be649e553ca4f5c1aa5cf52b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\attention.spec.ts": {
+    "mtime": 1791403164.737094,
+    "ast_hash": "2fc0cb35016dd28dc006ca87bc044f33",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\audit-log.spec.ts": {
+    "mtime": 1791403164.7380939,
+    "ast_hash": "a670b86531bdf51a5e97c0ad863714da",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\auth.setup.ts": {
+    "mtime": 1791202913.6756763,
+    "ast_hash": "bbe0af51419f13cd09206391897318ca",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\auth.spec.ts": {
+    "mtime": 1791403164.7380939,
+    "ast_hash": "cf905677017fb711689eb8b809a08586",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\avvocato.spec.ts": {
+    "mtime": 1791403164.7390935,
+    "ast_hash": "a724229ed10c2cd20b5cc1681dc5ba6a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\backup.spec.ts": {
+    "mtime": 1791399593.8859992,
+    "ast_hash": "bb8e68270458a8246e2c2f3024abf0f0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\bulk-upload.spec.ts": {
+    "mtime": 1791403164.7400944,
+    "ast_hash": "e2b7f04232224c4df9ca541941e2b3ac",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\calendar.spec.ts": {
+    "mtime": 1791403164.7400944,
+    "ast_hash": "a4a557392fcba5c485471a516019c580",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\commercialista.spec.ts": {
+    "mtime": 1791403164.741094,
+    "ast_hash": "c619364554255fd886a2c036b236c533",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\condominio-palazzo.spec.ts": {
+    "mtime": 1791403164.741094,
+    "ast_hash": "602e348a0e7fb9248402de539c11bc8a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\condominium-review.spec.ts": {
+    "mtime": 1791403164.7420938,
+    "ast_hash": "5bf3f41d3cabd6e42161bb8816aeb4ec",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\condominium.spec.ts": {
+    "mtime": 1791403164.7420938,
+    "ast_hash": "103f3be7dfbfc118f561caf75d623190",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\deadlines.spec.ts": {
+    "mtime": 1791232021.4430559,
+    "ast_hash": "2d19813db170c7d56eb1c10297f2e53b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\documents.spec.ts": {
+    "mtime": 1791403164.7430937,
+    "ast_hash": "217661d6af54610cd7949f3b05adaea5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\economy.spec.ts": {
+    "mtime": 1791403164.7440934,
+    "ast_hash": "3c4f2a363d4e6abdef003af9706ba0f8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\edit-ui.spec.ts": {
+    "mtime": 1791403164.7440934,
+    "ast_hash": "f2075f71ea009e3090b8c73ddbeeffbb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\exports.spec.ts": {
+    "mtime": 1791403164.7450938,
+    "ast_hash": "0f329ff3f99a34a4d978c86a6d7556f6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\gestore.spec.ts": {
+    "mtime": 1791403164.7450938,
+    "ast_hash": "6a77b8472435b89167b9c856764f8618",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\health.spec.ts": {
+    "mtime": 1791273292.8771427,
+    "ast_hash": "ec7cc22415d28e5a7cf3830caedf76e1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\impianti-registrati.spec.ts": {
+    "mtime": 1791403164.746094,
+    "ast_hash": "29493cf7d68e2e8306ffb20875ac88a7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\impiantista.spec.ts": {
+    "mtime": 1791403164.746094,
+    "ast_hash": "3036de5894242374da653cbc816085e0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\import-altri.spec.ts": {
+    "mtime": 1791445762.702749,
+    "ast_hash": "9f949b114a4bc07fd3e13b980865a58e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\import.spec.ts": {
+    "mtime": 1791444859.0479047,
+    "ast_hash": "4e0c5f191ca30ff061aefddf827e7c8d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\incarichi.spec.ts": {
+    "mtime": 1791403164.747094,
+    "ast_hash": "e14cb3c111f26389e59edbb7e80b9bcb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\indurimento.spec.ts": {
+    "mtime": 1791403164.747094,
+    "ast_hash": "3fb402ae5bd600e07c7af084fda4b252",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\insurance.spec.ts": {
+    "mtime": 1791403164.7480936,
+    "ast_hash": "a19628078462770249a71a5731bfe17a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\lettings.spec.ts": {
+    "mtime": 1791403164.7480936,
+    "ast_hash": "7b784de4e63d63fb325fb644995dd03b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\maintenance.spec.ts": {
+    "mtime": 1791403164.7490942,
+    "ast_hash": "f602ef34afc06c3379f376d1e9250f0a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\matters-sharing.spec.ts": {
+    "mtime": 1791403164.7500937,
+    "ast_hash": "19ed8d30192fa770071cb5c4aaa59309",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\neutral-language.spec.ts": {
+    "mtime": 1791267809.2769198,
+    "ast_hash": "742bbcbc30acfb01a80e158abbdda3cb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\notaio-registri.spec.ts": {
+    "mtime": 1791403164.7500937,
+    "ast_hash": "123f6d1158eacc172886e73ffb2d3ee1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\notary.spec.ts": {
+    "mtime": 1791403164.751094,
+    "ast_hash": "21b07ef63237373051d06638f7c589cb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\pagination.spec.ts": {
+    "mtime": 1791403164.751094,
+    "ast_hash": "3917832e37d1deb6e855752af1a837d3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\pratica-uffici.spec.ts": {
+    "mtime": 1791403164.7520952,
+    "ast_hash": "828357e12373c5ec08e0810dec212fa1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\problem-pages.spec.ts": {
+    "mtime": 1791271462.379359,
+    "ast_hash": "3e2e5dd134102a6fbd2fb2f870132662",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\reconfirm.spec.ts": {
+    "mtime": 1791403164.753094,
+    "ast_hash": "7f7e4e535702b9de29c95465f4971f90",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\registry.spec.ts": {
+    "mtime": 1791403164.753094,
+    "ast_hash": "853bd5eb7831893eff2aa36e07951eca",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\rubrica-competenze.spec.ts": {
+    "mtime": 1791403164.754094,
+    "ast_hash": "33ec2c867d235fb7b9e8b761e1e1b2bc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\rules.spec.ts": {
+    "mtime": 1791230901.6415827,
+    "ast_hash": "69cc978155307f6dab27f8d333f937b6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\search.spec.ts": {
+    "mtime": 1791403164.7550945,
+    "ast_hash": "2986a577da1a16bce424a7e56313318d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\security-fixes.spec.ts": {
+    "mtime": 1791403164.7550945,
+    "ast_hash": "c6961bd8b2942821af15f7222a35c959",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\security-page.spec.ts": {
+    "mtime": 1791403164.756094,
+    "ast_hash": "ca57807ff15e0c812103df75826f631d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\shell.spec.ts": {
+    "mtime": 1791267054.8467178,
+    "ast_hash": "da6751772b13030c7cf648fe79d69a01",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\sinistro-documenti.spec.ts": {
+    "mtime": 1791403164.7570941,
+    "ast_hash": "f3102056d9b14fb6aa522d83b05d7200",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\taxes.spec.ts": {
+    "mtime": 1791403164.7570941,
+    "ast_hash": "06bd002c504723556d62e3e662d6d14e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\tecnico.spec.ts": {
+    "mtime": 1791403164.7580943,
+    "ast_hash": "997e16775e2e094f48d8dd40c49dace7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\uffici-modulistica.spec.ts": {
+    "mtime": 1791403164.7590947,
+    "ast_hash": "514d067d910eaeda345aca8d594cd8f8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\uffici.spec.ts": {
+    "mtime": 1791403164.7590947,
+    "ast_hash": "a20470883a2a42c6f724ecc7b957875b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\valore-dichiarato.spec.ts": {
+    "mtime": 1791403164.7601407,
+    "ast_hash": "a7486f8837d69a74bdede2fd40889b1b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\web-polish.spec.ts": {
+    "mtime": 1791403164.7610984,
+    "ast_hash": "c0546a24378d422e2fbc70b8407da6d4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\.auth\\state.json": {
+    "mtime": 1791452671.3602636,
+    "ast_hash": "49aa43e1316f0555af23ed0877f81812",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\a11y.ts": {
+    "mtime": 1791202859.9471874,
+    "ast_hash": "bf2e4e4eb53a9265b341923272c36009",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\db-server.ts": {
+    "mtime": 1791400158.8887951,
+    "ast_hash": "1fdde45a78c316eb142ad7df231a277d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\env.ts": {
+    "mtime": 1791215407.9357455,
+    "ast_hash": "97b888e25aed06ce017a71f3e7afb39d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\hydration.ts": {
+    "mtime": 1791400165.9998507,
+    "ast_hash": "0d4175ebdf57ec29a6591e0b5b44efcf",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\pages.ts": {
+    "mtime": 1791444667.4156332,
+    "ast_hash": "f5348a8e651c5f5fa6fc1424a9b13c18",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\pg-client.ts": {
+    "mtime": 1791403163.1493366,
+    "ast_hash": "b7575fdfd0d38ed0efef338cc4b7e905",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\reconfirm.ts": {
+    "mtime": 1791403164.762098,
+    "ast_hash": "fa4ac66710b2db8a29dfa20194794468",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\totp.ts": {
+    "mtime": 1791201390.912568,
+    "ast_hash": "1b1c3986cbeaa140ad7eaf1d8f31a957",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\e2e\\support\\webauthn.ts": {
+    "mtime": 1791201467.134483,
+    "ast_hash": "07aa3215d436cbdfca3c262e1cc86d63",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\messages\\it.json": {
+    "mtime": 1791445532.8263535,
+    "ast_hash": "e031b491214c06681a9aec4313aed10e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\scripts\\auth-cli-config.ts": {
+    "mtime": 1791201047.0293567,
+    "ast_hash": "a5a2ab680a72b5cc4a65a9c811175661",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\scripts\\backup-keygen.ts": {
+    "mtime": 1791215327.0972245,
+    "ast_hash": "111ea1b8eeb0001ece018c4033b491a1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\scripts\\backup-restore.ts": {
+    "mtime": 1791399378.8062906,
+    "ast_hash": "c4e4175c9468337ec9cca8cb022b2d12",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\scripts\\backup-run.ts": {
+    "mtime": 1791215328.127731,
+    "ast_hash": "9ef8b7f41dc4c6bb51e74e4a73954c70",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\scripts\\dev-db.ts": {
+    "mtime": 1791211250.1194422,
+    "ast_hash": "86b7ed545a5b8cda0046f15e20734dad",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\scripts\\doctor.ts": {
+    "mtime": 1791293814.6641438,
+    "ast_hash": "361ca97b67ae6b807cd5b2dc105ba375",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\scripts\\import-istat.ts": {
+    "mtime": 1791211972.7489104,
+    "ast_hash": "0396d9903de7fe5ba95f255fe3c44109",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\scripts\\migrate.ts": {
+    "mtime": 1791203192.309462,
+    "ast_hash": "3e01d9423e4048bae62a311f87509c2c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\global.d.ts": {
+    "mtime": 1791200724.8316026,
+    "ast_hash": "0b656a0f1aaa803a4e1ccd32a64b30c2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\instrumentation.ts": {
+    "mtime": 1791392863.065231,
+    "ast_hash": "b5844313d405fb7d55f04cf3c3f2ce30",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\proxy.ts": {
+    "mtime": 1791380387.019719,
+    "ast_hash": "36f3c22b7ac4984179fa655daa990d39",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\global-error.tsx": {
+    "mtime": 1791271272.896019,
+    "ast_hash": "4919e78150f9c56b3b681844132c4107",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\layout.tsx": {
+    "mtime": 1791293790.2772474,
+    "ast_hash": "ac3178e094778c5e55404b7cd1d55649",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\manifest.ts": {
+    "mtime": 1791293700.853792,
+    "ast_hash": "7043da9d60d6b243ac5b66fdac0d51f1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\not-found.tsx": {
+    "mtime": 1791271269.3097053,
+    "ast_hash": "130b6ce4a5a4fe4ec3aa6cc5e06ebea4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\robots.ts": {
+    "mtime": 1791293700.7858443,
+    "ast_hash": "7d6cb9633dcb79258b809b5637a1a2e9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\error.tsx": {
+    "mtime": 1791271271.560027,
+    "ast_hash": "c2682b33051a2fd4fd0adc749f46bb68",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\layout.tsx": {
+    "mtime": 1791293706.0921943,
+    "ast_hash": "018f94a539b2f8d0a4889e1da6e25335",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\not-found.tsx": {
+    "mtime": 1791271270.4332342,
+    "ast_hash": "4d6a2dffdb74bb06998e37cda1b41a06",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\page.tsx": {
+    "mtime": 1791272216.6407678,
+    "ast_hash": "af4b6281ce339d262c5a027df740e042",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\actions.ts": {
+    "mtime": 1791399717.5738828,
+    "ast_hash": "eb864805a669dbda67d0ffa0205c8ce9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\page.tsx": {
+    "mtime": 1791365257.3302436,
+    "ast_hash": "1f0571cc100446070cf893288e9e0f61",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\nuova\\page.tsx": {
+    "mtime": 1791236290.828971,
+    "ast_hash": "de10214cb20b5635489de778db97be99",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\per-immobile\\page.tsx": {
+    "mtime": 1791399817.6257792,
+    "ast_hash": "0da3a0a2ad0aa69d02b1495de212088a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\sinistri\\nuovo\\page.tsx": {
+    "mtime": 1791236292.8924112,
+    "ast_hash": "554437f09ec729bcad28d0b1616e616e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\sinistri\\[claimId]\\page.tsx": {
+    "mtime": 1791399437.5902627,
+    "ast_hash": "0043641c4a7da51305520decbc1f2f84",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\sinistri\\[claimId]\\modifica\\page.tsx": {
+    "mtime": 1791236293.9314382,
+    "ast_hash": "566db09f2f781370f1f35f3ecd28da0f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\sinistri\\[claimId]\\scheda\\page.tsx": {
+    "mtime": 1791399877.8402352,
+    "ast_hash": "fdc9571346126d9b99df4d62159d6d8a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\[id]\\page.tsx": {
+    "mtime": 1791399717.5728817,
+    "ast_hash": "dfa488246bf319f55f1a9c40994bbabe",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791236291.866427,
+    "ast_hash": "bd2f4e14a8ccb83c0a3e8eddeb80cfbd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\assicurazioni\\_components\\insurance-form-data.ts": {
+    "mtime": 1791268051.5827148,
+    "ast_hash": "7cf43e795e4605e22b42f5c1ee3312f0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\avvisi\\page.tsx": {
+    "mtime": 1791231688.7136142,
+    "ast_hash": "85fc785b303f3ad948987ffb240b7263",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\avvisi\\_components\\mark-read.tsx": {
+    "mtime": 1791231689.7439778,
+    "ast_hash": "f8b12d3dcd3e6c72eaa66d1400a9666f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\cerca\\page.tsx": {
+    "mtime": 1791272506.5889535,
+    "ast_hash": "755b6c2e833256035db988b63084028a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condivisione\\actions.ts": {
+    "mtime": 1791399699.2723737,
+    "ast_hash": "874e82f4c3d5bbfd9485ecafd5fa6353",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condivisione\\page.tsx": {
+    "mtime": 1791274492.747824,
+    "ast_hash": "f082e7ee319485789fbcb57a54baf971",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condivisione\\nuovo\\page.tsx": {
+    "mtime": 1791399747.9856226,
+    "ast_hash": "390655408efe0ae5c7c111d7e52b4494",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condivisione\\[id]\\page.tsx": {
+    "mtime": 1791399755.4626195,
+    "ast_hash": "14cd3f0bc56d7b081f58a211825cfd21",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condivisione\\_components\\package-builder.tsx": {
+    "mtime": 1791399735.2842367,
+    "ast_hash": "0a2f4d28efa364067f2283174878cfdc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condivisione\\_components\\revoke-button.tsx": {
+    "mtime": 1791232708.1104476,
+    "ast_hash": "168676b7f358ff8f9c550e3f569c258e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\actions.ts": {
+    "mtime": 1791383010.3690884,
+    "ast_hash": "6e39d2b6432c1a355a759f0c5fa33a6d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\page.tsx": {
+    "mtime": 1791364761.0154886,
+    "ast_hash": "682661af1be7135c38f21cda73cb94ad",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\controllo\\page.tsx": {
+    "mtime": 1791364755.2082822,
+    "ast_hash": "306b1ca89c0dd6548d2d954bd2436c36",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\nuovo\\page.tsx": {
+    "mtime": 1791233893.1292574,
+    "ast_hash": "c94fbd06079d37bf2d2c24c039928d19",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\[id]\\page.tsx": {
+    "mtime": 1791233918.718955,
+    "ast_hash": "a8edc20ef0f732b49ae467e355e219e0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\[id]\\assemblee\\[meetingId]\\page.tsx": {
+    "mtime": 1791268051.5827148,
+    "ast_hash": "d8fd6e200ce13b8e19c283d3b546b619",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791233894.166648,
+    "ast_hash": "7e99f3a037f488ac65c29fd583a45c9e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\condo-form-data.ts": {
+    "mtime": 1791233892.0823002,
+    "ast_hash": "5e18eecf1048979c814d0eb3c92a9c8b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\meeting-form-data.ts": {
+    "mtime": 1791268051.5802045,
+    "ast_hash": "11c7723445f9e3733393793289f18068",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\section-anagrafica.tsx": {
+    "mtime": 1791233919.7537313,
+    "ast_hash": "b9946375e44984ff58f624847562903b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\section-assemblee.tsx": {
+    "mtime": 1791234014.8634958,
+    "ast_hash": "c35295e621302554b36909e03383393b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\section-contratti.tsx": {
+    "mtime": 1791268051.583714,
+    "ast_hash": "574a0eafce82880b57e135c89fdcae9f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\section-documenti.tsx": {
+    "mtime": 1791268064.106141,
+    "ast_hash": "c5ae5f281321203e7530c27571c07fc9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\section-esercizi.tsx": {
+    "mtime": 1791383010.3701544,
+    "ast_hash": "c23b1c8a79abee59acd33d07598ebba6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\section-lavori.tsx": {
+    "mtime": 1791268051.5817091,
+    "ast_hash": "51690fa3bb9220a8de4b8d78191d6adc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\section-millesimi.tsx": {
+    "mtime": 1791383010.3701544,
+    "ast_hash": "6031074267ed43a5f4ac01de6aedf909",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\condominio\\_components\\section-segnalazioni.tsx": {
+    "mtime": 1791233983.4414878,
+    "ast_hash": "976350fd370a5fb7d246b76dbb6e3bed",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\controlli\\page.tsx": {
+    "mtime": 1791272215.145904,
+    "ast_hash": "597f802cc67017eaa9531dd4760af938",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\controlli\\_components\\attention-list.tsx": {
+    "mtime": 1791272214.0510955,
+    "ast_hash": "1ac6c9ba7c25f3bd91eddae58d8e19db",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\actions.ts": {
+    "mtime": 1791214340.690079,
+    "ast_hash": "d73c4ca07f4ded8b3f1caa05c7433c0e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\document-form-state.ts": {
+    "mtime": 1791214534.5779192,
+    "ast_hash": "97516fd2f4f416220191e4d195f6ccda",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\page.tsx": {
+    "mtime": 1791294382.8262713,
+    "ast_hash": "d9df6ddd38cf9fe7006835d2d25f6877",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\carica-piu\\actions.ts": {
+    "mtime": 1791293712.8069468,
+    "ast_hash": "0199c236a972787be1cd36354d97f59b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\carica-piu\\bulk-upload-form.tsx": {
+    "mtime": 1791293899.4102752,
+    "ast_hash": "a037fb571532fdc0cc338126ef830dab",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\carica-piu\\page.tsx": {
+    "mtime": 1791293755.7085984,
+    "ast_hash": "6913ed6dc821bab2832266cb2c55d5f6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\carica-piu\\title-from-filename.ts": {
+    "mtime": 1791293900.4535081,
+    "ast_hash": "8829af4db1af8a604dd4a7133b00aca9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\nuovo\\page.tsx": {
+    "mtime": 1791214382.97178,
+    "ast_hash": "aa7cb735e4656393368743100410b08c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\[id]\\page.tsx": {
+    "mtime": 1791232740.6179762,
+    "ast_hash": "0f12dde0965c2b4d8dcb3e105fdc8a3a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791214383.9974732,
+    "ast_hash": "fb13475c56e2f0fe449e97435b946dea",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\[id]\\nuova-versione\\page.tsx": {
+    "mtime": 1791214385.0449808,
+    "ast_hash": "68e19cf5db86adc7ed95083b5d7742c8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\_components\\archive-button.tsx": {
+    "mtime": 1791214386.0942488,
+    "ast_hash": "941dfda648944767c51a590ac39d3a95",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\_components\\document-form.tsx": {
+    "mtime": 1791214533.5275197,
+    "ast_hash": "4d186b847340c4ffe3027439dab9450f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\documenti\\_components\\form-options.ts": {
+    "mtime": 1791214381.9318933,
+    "ast_hash": "3240a375ac3f20a753f6afb31e6432c6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\economia\\page.tsx": {
+    "mtime": 1791364692.9159267,
+    "ast_hash": "5005b7e28667030cbb7e4324f4599a0a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\economia\\dossier\\page.tsx": {
+    "mtime": 1791399871.289914,
+    "ast_hash": "8377e557595af8b9f42eb41295107c55",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\actions.ts": {
+    "mtime": 1791399684.648166,
+    "ast_hash": "c5e3b312bc4bcdef3740c7aff45e0786",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\asset-form-state.ts": {
+    "mtime": 1791227235.8592255,
+    "ast_hash": "46308fda1cf43b288da93aef5d1a6e50",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\page.tsx": {
+    "mtime": 1791212471.2723036,
+    "ast_hash": "b37e6283a3847e9c599b12a0765ef83b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\nuovo\\page.tsx": {
+    "mtime": 1791212461.1854057,
+    "ast_hash": "93874cd554d686261f43b0a64d80a299",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\page.tsx": {
+    "mtime": 1791399684.6521661,
+    "ast_hash": "c4257ed09402bcd8099c95b97847956f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\dossier\\actions.ts": {
+    "mtime": 1791228136.8899302,
+    "ast_hash": "7b7ed3df5851e56305be9f9c8fabc8a6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\dossier\\page.tsx": {
+    "mtime": 1791235028.91201,
+    "ast_hash": "89495d8cfb7229fac83a0d062a1cd310",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\dossier\\_components\\dossier-controls.tsx": {
+    "mtime": 1791235028.91201,
+    "ast_hash": "a7eca15cc59686c41450c4e55e91098e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791212462.2219877,
+    "ast_hash": "1611e4a7383c65c2e30f0fada24a9a6b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\notaio\\actions.ts": {
+    "mtime": 1791399429.1793969,
+    "ast_hash": "c7733ee531a118d6225b2834fa5bd8a6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\notaio\\page.tsx": {
+    "mtime": 1791399833.8884447,
+    "ast_hash": "7af7d2ba9bf1e78b64c8c342f28d4b37",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\scheda-agente\\actions.ts": {
+    "mtime": 1791399500.8045518,
+    "ast_hash": "25d471e0392c5629029070c1f8f96054",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\scheda-agente\\page.tsx": {
+    "mtime": 1791399833.8905368,
+    "ast_hash": "bddcec0fbadd35ac6520525823e5db97",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\scheda-agente\\_components\\listing-section.tsx": {
+    "mtime": 1791399681.9096887,
+    "ast_hash": "89b32e4cb65bca8a0cb532f06c0becd0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\[id]\\scheda-tecnica\\page.tsx": {
+    "mtime": 1791400152.39705,
+    "ast_hash": "2163d2290dfc3f9b33adf3edc798427e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\_components\\archive-button.tsx": {
+    "mtime": 1791212464.2949922,
+    "ast_hash": "7978d8e858c98b1ccb0cfa06e86c5865",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\_components\\asset-form.tsx": {
+    "mtime": 1791267744.1056547,
+    "ast_hash": "476c1a284e4e985f396172f3f4ce10df",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\immobili\\_components\\form-loader.ts": {
+    "mtime": 1791212460.1605744,
+    "ast_hash": "73821dff4006e2d40b0b6d65ee476590",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\importa\\actions.ts": {
+    "mtime": 1791445477.9899518,
+    "ast_hash": "0e1a948f971f106337f8a25b27392688",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\importa\\import-form.tsx": {
+    "mtime": 1791445519.9736295,
+    "ast_hash": "a6be63dfc7e7102df170555c3205d9fd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\importa\\page.tsx": {
+    "mtime": 1791444631.709259,
+    "ast_hash": "e41a9f3b892b09bfdac5239e8568fb18",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\page.tsx": {
+    "mtime": 1791444661.54545,
+    "ast_hash": "d4c3ef3b0ab3aef535ab4ead4aae8c68",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\backup\\actions.ts": {
+    "mtime": 1791215300.2865255,
+    "ast_hash": "82dea8b2c93771bff77a370f9da72eee",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\backup\\page.tsx": {
+    "mtime": 1791274492.747824,
+    "ast_hash": "1db0f9ff824216f1398e14396364cc5c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\backup\\_components\\run-backup-button.tsx": {
+    "mtime": 1791215301.3202207,
+    "ast_hash": "7d9fd153adf95a1cfed78218fd759550",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\categorie\\actions.ts": {
+    "mtime": 1791399749.4414396,
+    "ast_hash": "364bf506291c0ded10c21ad716c0e32e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\categorie\\page.tsx": {
+    "mtime": 1791399762.3366494,
+    "ast_hash": "99a44f845eb50acc2935fde23f0ff7d7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\notifiche\\actions.ts": {
+    "mtime": 1791231691.8272004,
+    "ast_hash": "c8f9f11086c7fad65bd2aeba2d1f626a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\notifiche\\page.tsx": {
+    "mtime": 1791231690.787189,
+    "ast_hash": "4152b03d2e69e435932a1d13ef1524a0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\notifiche\\_components\\run-now.tsx": {
+    "mtime": 1791231692.8794353,
+    "ast_hash": "81d90089fb615aafd66eb03f11f1fff8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\registro\\page.tsx": {
+    "mtime": 1791274492.7498374,
+    "ast_hash": "820c161992c5e18c2b1b0c3353e7cbe4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\sicurezza\\actions.ts": {
+    "mtime": 1791399268.4667366,
+    "ast_hash": "d4f39e180f70de7339a1e4ee0aa54d78",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\sicurezza\\page.tsx": {
+    "mtime": 1791399268.4677374,
+    "ast_hash": "9145e3d35e6302393068f57f5f73a03c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\sicurezza\\_components\\feedback.tsx": {
+    "mtime": 1791293831.083172,
+    "ast_hash": "df391ee8d4a87bbaf92a956cb4b47dc2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\sicurezza\\_components\\passkeys-section.tsx": {
+    "mtime": 1791295421.6638658,
+    "ast_hash": "745f81f9100d4aee3deff76bb7f397b5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\sicurezza\\_components\\recovery-codes-section.tsx": {
+    "mtime": 1791293873.534457,
+    "ast_hash": "66ef55c8d349700fab8f81eb4cf56aaa",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\sicurezza\\_components\\sessions-section.tsx": {
+    "mtime": 1791293872.4947028,
+    "ast_hash": "dd76bfc9cc07fce118db7db43fd79465",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\territori\\actions.ts": {
+    "mtime": 1791212528.7873116,
+    "ast_hash": "35fb6e3c3403466a9813ca4801ed2681",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\territori\\page.tsx": {
+    "mtime": 1791212530.8488584,
+    "ast_hash": "72e8751904a5cf6dac91e3c5c06c7721",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\impostazioni\\territori\\_components\\territory-form.tsx": {
+    "mtime": 1791212529.8203084,
+    "ast_hash": "c62d568d6171f5f37d846e0cf1cb7203",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\limiti\\page.tsx": {
+    "mtime": 1791267532.3354318,
+    "ast_hash": "50e63e6e0e8f75e33a952b9f732a79d7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\actions.ts": {
+    "mtime": 1791381442.2698653,
+    "ast_hash": "24ff8b4805b092f0c45f30dde365c234",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\page.tsx": {
+    "mtime": 1791365601.134399,
+    "ast_hash": "e2f0bfce4ff3a2dc35ae202ac53bfdc7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\calendario\\page.tsx": {
+    "mtime": 1791365572.5535576,
+    "ast_hash": "328a20a2c6e2a0e24bc1dfbc605de8cf",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\mandati\\actions.ts": {
+    "mtime": 1791399695.316691,
+    "ast_hash": "83208c13ee9dcd38f35563507687f51b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\mandati\\page.tsx": {
+    "mtime": 1791399717.9444501,
+    "ast_hash": "758b9cc56d90453234a1663d91eff1a1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\nuova\\page.tsx": {
+    "mtime": 1791266901.1972256,
+    "ast_hash": "2ee91f975d2432f2d96741d08bdd86d1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\rendiconto\\page.tsx": {
+    "mtime": 1791399877.8382328,
+    "ast_hash": "1c8ef1620da6b56bca837fd2eb5949d4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\[id]\\page.tsx": {
+    "mtime": 1791381442.2698653,
+    "ast_hash": "103aa9840f0cc76eb374efbf29046cb4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791266902.2336607,
+    "ast_hash": "906aa066db4eb5d603e52da2d7a468a8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\_components\\gestore-table.tsx": {
+    "mtime": 1791365532.49578,
+    "ast_hash": "71fa4a7845a819104c642c287101d171",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\locazioni\\_components\\letting-form-data.ts": {
+    "mtime": 1791268051.584715,
+    "ast_hash": "2e3b0c2d8e1f8455142f0afe7723706a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\actions.ts": {
+    "mtime": 1791235985.6581695,
+    "ast_hash": "23de5cd1dd0afbbbec4fbc4fc7a0e222",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\page.tsx": {
+    "mtime": 1791365104.6720839,
+    "ast_hash": "71772bcc447ea37ee737adea636e9389",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\impianti\\actions.ts": {
+    "mtime": 1791382344.506771,
+    "ast_hash": "3cdd80a743a1da0edea87a054e248bfb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\impianti\\page.tsx": {
+    "mtime": 1791399817.6241684,
+    "ast_hash": "98271a9e425a580ddd01deb9d4e68af7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\impianti\\plant-types.ts": {
+    "mtime": 1791382326.3677027,
+    "ast_hash": "35fa084ff0346d7582383a3ffbb9cfd9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\impianti\\nuovo\\page.tsx": {
+    "mtime": 1791382346.6237776,
+    "ast_hash": "728ff7d42b3602348a3a272a4fb3026a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\impianti\\scheda\\page.tsx": {
+    "mtime": 1791382385.4346092,
+    "ast_hash": "adafd5267c728c4f50ea3fbc6e7db1cb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\impianti\\[id]\\page.tsx": {
+    "mtime": 1791382365.761055,
+    "ast_hash": "201cb565517b5dd3dfa53ca0c1ceb0b3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\impianti\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791382347.6812341,
+    "ast_hash": "72b99f6814e0aa9d9e3fb077f95128af",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\impianti\\_components\\plant-form-data.ts": {
+    "mtime": 1791382345.56634,
+    "ast_hash": "968f6893723e2d82b3c33014c1a2b6ab",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\nuovo\\page.tsx": {
+    "mtime": 1791236000.2634332,
+    "ast_hash": "4e8e4579914e710f9ecc502dc47e48b0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\[id]\\page.tsx": {
+    "mtime": 1791268051.5852199,
+    "ast_hash": "1f8cc5cf886e5237428006d1b83cfcaa",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791236001.2900436,
+    "ast_hash": "b88835c80fabf78945b2418e690938cb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\_components\\section-inspections.tsx": {
+    "mtime": 1791236033.9575047,
+    "ast_hash": "8a03c6a0dabcdbb5cd8f15729aef8aaf",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\_components\\section-warranties.tsx": {
+    "mtime": 1791268051.5852199,
+    "ast_hash": "b28ffe8eb6963c2f2a8926e1fe0cc7ef",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\_components\\section-works.tsx": {
+    "mtime": 1791236031.8752098,
+    "ast_hash": "195e478eee65dec2226014635ab80af8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\manutenzioni\\_components\\work-form-data.ts": {
+    "mtime": 1791235999.2273977,
+    "ast_hash": "40369b53ec5a14e355548b394306feac",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\actions.ts": {
+    "mtime": 1791380567.5539346,
+    "ast_hash": "170696412f2cb0aaa3e108f926857a4d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\page.tsx": {
+    "mtime": 1791400140.2380512,
+    "ast_hash": "6e53c9c21f2464ec3e26afce3586b715",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\incarichi\\actions.ts": {
+    "mtime": 1791400102.2961555,
+    "ast_hash": "ab71bbed84cf67e6439be228e7702f52",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\incarichi\\page.tsx": {
+    "mtime": 1791400127.0567584,
+    "ast_hash": "fa12aa9903ed5700efb0e55ba9625b50",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\incarichi\\_components\\engagement-summary.tsx": {
+    "mtime": 1791400103.371604,
+    "ast_hash": "697a5a7bdff34dde0b87c9ef0a00838f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\nuova\\page.tsx": {
+    "mtime": 1791232560.5639727,
+    "ast_hash": "781d8b9b3f20279305f98ecc6b35bf30",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\[id]\\page.tsx": {
+    "mtime": 1791380567.5539346,
+    "ast_hash": "7d018e83c7ee89afd4abaab154e03647",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\[id]\\fascicolo\\page.tsx": {
+    "mtime": 1791400143.4136424,
+    "ast_hash": "b7c0d7228560893fba109ccd2b9f6e10",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\[id]\\fascicolo\\print-button.tsx": {
+    "mtime": 1791364734.4737992,
+    "ast_hash": "2da8c69ff5a96162a9e0efe6ed605863",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791232561.6013594,
+    "ast_hash": "857d2da121a699552ab030fcba8e02c5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\_components\\matter-controls.tsx": {
+    "mtime": 1791380567.5539346,
+    "ast_hash": "72bf7e8fb88cc895850cc3d046649ca6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\pratiche\\_components\\matter-form-data.ts": {
+    "mtime": 1791380567.5539346,
+    "ast_hash": "268f5d9e298a70cef39c922d3c93745c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\actions.ts": {
+    "mtime": 1791227972.292003,
+    "ast_hash": "2505f170936c174a92bea2218e5e3f84",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\page.tsx": {
+    "mtime": 1791228052.2690928,
+    "ast_hash": "b4e788daf6de2bb1902900298403263f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\rule-form-state.ts": {
+    "mtime": 1791266814.2411177,
+    "ast_hash": "cf542e24ea046acb4707a61d4faa7586",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\nuova\\page.tsx": {
+    "mtime": 1791228053.3023863,
+    "ast_hash": "314fea5d11466ee60dadeb8564783b4a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\[id]\\page.tsx": {
+    "mtime": 1791228103.2278013,
+    "ast_hash": "ccd27be030cd1b6f9282f585342fff33",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\[id]\\confronta\\page.tsx": {
+    "mtime": 1791274492.7488387,
+    "ast_hash": "8f71f3fee3ca39aea64cb0e94b53f848",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791228054.3355987,
+    "ast_hash": "25af8ed918c3330d79adcd8205a934de",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\_components\\condition-text.tsx": {
+    "mtime": 1791267761.038991,
+    "ast_hash": "b447ee7539de169d42a3b7395c01dd62",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\_components\\form-options.ts": {
+    "mtime": 1791228051.220474,
+    "ast_hash": "ec78178340f16cdcf1d0ca4629848d5b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\_components\\outcome-list.tsx": {
+    "mtime": 1791230981.493262,
+    "ast_hash": "e0d287c52598b4db09f77aa3923c8420",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\_components\\rule-controls.tsx": {
+    "mtime": 1791228030.0066907,
+    "ast_hash": "e3c9baa16ce15a238589f2e41fdcab35",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\regole\\_components\\rule-form.tsx": {
+    "mtime": 1791267744.1066487,
+    "ast_hash": "1ccd983a89700994c5fdf79281e804c1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\riconferma\\actions.ts": {
+    "mtime": 1791399213.1032465,
+    "ast_hash": "df5319014b5c89ce4075571eeb3c7931",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\riconferma\\page.tsx": {
+    "mtime": 1791399230.061949,
+    "ast_hash": "82f4ad0466c842eb506e0ee05ca666f1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\riconferma\\reconfirm-form.tsx": {
+    "mtime": 1791399230.120149,
+    "ast_hash": "eec1552bf62dfed1e5c54f92c01f71a4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\rubrica\\actions.ts": {
+    "mtime": 1791212498.703719,
+    "ast_hash": "a1538694ef2fff5338facd193e40329b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\rubrica\\competence-actions.ts": {
+    "mtime": 1791399729.4783845,
+    "ast_hash": "cd1faea50e05a5f302a577798c15eabf",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\rubrica\\page.tsx": {
+    "mtime": 1791212500.7786796,
+    "ast_hash": "a1a5354e7be984e9c6e6fb664a5e1417",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\rubrica\\party-form-state.ts": {
+    "mtime": 1791212692.886815,
+    "ast_hash": "b99a91005cfc2fdd9ac449b9aa13b864",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\rubrica\\nuovo\\page.tsx": {
+    "mtime": 1791212692.9704382,
+    "ast_hash": "f1ddbf950f5aa66aa29403988c389c27",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\rubrica\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791384596.7173724,
+    "ast_hash": "2c083bd4e86687f393e8151397f539c4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\rubrica\\_components\\competence-section.tsx": {
+    "mtime": 1791399729.822274,
+    "ast_hash": "388837188a336dca197757ef793bade9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\rubrica\\_components\\party-form.tsx": {
+    "mtime": 1791267744.1076567,
+    "ast_hash": "461535faad6072b492125920ffbadaee",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\scadenze\\actions.ts": {
+    "mtime": 1791380462.9214447,
+    "ast_hash": "e0b2793d2239ee0a7934daf41c35a562",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\scadenze\\page.tsx": {
+    "mtime": 1791272859.7773879,
+    "ast_hash": "521390b444b2acef6c79a751b296ee6e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\scadenze\\nuova\\page.tsx": {
+    "mtime": 1791380455.2876058,
+    "ast_hash": "e667595e5395674d2b6dab883f03c429",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\scadenze\\[id]\\page.tsx": {
+    "mtime": 1791268051.5817091,
+    "ast_hash": "f079bcfebc5bc46a16904c419f0f7740",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\scadenze\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791231616.0653613,
+    "ast_hash": "2ae9c5ce859fc39a4838d55ab99761a1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\scadenze\\_components\\deadline-form-data.ts": {
+    "mtime": 1791380455.2876058,
+    "ast_hash": "4a8c5527620692c79cd665ecaa492345",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\scadenze\\_components\\occurrence-controls.tsx": {
+    "mtime": 1791231617.1078749,
+    "ast_hash": "74372adfd853becd5ff0a50dacf9ec19",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\actions.ts": {
+    "mtime": 1791381511.0020146,
+    "ast_hash": "e3b1b467f19340d0c245a7141d124f4d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\page.tsx": {
+    "mtime": 1791235130.2071316,
+    "ast_hash": "d1c64fef90d3330c8fbc227293812b68",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\dichiarazioni\\page.tsx": {
+    "mtime": 1791268051.5862253,
+    "ast_hash": "3aad105dcfa763a3d984c5bf45ccc152",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\nuovo\\page.tsx": {
+    "mtime": 1791235108.341314,
+    "ast_hash": "5192ae3dd8d79d3bcb3d9d8492691dd9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\riepilogo\\page.tsx": {
+    "mtime": 1791274492.7488387,
+    "ast_hash": "25490418fc289bdd4db1e0420551d7a1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\tipi\\page.tsx": {
+    "mtime": 1791235176.498008,
+    "ast_hash": "bb727be970b8583c6210a42d9d72f38d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\[id]\\page.tsx": {
+    "mtime": 1791381515.7580924,
+    "ast_hash": "625447b1f4955bc6e8090df5317ac40d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\[id]\\modifica\\page.tsx": {
+    "mtime": 1791235109.3802836,
+    "ast_hash": "0887abb4c8f28597394a93610ec77c26",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\_components\\obligation-form-data.ts": {
+    "mtime": 1791235107.2989695,
+    "ast_hash": "83de69ff2c1eb3dc59db3570f4631c28",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\tributi\\_components\\state-badges.tsx": {
+    "mtime": 1791235129.1751547,
+    "ast_hash": "2d12e52f31b97b69604b32c9f190e39d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\uffici\\page.tsx": {
+    "mtime": 1791365624.0451002,
+    "ast_hash": "9908138ab6474bf65706e1d2ff32c0c7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\uffici\\regole\\page.tsx": {
+    "mtime": 1791365648.2810977,
+    "ast_hash": "40ae5e4afe3b382c00e949be1297553a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\uffici\\[id]\\actions.ts": {
+    "mtime": 1791400655.5353105,
+    "ast_hash": "f2409edb6e8137026e53bc1d728a4eac",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\uffici\\[id]\\page.tsx": {
+    "mtime": 1791400658.648983,
+    "ast_hash": "d12f8384d7d6acacdd124d0135b83449",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\_components\\app-sidebar.tsx": {
+    "mtime": 1791267497.095292,
+    "ast_hash": "2e9a9cf96288409a98d7a5d59f5ddc99",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\_components\\nav-items.ts": {
+    "mtime": 1791272216.6407678,
+    "ast_hash": "f936eedcd47181f1fb28472947cdad7a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\_components\\theme-actions.ts": {
+    "mtime": 1791293686.9814737,
+    "ast_hash": "592e338baa8109d1033dcfd834577ec0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(app)\\_components\\user-menu.tsx": {
+    "mtime": 1791231733.1452272,
+    "ast_hash": "f937f60f9a0929ac35a5bd10d17c0416",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(auth)\\layout.tsx": {
+    "mtime": 1791201217.2907538,
+    "ast_hash": "01476324d1df354283ba44024c32874e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(auth)\\accesso\\page.tsx": {
+    "mtime": 1791201245.8375633,
+    "ast_hash": "aaea6509052e9b936d792309bb14dc4b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(auth)\\accesso\\sign-in-form.tsx": {
+    "mtime": 1791201246.8595543,
+    "ast_hash": "68239ca407f9a7434365421d5cbfe6be",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(auth)\\configurazione-iniziale\\actions.ts": {
+    "mtime": 1791201218.3154519,
+    "ast_hash": "e6e12d5f449820c7b59cd280f784203c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(auth)\\configurazione-iniziale\\bootstrap-form.tsx": {
+    "mtime": 1791201245.6386237,
+    "ast_hash": "0dccad9056b669888ae2cc9b04ab9e0b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(auth)\\configurazione-iniziale\\page.tsx": {
+    "mtime": 1791201220.3810802,
+    "ast_hash": "27ccd981bb2833de88c5adcf8510742c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(auth)\\sicurezza\\configurazione\\page.tsx": {
+    "mtime": 1791201278.2040153,
+    "ast_hash": "925d53df51a427cb80bf6f7ec82e2ed1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\(auth)\\sicurezza\\configurazione\\security-setup.tsx": {
+    "mtime": 1791293793.0875754,
+    "ast_hash": "a588c3ec64a8694209ea642cd45d45db",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\assicurazioni\\per-immobile\\route.ts": {
+    "mtime": 1791399642.230012,
+    "ast_hash": "f63e87c06fd619e63723ce72530cd4dc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\auth\\[...all]\\route.ts": {
+    "mtime": 1791201157.9939077,
+    "ast_hash": "ac91261844e84a4809d775f9bb39527b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\backup\\[id]\\route.ts": {
+    "mtime": 1791399200.4896545,
+    "ast_hash": "95d20b5556ad9bdd202d23379a5d9e9e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\calendario\\route.ts": {
+    "mtime": 1791380368.7959142,
+    "ast_hash": "02906326a4da457a111f4c84326c2b60",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\condivisione\\[id]\\route.ts": {
+    "mtime": 1791399200.4896545,
+    "ast_hash": "c87c5c773878a0e05161a941b174f866",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\condominio\\controllo\\route.ts": {
+    "mtime": 1791380368.7959142,
+    "ast_hash": "062d8fa3a439364bbc0a3637b585be32",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\cron\\backup\\route.ts": {
+    "mtime": 1791215277.9760487,
+    "ast_hash": "51dd91820bf13a2addd587f7cbc5ed31",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\cron\\giornaliero\\route.ts": {
+    "mtime": 1791231687.6696224,
+    "ast_hash": "2bf4ca3caa6b2722eadb37b5a0ff5371",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\documenti\\[id]\\[versionId]\\route.ts": {
+    "mtime": 1791380368.7959142,
+    "ast_hash": "09a24c983955626c82695a801bf1fa59",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\economia\\route.ts": {
+    "mtime": 1791380368.8005552,
+    "ast_hash": "c3e1babe6889131d9f352064a3d8f721",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\economia\\dossier\\route.ts": {
+    "mtime": 1791380368.7959142,
+    "ast_hash": "42230686c95734e76c9f0c9e30994c8f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\esportazione\\route.ts": {
+    "mtime": 1791399200.4886518,
+    "ast_hash": "94204c62370d2ddf2ea7d8a247506d02",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\health\\route.ts": {
+    "mtime": 1791274560.9006279,
+    "ast_hash": "42b777f06380f7034bbdc12e58bb2fd6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\immobili\\[id]\\scheda-agente\\route.ts": {
+    "mtime": 1791399642.1656592,
+    "ast_hash": "a7d744d15330ac66bc3a233e7f719209",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\immobili\\[id]\\scheda-notaio\\route.ts": {
+    "mtime": 1791399642.103932,
+    "ast_hash": "877158cd4ec930b02fb19267bafdcaeb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\immobili\\[id]\\scheda-tecnica\\route.ts": {
+    "mtime": 1791399650.334502,
+    "ast_hash": "dd3d65ab6f19769931057bc98197fa4e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\importa\\modello\\route.ts": {
+    "mtime": 1791445478.046656,
+    "ast_hash": "c31667eced0b8302bfa0d4ce94f7a428",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\locazioni\\rendiconto\\route.ts": {
+    "mtime": 1791399650.3935711,
+    "ast_hash": "c6e6f75d4f440ae6b29a76bb2b8c2c2a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\manutenzioni\\impianti\\route.ts": {
+    "mtime": 1791399642.2948108,
+    "ast_hash": "6d73ab1403ddd5e476182733174864a3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\pratiche\\[id]\\cronologia\\route.ts": {
+    "mtime": 1791380368.8026173,
+    "ast_hash": "9c9ba0be40fcafd43e706fc7f6a30e2b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\territori\\route.ts": {
+    "mtime": 1791212344.766802,
+    "ast_hash": "3cfb3a6f4ed917153417c379d8ec4ef4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\api\\tributi\\riepilogo\\route.ts": {
+    "mtime": 1791380368.80328,
+    "ast_hash": "8708234dbec6d70f9043754220671283",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\action-button.tsx": {
+    "mtime": 1791233738.917201,
+    "ast_hash": "70f4100f6a9b0439a7a338816fb88fa4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\calc-editor.tsx": {
+    "mtime": 1791230954.9030259,
+    "ast_hash": "621a2c378c8b8cecc41786c51033360f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\edit-inline.tsx": {
+    "mtime": 1791399413.6227891,
+    "ast_hash": "007b3088843300759434848edd762c96",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\form-field.tsx": {
+    "mtime": 1791212381.2172425,
+    "ast_hash": "9c15cfa67ad385e606a6a701cdcd9613",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\inline-form.tsx": {
+    "mtime": 1791234268.872015,
+    "ast_hash": "fd6079820839d8d7f654b2fe6b2509a3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\not-found-card.tsx": {
+    "mtime": 1791271268.2459948,
+    "ast_hash": "93bbf1e17190ae81e488b7e24c8d020e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\passkey-add-form.tsx": {
+    "mtime": 1791293780.416798,
+    "ast_hash": "e4c006a6d6c720c7a78f01872fe4c4be",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\print-button.tsx": {
+    "mtime": 1791235028.6374714,
+    "ast_hash": "a0855a223c562dbd1010b29e36ec9594",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\scroll-region.tsx": {
+    "mtime": 1791274482.7271237,
+    "ast_hash": "24208f184abcb140ad2c6cfffa399639",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\simple-form.tsx": {
+    "mtime": 1791232577.8905795,
+    "ast_hash": "93fb79a2f75d98238e739d3579a19f97",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\territory-picker.tsx": {
+    "mtime": 1791212558.5345345,
+    "ast_hash": "9cb713aa4fff58637c9dbc46ab843ee8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\theme-toggle.tsx": {
+    "mtime": 1791293687.0400887,
+    "ast_hash": "7d6deadb9d131f5fabe6d1552870e8f7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\alert.tsx": {
+    "mtime": 1791200688.0048332,
+    "ast_hash": "59f2b20b6916d0384bf7d0a63ea68ba6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\badge.tsx": {
+    "mtime": 1791200687.846108,
+    "ast_hash": "661ce75f620c0ea8fd7a3102f2159643",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\button.tsx": {
+    "mtime": 1791200672.018968,
+    "ast_hash": "7be2359f1dd105869c353c3556134b01",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\card.tsx": {
+    "mtime": 1791200687.7563267,
+    "ast_hash": "7a1907244a8ac28f77cb4d2eaf496811",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\checkbox.tsx": {
+    "mtime": 1791201198.3359733,
+    "ast_hash": "d68e25334914092da5563122e1b1102f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\input.tsx": {
+    "mtime": 1791200688.0789783,
+    "ast_hash": "422f1ab610ad83456b8d6f928f5fb740",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\label.tsx": {
+    "mtime": 1791200688.155748,
+    "ast_hash": "829ff50ce08ae0548ce1ee9baac55bef",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\native-select.tsx": {
+    "mtime": 1791212345.805238,
+    "ast_hash": "0b8668b3d89bc170fe3e38622ac4a8c5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\separator.tsx": {
+    "mtime": 1791200687.9335268,
+    "ast_hash": "8e3cbb83ec08f12f8af908de476864f6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\sheet.tsx": {
+    "mtime": 1791200688.5662427,
+    "ast_hash": "40aa6c8d7e32ae1b699723f09fa667d8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\sidebar.tsx": {
+    "mtime": 1791200688.711166,
+    "ast_hash": "2e4a505b63f4fd57ea9ed58c4909474b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\skeleton.tsx": {
+    "mtime": 1791200688.470963,
+    "ast_hash": "9d9320cc2a8ff46a2b8364fd90b9e2e7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\textarea.tsx": {
+    "mtime": 1791212344.4053319,
+    "ast_hash": "b0b57c5892dbfbacb6576dedb713756e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\components\\ui\\tooltip.tsx": {
+    "mtime": 1791200688.3122487,
+    "ast_hash": "22246acacfd97518547c5295bb52e040",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\hooks\\use-mobile.ts": {
+    "mtime": 1791200789.1222725,
+    "ast_hash": "fa3d944145c7b44aa0604cb8de32607a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\i18n\\request.ts": {
+    "mtime": 1791200723.7988088,
+    "ast_hash": "26aa18f8c06eaa1db134e332f724a245",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\auth-client.ts": {
+    "mtime": 1791201159.0295358,
+    "ast_hash": "0f56213c94f477eba440a81cac4cb8c5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\condominio-review-labels.ts": {
+    "mtime": 1791364689.4371529,
+    "ast_hash": "36c59c533b66155a02d0c72dabfe13a2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\csv-response.ts": {
+    "mtime": 1791399642.04576,
+    "ast_hash": "df493acf7917da3eefac78853b5d2b08",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\daily-job.ts": {
+    "mtime": 1791231686.6249535,
+    "ast_hash": "cacbf4eef40a7252a7108835ec413b48",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\format.ts": {
+    "mtime": 1791233862.8795455,
+    "ast_hash": "3e2e7e0015b1b6435c33fcf6cb398133",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\gestore-params.ts": {
+    "mtime": 1791365475.8518791,
+    "ast_hash": "806d3a2b5727057f4b365c519a591c98",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\ids.ts": {
+    "mtime": 1791212382.2640533,
+    "ast_hash": "6ccbdaaacb6268e2221fb042e32e0782",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\matter-dossier.ts": {
+    "mtime": 1791380587.2268388,
+    "ast_hash": "3a587408a526ab10f1292e0387dacf13",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\owner-action.ts": {
+    "mtime": 1791233736.833489,
+    "ast_hash": "e93b610b086a32ac910a8171fb49ae8f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\share-sheets.ts": {
+    "mtime": 1791399698.4500272,
+    "ast_hash": "1dd9f419e7701af2d5b5c0836a6f835e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\sheet-csv.ts": {
+    "mtime": 1791399538.966153,
+    "ast_hash": "e10220e6e1bc62eba5f22187e84d6bf5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\theme.ts": {
+    "mtime": 1791293686.9247415,
+    "ast_hash": "18aa32fd24c22102ab93db28d663d347",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\lib\\utils.ts": {
+    "mtime": 1791200672.1145384,
+    "ast_hash": "0482d21cfeab8cfcfe44f94927e45afb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\agent\\index.ts": {
+    "mtime": 1791399210.30594,
+    "ast_hash": "3250e26603a28076bbe7c6466c8318da",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\agent\\application\\listing-cases.ts": {
+    "mtime": 1791399210.3049405,
+    "ast_hash": "4086fb000b993106f25efc9cb5b6165c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\agent\\application\\ports.ts": {
+    "mtime": 1791399210.3039396,
+    "ast_hash": "43e6f6e8835c6930f10cae8c6374ab04",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\agent\\domain\\listing.ts": {
+    "mtime": 1791399210.3049405,
+    "ast_hash": "10d59601035e5ef1cc2790e2167fe622",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\agent\\domain\\sheet.ts": {
+    "mtime": 1791383817.6834717,
+    "ast_hash": "63892f1e07b459f824fdc8aa23dc759b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\agent\\infrastructure\\drizzle-listing-repository.ts": {
+    "mtime": 1791399210.3039396,
+    "ast_hash": "c6c7d9e236bbe0c7193f8e61e6a0fe6b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\assets\\client.ts": {
+    "mtime": 1791387237.1931672,
+    "ast_hash": "83e67b3641be3e683c3a89d16869b562",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\assets\\index.ts": {
+    "mtime": 1791444413.5565715,
+    "ast_hash": "c0b3304038e81519da2f6556d58ebf07",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\assets\\application\\ports.ts": {
+    "mtime": 1791399665.8648407,
+    "ast_hash": "f8bcb96d54ed1ee5a1272b251af6d365",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\assets\\application\\use-cases.ts": {
+    "mtime": 1791444303.7348125,
+    "ast_hash": "19ed61543319aaf3fae76dc915628aa5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\assets\\domain\\asset.ts": {
+    "mtime": 1791399665.8628407,
+    "ast_hash": "5354bbe045051c4a317efa67a3f3b029",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\assets\\infrastructure\\drizzle-asset-repository.ts": {
+    "mtime": 1791399665.8648407,
+    "ast_hash": "78bc066c199b8a0139bc23322866d539",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\attention\\index.ts": {
+    "mtime": 1791399070.6638231,
+    "ast_hash": "2961b8c0ca9758ef3ec5f154fec2f035",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\attention\\domain\\findings.ts": {
+    "mtime": 1791399064.476289,
+    "ast_hash": "339e00bd66354ca9119810c7f06ea4e6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\index.ts": {
+    "mtime": 1791399358.2073743,
+    "ast_hash": "a476cb62759624eee919f8ac9a18aeef",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\application\\archive.ts": {
+    "mtime": 1791399313.741625,
+    "ast_hash": "4912a7b0966898093f60421c8f127d14",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\application\\backup.ts": {
+    "mtime": 1791399313.7426248,
+    "ast_hash": "b9fa0423b4d5c4ef36ef9d717ce8aace",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\application\\ports.ts": {
+    "mtime": 1791399313.7406251,
+    "ast_hash": "0f270ad211c0e225c6e83cdf37ff902f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\application\\restore.ts": {
+    "mtime": 1791399358.206376,
+    "ast_hash": "5f1d4518c6e43c555401c624f9746ad7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\application\\signature.ts": {
+    "mtime": 1791399378.2101614,
+    "ast_hash": "1e5da00d31276084304ebb6cdc91cc8c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\domain\\archive.ts": {
+    "mtime": 1791400569.5618331,
+    "ast_hash": "7979f42e90e281dded6ee40a5ec09260",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\infrastructure\\drizzle-backup-run-repository.ts": {
+    "mtime": 1791215115.5418665,
+    "ast_hash": "7b599f5c27beb809d56ca81e19f4ffe4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\infrastructure\\local-destination.ts": {
+    "mtime": 1791215228.0231032,
+    "ast_hash": "071828f71e576233de9744122b5e442d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\backup\\infrastructure\\postgres-snapshot.ts": {
+    "mtime": 1791399498.2579927,
+    "ast_hash": "d3bfb638e2c5aa9f59d70ae6d8be2f69",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\index.ts": {
+    "mtime": 1791387236.392759,
+    "ast_hash": "ca13eb0548043dbe413d05ae710e0fff",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\budget-use-cases.ts": {
+    "mtime": 1791452251.1230366,
+    "ast_hash": "63b0163e7358f57269204b46619c623d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\meeting-use-cases.ts": {
+    "mtime": 1791452252.1912215,
+    "ast_hash": "6f0d2c0a6c51c6498574a1b888d21d32",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\operations-use-cases.ts": {
+    "mtime": 1791452253.245018,
+    "ast_hash": "d7e6f22d4cec40cda4e9b4fa7bdb4be7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\owner-review.ts": {
+    "mtime": 1791382979.5298114,
+    "ast_hash": "88c5f32ddce6c76bd611713fbb7c5785",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\ports.ts": {
+    "mtime": 1791382957.5873353,
+    "ast_hash": "47c21a7045d5464193400d0a89b241e0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\read-use-cases.ts": {
+    "mtime": 1791452254.3428867,
+    "ast_hash": "db8690b0eb674a92a09f1250898f300d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\registry-use-cases.ts": {
+    "mtime": 1791452250.0370357,
+    "ast_hash": "167c436275aa727059cfa77a7330770d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\shared.ts": {
+    "mtime": 1791452248.8668053,
+    "ast_hash": "65e3075d213ef9802889a855008eb93c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\application\\use-cases.ts": {
+    "mtime": 1791452336.239044,
+    "ast_hash": "07011f1ce36411e90586af89235237b4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\domain\\condominium.ts": {
+    "mtime": 1791382957.5835576,
+    "ast_hash": "6769978969cc8e8daa41ea87274f526e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\domain\\millesimi.ts": {
+    "mtime": 1791382957.5835576,
+    "ast_hash": "447304561ebb50c848172869abba54e3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\domain\\owner-review.ts": {
+    "mtime": 1791399352.1197093,
+    "ast_hash": "92d7dc387e0f7e2c7361ce06fc670418",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\condominium\\infrastructure\\drizzle-condo-repository.ts": {
+    "mtime": 1791382957.5880842,
+    "ast_hash": "0ddab6e885a7b2e5e1faec5e212fe7db",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\client.ts": {
+    "mtime": 1791387237.2342696,
+    "ast_hash": "8cacf827819d84762768eb1c32a9f0fe",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\index.ts": {
+    "mtime": 1791445437.6331446,
+    "ast_hash": "2d2544cdb1c00cc85cdf1d6d21e0301b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\application\\calendar.ts": {
+    "mtime": 1791272799.5849667,
+    "ast_hash": "76ec8d3607250c071bec5a6ff1ab572a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\application\\daily-cycle.ts": {
+    "mtime": 1791452231.214133,
+    "ast_hash": "90b580adac8fd61e14fbf3d79425cc5d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\application\\definitions.ts": {
+    "mtime": 1791452226.9278567,
+    "ast_hash": "555184cb0f1bf2f783fbc6d906eee1f7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\application\\derived-sync.ts": {
+    "mtime": 1791452228.0389006,
+    "ast_hash": "8f38a0e986b29f173b38052b64207ec5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\application\\occurrences.ts": {
+    "mtime": 1791452229.1055124,
+    "ast_hash": "d151b6ebd30799124088c624100b0717",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\application\\ports.ts": {
+    "mtime": 1791380455.2860708,
+    "ast_hash": "e7d94fa869760a9e0d94df3a25cb6a42",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\application\\reads.ts": {
+    "mtime": 1791452230.1625042,
+    "ast_hash": "3fa9ff8252f4be58445d0f1db8e63573",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\application\\use-cases.ts": {
+    "mtime": 1791452336.239044,
+    "ast_hash": "f126c9f0286ff4077bec69aabf9698bc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\domain\\deadline.ts": {
+    "mtime": 1791380455.2845576,
+    "ast_hash": "6943f2ffbcf7e23aac3ae7779302bbf0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\domain\\holidays.ts": {
+    "mtime": 1791230764.0440717,
+    "ast_hash": "3e60646dd992e4f6c3f60187ec08fdb5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\infrastructure\\drizzle-deadline-repository.ts": {
+    "mtime": 1791380455.2876058,
+    "ast_hash": "2b2c08628ea788808e2c789d34481b2a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\deadlines\\infrastructure\\mail.ts": {
+    "mtime": 1791231111.0250726,
+    "ast_hash": "c315e0e081d1eb68cc2d1c3c25e18534",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\client.ts": {
+    "mtime": 1791387237.27896,
+    "ast_hash": "63b4b82f9bdfc198cfe4d8f51bcd9e09",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\index.ts": {
+    "mtime": 1791444303.733812,
+    "ast_hash": "a926d51f49b212c607c1f161106174cc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\application\\competence-cases.ts": {
+    "mtime": 1791399255.619753,
+    "ast_hash": "0dc8ae651f953f38ea465b7d59137af2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\application\\ports.ts": {
+    "mtime": 1791212041.2956376,
+    "ast_hash": "4b980c73fea66fad48ac286b748d64e0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\application\\use-cases.ts": {
+    "mtime": 1791444303.733812,
+    "ast_hash": "24845ee41ec0c724013844deaf4fd590",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\domain\\competence.ts": {
+    "mtime": 1791399255.620752,
+    "ast_hash": "84cf1e4d7b55414645837e7b20808892",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\domain\\party.ts": {
+    "mtime": 1791212041.2005222,
+    "ast_hash": "c22ae86efedbc1719eb1e30df22b6e15",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\infrastructure\\drizzle-competence-repository.ts": {
+    "mtime": 1791399255.6227517,
+    "ast_hash": "f6a86b7a2a9958dee85767e661acc13e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\directory\\infrastructure\\drizzle-party-repository.ts": {
+    "mtime": 1791212043.367162,
+    "ast_hash": "91fb9572997cf8caa068a938c2efcfd6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\client.ts": {
+    "mtime": 1791387237.3180964,
+    "ast_hash": "266e31825298797245f909ab3a738f32",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\index.ts": {
+    "mtime": 1791399367.0597992,
+    "ast_hash": "d85cd1dfcf281bec04c4f76c9dbce428",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\application\\category-cases.ts": {
+    "mtime": 1791399343.420868,
+    "ast_hash": "61293a69e0cf84a9d295f7a0263d4da6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\application\\ports.ts": {
+    "mtime": 1791293682.564839,
+    "ast_hash": "333c9b3e54e3e9f984dde187e1951994",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\application\\use-cases.ts": {
+    "mtime": 1791293682.5658455,
+    "ast_hash": "1c2ee38932b19f444b56d835488b4d7f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\domain\\category.ts": {
+    "mtime": 1791399359.774555,
+    "ast_hash": "813b4416968ff844a7f5ddd0faa4508b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\domain\\document.ts": {
+    "mtime": 1791271076.5624514,
+    "ast_hash": "dbf260c0a3a0915afb70cbf90513c791",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\infrastructure\\drizzle-category-repository.ts": {
+    "mtime": 1791399344.4787297,
+    "ast_hash": "deb58a2cc04cf56f9084d8f954d2ed15",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\infrastructure\\drizzle-document-repository.ts": {
+    "mtime": 1791293682.566844,
+    "ast_hash": "98a75ce9ae179d7d8fd71c22a42f037b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\documents\\infrastructure\\pdf-text-extractor.ts": {
+    "mtime": 1791214225.159047,
+    "ast_hash": "c67d6769d7c0bec9541421d8c04a6506",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\dossier\\client.ts": {
+    "mtime": 1791387237.364323,
+    "ast_hash": "56c6c77fe3cf8fd28d4ef24a23a7e213",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\dossier\\index.ts": {
+    "mtime": 1791387236.5673583,
+    "ast_hash": "15f73f6f99e0902a7d33f99da5dd1d7e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\dossier\\application\\ports.ts": {
+    "mtime": 1791387308.3949323,
+    "ast_hash": "b965f6b8b79a911a21c9a1cd267c1f88",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\dossier\\application\\use-cases.ts": {
+    "mtime": 1791231394.5741322,
+    "ast_hash": "790b09d747084a4182ab497a61c7a18b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\dossier\\domain\\dossier.ts": {
+    "mtime": 1791271076.5634205,
+    "ast_hash": "da17ded80142da4b4fc86d942942a446",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\dossier\\infrastructure\\drizzle-dossier-repository.ts": {
+    "mtime": 1791227643.5109763,
+    "ast_hash": "1709653b3e3201f3f56e57e8e271539f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\economy\\index.ts": {
+    "mtime": 1791387236.6167061,
+    "ast_hash": "332e98338afbecce645660689893fb6c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\economy\\application\\dossier.ts": {
+    "mtime": 1791381539.6115272,
+    "ast_hash": "cbece58d13f96054c5edaaabda4e5fd4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\economy\\application\\use-cases.ts": {
+    "mtime": 1791271728.2883224,
+    "ast_hash": "ba3a045808f420b8ef8a43138f40199f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\economy\\domain\\dossier.ts": {
+    "mtime": 1791299242.6979325,
+    "ast_hash": "c94d81ed3e8b738966f826fce5d4d3d8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\economy\\domain\\economy.ts": {
+    "mtime": 1791381539.6094356,
+    "ast_hash": "eee39b7fee9320e8418561b2f879a893",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\engagements\\index.ts": {
+    "mtime": 1791400038.875219,
+    "ast_hash": "619a4af52692bd3dcc5ad358c79bdf09",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\engagements\\application\\ports.ts": {
+    "mtime": 1791400035.7185555,
+    "ast_hash": "fee52aee25a323d429f24bbd63ada95b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\engagements\\application\\use-cases.ts": {
+    "mtime": 1791400036.7567563,
+    "ast_hash": "7f07721000e2b3b31351fe21d33fe6f2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\engagements\\domain\\engagement.ts": {
+    "mtime": 1791400034.6788285,
+    "ast_hash": "15189fa8cdc05a8194f92bbc6036c6e8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\engagements\\infrastructure\\drizzle-engagement-repository.ts": {
+    "mtime": 1791400037.8244493,
+    "ast_hash": "a8a19f382527d428ec9bab2b9812df52",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\index.ts": {
+    "mtime": 1791445611.9604683,
+    "ast_hash": "9881d1e8d2fc882ee7151ac51218d73c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\application\\check-records.ts": {
+    "mtime": 1791445406.022418,
+    "ast_hash": "1c0be70ff8d9ae7e1750d6fb8863646b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\application\\checked.ts": {
+    "mtime": 1791445353.3951538,
+    "ast_hash": "5f178c7aa371532f001d1c531379c70e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\application\\classify.ts": {
+    "mtime": 1791445416.1257987,
+    "ast_hash": "01aa58fe7642cfbdc42e31fee7fdd3a7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\application\\ports.ts": {
+    "mtime": 1791445353.3489108,
+    "ast_hash": "d4cdfec49c3abf9ee82037bbd169462a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\application\\run.ts": {
+    "mtime": 1791445416.124799,
+    "ast_hash": "9df718f9f9c8f13c3971b92fc2b0040e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\assets.ts": {
+    "mtime": 1791444363.0882556,
+    "ast_hash": "a90c98acdef7421d3ad603360fed297f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\columns.ts": {
+    "mtime": 1791445416.124799,
+    "ast_hash": "541a64824bff80c7cf3fcbe1a16bfe32",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\contacts.ts": {
+    "mtime": 1791444362.9781718,
+    "ast_hash": "14d7efb6bb3241505af97b68437fc3d3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\csv-reader.ts": {
+    "mtime": 1791444718.371535,
+    "ast_hash": "3fe93b80a4df82c3fe090658cf2a0166",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\dates.ts": {
+    "mtime": 1791445243.4422934,
+    "ast_hash": "3f6e95a3e4a2238564e412d27157914f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\deadlines.ts": {
+    "mtime": 1791445288.5404024,
+    "ast_hash": "8bc448920b0db47551f5d082788facae",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\policies.ts": {
+    "mtime": 1791445291.6394422,
+    "ast_hash": "46468433876c08b4c9db468759a7de29",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\quota.ts": {
+    "mtime": 1791444363.0349348,
+    "ast_hash": "e80f35fe972a69f34ccb99eeafb5fce5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\rents.ts": {
+    "mtime": 1791445289.5806777,
+    "ast_hash": "66c5a49be4760c7846f38105f5aa71c8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\import\\domain\\taxes.ts": {
+    "mtime": 1791445290.6097183,
+    "ast_hash": "cd3e46ac0ff9ab7525b957751c3c1439",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\insurance\\index.ts": {
+    "mtime": 1791445443.9444335,
+    "ast_hash": "015dc797892b273415a58da6ba13b95c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\insurance\\application\\assicuratore-reads.ts": {
+    "mtime": 1791399732.8473694,
+    "ast_hash": "a9bd02efda051f56defa70e215557e3c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\insurance\\application\\ports.ts": {
+    "mtime": 1791399732.8451712,
+    "ast_hash": "7d1d94362ac8f51f6285f426f7acf2bd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\insurance\\application\\use-cases.ts": {
+    "mtime": 1791445442.891244,
+    "ast_hash": "73e9f9a41774009b75d861ce0abc7d93",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\insurance\\domain\\assicuratore-overview.ts": {
+    "mtime": 1791399732.8431728,
+    "ast_hash": "2399605f290bc19e1ae687cacae4ceb3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\insurance\\domain\\insurance.ts": {
+    "mtime": 1791399707.6582787,
+    "ast_hash": "10fdac63e5dc89d9a72396e158ca9eb0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\insurance\\infrastructure\\drizzle-insurance-repository.ts": {
+    "mtime": 1791400303.6021824,
+    "ast_hash": "e8a93538d49f1aba13a35f45bc6b2016",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\lettings\\client.ts": {
+    "mtime": 1791387237.4044187,
+    "ast_hash": "7993f7dce21fe28f41c286e191d95362",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\lettings\\index.ts": {
+    "mtime": 1791445439.7414773,
+    "ast_hash": "9001980c9b9fa7ce1798cc992ddb2fd2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\lettings\\application\\ports.ts": {
+    "mtime": 1791381411.5670588,
+    "ast_hash": "4debc822c80c8c0154a6fb5c3a616ead",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\lettings\\application\\use-cases.ts": {
+    "mtime": 1791445438.6898723,
+    "ast_hash": "e3374fb02eae6eb90fed04f9c18675a7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\lettings\\domain\\lettings.ts": {
+    "mtime": 1791381411.5670588,
+    "ast_hash": "3a57e5bdcbe7682c3b62516c6573662b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\lettings\\infrastructure\\drizzle-letting-repository.ts": {
+    "mtime": 1791382031.954937,
+    "ast_hash": "3632a3797d77453b9c7911186a4207dd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\index.ts": {
+    "mtime": 1791387308.5394676,
+    "ast_hash": "3838a81ca188bb1e6cecf62053ee2a96",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\common.ts": {
+    "mtime": 1791452221.3216088,
+    "ast_hash": "99d230d96a5a7eafcce5b30cf9b387a5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\entries.ts": {
+    "mtime": 1791452223.3903995,
+    "ast_hash": "2710a110767d733f94f46da56555b512",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\plant-register.ts": {
+    "mtime": 1791382269.4834628,
+    "ast_hash": "ed66277ab704200701f1916bf38b8b0b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\plants.ts": {
+    "mtime": 1791452225.485907,
+    "ast_hash": "70fe6548e3fb4e728abb949e11bcdab3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\ports.ts": {
+    "mtime": 1791382216.0735283,
+    "ast_hash": "7d30b3040650df548b43a9a4f5693988",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\reads.ts": {
+    "mtime": 1791452226.5338972,
+    "ast_hash": "3a554518601b02009d174ddf1ae0a497",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\use-cases.ts": {
+    "mtime": 1791452336.2409813,
+    "ast_hash": "00c7b56c2325e4b1ae0df7c409ed3568",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\warranties-plans.ts": {
+    "mtime": 1791452224.4314475,
+    "ast_hash": "4bba53b478c5348c0133f37cf483975b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\application\\works.ts": {
+    "mtime": 1791452222.360474,
+    "ast_hash": "c4dd95b72656bac4050ee39a3e91c3a8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\domain\\maintenance.ts": {
+    "mtime": 1791382216.0735283,
+    "ast_hash": "aa1da1d4e29beda0e385216752c08502",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\domain\\plants.ts": {
+    "mtime": 1791382269.4834628,
+    "ast_hash": "4e7ec90d6b665ce654307c454079c867",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\maintenance\\infrastructure\\drizzle-maintenance-repository.ts": {
+    "mtime": 1791382216.0735283,
+    "ast_hash": "eb69a60ec16ec1bbffcf6d71ae781aa6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\management\\index.ts": {
+    "mtime": 1791399237.7945294,
+    "ast_hash": "a0564ba3f2f9e6b8778863e14f2b266e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\management\\application\\csv.ts": {
+    "mtime": 1791365433.4676063,
+    "ast_hash": "74c1c8ce2d7eaad121589cb985aadf33",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\management\\application\\mandates.ts": {
+    "mtime": 1791399237.793533,
+    "ast_hash": "d589dcf9baac3a0af01f763f6b8692f4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\management\\application\\ports.ts": {
+    "mtime": 1791399237.7905328,
+    "ast_hash": "6a92bcf6c5db47126397020c988a0106",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\management\\domain\\management.ts": {
+    "mtime": 1791399237.7915328,
+    "ast_hash": "05cb66a24d9abe82ec643ede2e979524",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\management\\infrastructure\\drizzle-mandate-repository.ts": {
+    "mtime": 1791383951.1636877,
+    "ast_hash": "aedf7d5cebf47ee471741472e7fb0b69",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\matters\\index.ts": {
+    "mtime": 1791387236.817472,
+    "ast_hash": "addb5186fcbec7a06124ef9e352f68f5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\matters\\application\\ports.ts": {
+    "mtime": 1791380438.5453732,
+    "ast_hash": "767f2181ba74b74cce654df15953f9eb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\matters\\application\\use-cases.ts": {
+    "mtime": 1791380438.5453732,
+    "ast_hash": "2f651c7f35990d5b657e143731cbd305",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\matters\\domain\\dossier.ts": {
+    "mtime": 1791380587.2268388,
+    "ast_hash": "113ad9108c7e308acf70c4f3fd1ac089",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\matters\\domain\\matter.ts": {
+    "mtime": 1791380391.8784735,
+    "ast_hash": "7d015c89b5317463f0afb515e081c29d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\matters\\infrastructure\\drizzle-matter-repository.ts": {
+    "mtime": 1791380438.5453732,
+    "ast_hash": "9adec7b9aedab7a40fcf68b17b0351de",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\notary\\index.ts": {
+    "mtime": 1791399171.8675308,
+    "ast_hash": "b664e1bdecba943906905b045c9884c5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\notary\\application\\ports.ts": {
+    "mtime": 1791399151.5286734,
+    "ast_hash": "67c8fe68266ab5895b94aee5929a6656",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\notary\\application\\use-cases.ts": {
+    "mtime": 1791399171.8665292,
+    "ast_hash": "64849bf17d014d6a27464155a2ade867",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\notary\\domain\\records.ts": {
+    "mtime": 1791399171.8675308,
+    "ast_hash": "dc72afb6145aa84f6e3fc37973902e36",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\notary\\domain\\sheet.ts": {
+    "mtime": 1791383454.58701,
+    "ast_hash": "4dd85501dc8a8e34b1d6846f8ae979d6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\notary\\infrastructure\\drizzle-notary-repository.ts": {
+    "mtime": 1791399151.5286734,
+    "ast_hash": "1ab35013fc4f685c54159c2ada86f523",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\offices\\index.ts": {
+    "mtime": 1791401166.5362816,
+    "ast_hash": "7b9ca62315a6a548c1d216c572474814",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\offices\\application\\form-templates.ts": {
+    "mtime": 1791400598.3814197,
+    "ast_hash": "b79d0e9fecdba21ece734b0f6379208c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\offices\\application\\ports.ts": {
+    "mtime": 1791400597.340439,
+    "ast_hash": "697ac965a1645dff8dd7c01f6d38afd1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\offices\\domain\\form-template.ts": {
+    "mtime": 1791401166.5362816,
+    "ast_hash": "5055743467229d11c075d290d5079e59",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\offices\\domain\\office.ts": {
+    "mtime": 1791380607.5585394,
+    "ast_hash": "c94821223affbf0c570885e2b7d073a9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\offices\\domain\\review.ts": {
+    "mtime": 1791299229.9676123,
+    "ast_hash": "52f18a5f15a351ab6e1d83a444dd8018",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\offices\\infrastructure\\drizzle-form-template-repository.ts": {
+    "mtime": 1791400599.4126494,
+    "ast_hash": "d444273c44d1cccaa558954af5697c7c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\offices\\infrastructure\\rule-checks.ts": {
+    "mtime": 1791299232.1018834,
+    "ast_hash": "54a6ed48eaccef800b99fee1c35b86d0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\client.ts": {
+    "mtime": 1791387237.445464,
+    "ast_hash": "cc40d94a69ea4e9209e3e85562c2b400",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\index.ts": {
+    "mtime": 1791387236.9448493,
+    "ast_hash": "ec3edc6f51c7f7f74a4dd1001816defd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\application\\ports.ts": {
+    "mtime": 1791227474.0630748,
+    "ast_hash": "a8ead4e13ad29b5e84aaac9c60d5e663",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\application\\use-cases.ts": {
+    "mtime": 1791231394.5751312,
+    "ast_hash": "6bb122580a4edd96b20b61126e130857",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\domain\\condition-form.ts": {
+    "mtime": 1791227880.8720262,
+    "ast_hash": "7d011fbde29d3fface807f2668a8ea70",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\domain\\condition.ts": {
+    "mtime": 1791266814.2390184,
+    "ast_hash": "a4f70b0f8d6a2e665c2f842438be5ffd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\domain\\rule.ts": {
+    "mtime": 1791380372.9816427,
+    "ast_hash": "da34cb7b91544096ccd3bd40880b813c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\domain\\seed.ts": {
+    "mtime": 1791230901.6395836,
+    "ast_hash": "517b55ab5179850516d3e733cbc76a80",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\rules\\infrastructure\\drizzle-rule-repository.ts": {
+    "mtime": 1791227517.9242435,
+    "ast_hash": "d627968acc352160bba19105fbfcebd1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\search\\index.ts": {
+    "mtime": 1791387236.9842887,
+    "ast_hash": "f8a42b39942672698497ac1ab539c0eb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\search\\domain\\search.ts": {
+    "mtime": 1791272375.7751842,
+    "ast_hash": "53066615b4149cf71f5c24fd16c6b455",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\sharing\\index.ts": {
+    "mtime": 1791399433.0799537,
+    "ast_hash": "c1671d2e0d34c0ff9673fc0136ff01ff",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\sharing\\application\\ports.ts": {
+    "mtime": 1791387308.4462204,
+    "ast_hash": "51aa4a2b4910f0f73e3e4b804de21f39",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\sharing\\application\\use-cases.ts": {
+    "mtime": 1791399416.8753405,
+    "ast_hash": "f5eb5143373fca607754f96939c2023e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\sharing\\domain\\sharing.ts": {
+    "mtime": 1791399384.3406534,
+    "ast_hash": "08b3cfba1c3d29c8efa3ce538359814c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\sharing\\domain\\sheet.ts": {
+    "mtime": 1791399374.6023924,
+    "ast_hash": "97e67ff150e22df9b0b4aa16d562eef8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\sharing\\infrastructure\\drizzle-sharing-repository.ts": {
+    "mtime": 1791232491.1861386,
+    "ast_hash": "55d248f09467170134b1802cae7ce7a0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\taxes\\index.ts": {
+    "mtime": 1791445441.8269,
+    "ast_hash": "61150125b9f1dc640f46cecf7aaa9769",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\taxes\\application\\ports.ts": {
+    "mtime": 1791381510.999328,
+    "ast_hash": "f734eb48323029a1a77ec828a5949a40",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\taxes\\application\\summary-csv.ts": {
+    "mtime": 1791271595.649024,
+    "ast_hash": "1c62cb4c8902729697b168f1d75947ee",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\taxes\\application\\use-cases.ts": {
+    "mtime": 1791445440.7918003,
+    "ast_hash": "2dd7bf72984a37a84047fd8d9584b3d0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\taxes\\domain\\taxes.ts": {
+    "mtime": 1791381510.998328,
+    "ast_hash": "b727a87b7dc3f663123fefac98bc5deb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\taxes\\infrastructure\\drizzle-tax-repository.ts": {
+    "mtime": 1791381510.999328,
+    "ast_hash": "633625479506a76777caa5b4f7d2640e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\technical\\index.ts": {
+    "mtime": 1791387237.1096404,
+    "ast_hash": "c4ee305fbba602b3a04de8502922a6eb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\technical\\application\\use-cases.ts": {
+    "mtime": 1791364623.857906,
+    "ast_hash": "91d371798579e6ab8be3efa3a405ecf6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\technical\\domain\\brief.ts": {
+    "mtime": 1791299243.2467282,
+    "ast_hash": "b7788ef0f286eea799bc1a28a429b7a9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\territory\\index.ts": {
+    "mtime": 1791387237.1514018,
+    "ast_hash": "a32454cc4937eacb5f5bde990ff325bd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\territory\\application\\ports.ts": {
+    "mtime": 1791212527.5858638,
+    "ast_hash": "094c57b7efbe599367cb4682fabfff54",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\territory\\application\\use-cases.ts": {
+    "mtime": 1791211993.1686056,
+    "ast_hash": "65d1b936d17ba2dedb04423fd6793638",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\territory\\domain\\istat.ts": {
+    "mtime": 1791211896.0877402,
+    "ast_hash": "cd4591b5fd7d075bd2f9e7527c35565e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\territory\\domain\\territory.ts": {
+    "mtime": 1791271076.5649989,
+    "ast_hash": "ea6ca24198aeddafbcb3901ca97f8fe7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\modules\\territory\\infrastructure\\drizzle-territory-repository.ts": {
+    "mtime": 1791212527.5858638,
+    "ast_hash": "d9e60e3a35e751ce8937264b679df117",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\audit\\index.ts": {
+    "mtime": 1791273116.1020117,
+    "ast_hash": "e10d56a205fa024d951c8e68f3a147b8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\auth\\account-security.ts": {
+    "mtime": 1791380535.5886905,
+    "ast_hash": "1affcbdfc0f2c06b6f06a86e16b912d3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\auth\\auth.ts": {
+    "mtime": 1791380535.596364,
+    "ast_hash": "af9923f07f4197bbfee39294f570c739",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\auth\\bootstrap.ts": {
+    "mtime": 1791201245.6386237,
+    "ast_hash": "0eba0826892410246fd580c6ec1f8d02",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\auth\\owner.ts": {
+    "mtime": 1791212344.5818932,
+    "ast_hash": "4ae93b748c757c96074d5d83115e5273",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\auth\\recent-auth.ts": {
+    "mtime": 1791399192.7601006,
+    "ast_hash": "de4c38904934a8e02bffbaf6304648d7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\auth\\reconfirmation.ts": {
+    "mtime": 1791399716.2197514,
+    "ast_hash": "a0138a242c8f6f06298db9b30ed48a73",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\auth\\request-guard.ts": {
+    "mtime": 1791380362.485337,
+    "ast_hash": "3440aebaad0a1a8e57169a9256a2ed38",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\clock\\index.ts": {
+    "mtime": 1791271076.5561743,
+    "ast_hash": "b9c5b81a03a40f31ee027eb310efa039",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\config\\env.ts": {
+    "mtime": 1791399313.7426248,
+    "ast_hash": "ece5ac01d66905052d4fe9b4d140f0cc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\client.ts": {
+    "mtime": 1791202788.33878,
+    "ast_hash": "f4862d105a97d1f35d62802654a16ac0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\types.ts": {
+    "mtime": 1791200422.2865057,
+    "ast_hash": "c9e71950af465a4494b14f1395a3b8ff",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\unit-of-work.ts": {
+    "mtime": 1791200441.252347,
+    "ast_hash": "b88be26f4257ba020a3fc1808f9bb9b8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\audit.ts": {
+    "mtime": 1791399148.0063257,
+    "ast_hash": "d8f59f99131bf14445fc8f8082e09016",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\auth.ts": {
+    "mtime": 1791201056.2890098,
+    "ast_hash": "a8e510fb4472ed7d3bc368863d90290e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\backup.ts": {
+    "mtime": 1791214911.4395227,
+    "ast_hash": "6d0a9ae137e7f866f765b6201caced7a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\competence.ts": {
+    "mtime": 1791384550.4192636,
+    "ast_hash": "0c5cac20caa01949792da823efb2006f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\condominium.ts": {
+    "mtime": 1791399155.1965034,
+    "ast_hash": "78b16a60cab6d836d218603f8aba6405",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\deadlines.ts": {
+    "mtime": 1791399164.9063146,
+    "ast_hash": "7db7865299cb8ecce6b00bd453ee3c35",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\documents.ts": {
+    "mtime": 1791293685.9776316,
+    "ast_hash": "fc236fcd4cd5d0b8a07e8b5e16c58fed",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\engagements.ts": {
+    "mtime": 1791399953.9451919,
+    "ast_hash": "9b220469afc0eaf487318574ecf1768c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\index.ts": {
+    "mtime": 1791400567.117719,
+    "ast_hash": "fb4a9d00149eb2b16f2a57c4afa80d4f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\insurance.ts": {
+    "mtime": 1791399648.1687543,
+    "ast_hash": "052394d58cc2ef981d2cd23a2dd10e72",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\lettings.ts": {
+    "mtime": 1791399148.0093274,
+    "ast_hash": "6bef22fb36d6e345f208f0e432438aae",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\listings.ts": {
+    "mtime": 1791383756.5544612,
+    "ast_hash": "92c217054d18ccd6e52e626606dcbb56",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\maintenance.ts": {
+    "mtime": 1791399164.9063146,
+    "ast_hash": "6643a6795e88a7a06bb148a8109027d3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\matters.ts": {
+    "mtime": 1791399164.9073155,
+    "ast_hash": "59cd08d8a744012f1654f5133734f400",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\notary.ts": {
+    "mtime": 1791383351.580897,
+    "ast_hash": "23b7d1f8245c87e25fa50380e3eac257",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\offices.ts": {
+    "mtime": 1791400560.1694853,
+    "ast_hash": "562b4ae104bae1338671e7d5a06e5d97",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\registry.ts": {
+    "mtime": 1791399648.1677542,
+    "ast_hash": "8d3e9888f73bce885473fbd1afb196b5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\rules.ts": {
+    "mtime": 1791399164.9083164,
+    "ast_hash": "4198923565994f5aca8f86f4bd7f86a7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\db\\schema\\taxes.ts": {
+    "mtime": 1791399154.7071943,
+    "ast_hash": "d0ba6b7a946f376ecab00c31e32f172b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\doctor\\checks.ts": {
+    "mtime": 1791399378.8072908,
+    "ast_hash": "de9d7f3afc654f0c198158936141180b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\logging\\request-error.ts": {
+    "mtime": 1791294074.4379432,
+    "ast_hash": "8ba3d3c973670da85c49a26b4f397b6e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\logging\\write-request-error.ts": {
+    "mtime": 1791392856.1176896,
+    "ast_hash": "8b2851d22276af953717ba0d5200ed3f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\storage\\index.ts": {
+    "mtime": 1791387237.485833,
+    "ast_hash": "6c7612f8d2dfb0fa3a9b62886ca98790",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\storage\\local.ts": {
+    "mtime": 1791215028.4723423,
+    "ast_hash": "7aaa566cbfe2554feb4757b2a55cbaa1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\platform\\storage\\port.ts": {
+    "mtime": 1791215028.4723423,
+    "ast_hash": "7fefe6d0720541a288f2653d99b34f3f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\account-security.ts": {
+    "mtime": 1791387237.527889,
+    "ast_hash": "750768624beb68312c73c9df57054002",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\calc-form.ts": {
+    "mtime": 1791387237.570097,
+    "ast_hash": "b35ba9a9d6445f8d4075167c72d5a8d8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\calc.ts": {
+    "mtime": 1791387308.4929504,
+    "ast_hash": "6fabe9f7ee8a51c251c41399d02c15c9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\changed.ts": {
+    "mtime": 1791399151.1990316,
+    "ast_hash": "44c20a97ce6423f16d2efe2cfa0ace4e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\csv.ts": {
+    "mtime": 1791399386.932192,
+    "ast_hash": "25d9c2b9f800917eaa22ef3a40e46783",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\dates.ts": {
+    "mtime": 1791387237.687179,
+    "ast_hash": "15045418a81f4634c2b51e203870cd78",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\deadline-vocab.ts": {
+    "mtime": 1791387237.7290475,
+    "ast_hash": "15efad515a42de4499eb4b8c8bd8394d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\ics.ts": {
+    "mtime": 1791387237.771727,
+    "ast_hash": "5816f42fb7f7c0e49b48270149aab51e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\json.ts": {
+    "mtime": 1791387237.8131807,
+    "ast_hash": "b31c46cc42ef41ba5dedf1377dc017bd",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\money.ts": {
+    "mtime": 1791387237.8546505,
+    "ast_hash": "0df8e72b5893afa9b28200ec415c9be2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\result.ts": {
+    "mtime": 1791387237.898154,
+    "ast_hash": "c6d881f5088a5d16f983b9573b004889",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\zod.ts": {
+    "mtime": 1791387237.9498186,
+    "ast_hash": "caca8e7b24575a95c44ada13edd47b6b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\archive\\crypto.ts": {
+    "mtime": 1791215010.1723616,
+    "ast_hash": "21d421b530e57f01c02665fdaf6ced0d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\archive\\stream.ts": {
+    "mtime": 1791232263.369996,
+    "ast_hash": "7d80118f9bb3c64a65d13e2c97b3f7ac",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\shared\\archive\\zip.ts": {
+    "mtime": 1791399378.1249242,
+    "ast_hash": "7a9cb1523f6eff6c18f8e7caece82632",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\test-results\\.last-run.json": {
+    "mtime": 1791452754.67894,
+    "ast_hash": "f196824657d8858bc7fa44eecbba38b1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\account-security-edges.test.ts": {
+    "mtime": 1791399776.3261366,
+    "ast_hash": "1c5bd601ea39fb281cce7f89623bfd25",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\account-security.test.ts": {
+    "mtime": 1791293920.7931464,
+    "ast_hash": "68844c1df69b74703341e2a7647f02fc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\agent-domain.test.ts": {
+    "mtime": 1791383821.8170514,
+    "ast_hash": "6dc70626b2df88b7b7df48d4e288efd4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\agent.test.ts": {
+    "mtime": 1791365353.758803,
+    "ast_hash": "71097f2cd65673971b537c40f5765593",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\architecture-data.test.ts": {
+    "mtime": 1791452200.6571195,
+    "ast_hash": "abb1d16abe9d2303c41d31ad4b8273b1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\architecture.test.ts": {
+    "mtime": 1791200539.2517974,
+    "ast_hash": "daffc9c25947f2c1820b8c234bc2ab72",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\archive-edges.test.ts": {
+    "mtime": 1791399751.0431695,
+    "ast_hash": "835fcdfa281214b08e07a22aa3f4a141",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\assets.test.ts": {
+    "mtime": 1791227280.963996,
+    "ast_hash": "4a4170f0587241e28ae437a3862b2a64",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\assicuratore.test.ts": {
+    "mtime": 1791399830.6390994,
+    "ast_hash": "2d04b3df7c0f1dc8c0393fed5a69539f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\attention-domain.test.ts": {
+    "mtime": 1791399114.4192655,
+    "ast_hash": "40fa75389048db176f12dcdf0024b7f6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\attention.test.ts": {
+    "mtime": 1791399122.911744,
+    "ast_hash": "d552b94e6e2b72544d848e1c90742ff8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\audit.test.ts": {
+    "mtime": 1791273136.7852387,
+    "ast_hash": "f5fcbe5c56e06968fc552d8536b763bb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\authz.test.ts": {
+    "mtime": 1791273281.62017,
+    "ast_hash": "4b9f7628aa20ee341c0852ea77c449d2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\avvocato.test.ts": {
+    "mtime": 1791364801.3897583,
+    "ast_hash": "8c9cddc9bfdb909dbefb1270b46c6a50",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\backup-signature.test.ts": {
+    "mtime": 1791399485.7046137,
+    "ast_hash": "2949162be112a975197fd86c5f65e27d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\backup.test.ts": {
+    "mtime": 1791227840.3607335,
+    "ast_hash": "0c2be06c914a11eed463914154407329",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\bulk-upload.test.ts": {
+    "mtime": 1791293835.1282492,
+    "ast_hash": "16fb3b17c1ec0b2e8ded733fd121c975",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\client-boundary.test.ts": {
+    "mtime": 1791267794.5064726,
+    "ast_hash": "18376e166fabde3099726600ea8fa46d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\commercialista-dossier.test.ts": {
+    "mtime": 1791364723.3882904,
+    "ast_hash": "86fb14c1b31777a19bd9520fc2cf6701",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\competences.test.ts": {
+    "mtime": 1791384625.6370232,
+    "ast_hash": "d52ba60217e304985bd3c8c102686e79",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\condominium-domain.test.ts": {
+    "mtime": 1791234432.6089935,
+    "ast_hash": "2061146193c781fe5cab834a9315b346",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\condominium-review-domain.test.ts": {
+    "mtime": 1791400046.6956449,
+    "ast_hash": "d65986035ba3414f7f1190212d03bbc2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\condominium-review.test.ts": {
+    "mtime": 1791364810.892557,
+    "ast_hash": "ae65b582216324fa53b2ba32a74b979b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\condominium-scope.test.ts": {
+    "mtime": 1791383180.1334767,
+    "ast_hash": "49d6b3cf65aa6f6cd526c5d52bb780d1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\condominium.test.ts": {
+    "mtime": 1791234100.7928963,
+    "ast_hash": "3960f070e21485ea6c4bc52f5bd83841",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\csv.test.ts": {
+    "mtime": 1791399496.0557098,
+    "ast_hash": "c2f0e7a396ab219d013b38e678773749",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\daily-job.test.ts": {
+    "mtime": 1791399626.35728,
+    "ast_hash": "abce1c70cb8c71daaa15c2eabae18734",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\db-indexes.test.ts": {
+    "mtime": 1791293753.1428685,
+    "ast_hash": "eef0327fb055b19bc75c384513ea80fc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\deadlines-domain.test.ts": {
+    "mtime": 1791230870.485474,
+    "ast_hash": "b109ca5f502a69163f5416b38a481584",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\deadlines.test.ts": {
+    "mtime": 1791231485.1601827,
+    "ast_hash": "fc5e4ee856af13dda09a9273d7c24fe9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\directory.test.ts": {
+    "mtime": 1791212045.4422402,
+    "ast_hash": "098a05b7ab07cb738982baaa97dade4a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\docs-links.test.ts": {
+    "mtime": 1791293813.9768908,
+    "ast_hash": "76de3ab32a73a065579632b360e6f249",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\docs-routes.test.ts": {
+    "mtime": 1791293812.9419732,
+    "ast_hash": "7059dc3a381e68ac1f64dfeaa72325f3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\doctor-edges.test.ts": {
+    "mtime": 1791399679.6845787,
+    "ast_hash": "6453254ce641b8390c83c3b897e91590",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\doctor.test.ts": {
+    "mtime": 1791399528.2650516,
+    "ast_hash": "600fc9c075d7f1a0390717dc3b13480c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\documents-domain.test.ts": {
+    "mtime": 1791399195.196664,
+    "ast_hash": "ddd175f542bcf29d66d7015f869eff7e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\documents-scale.test.ts": {
+    "mtime": 1791268131.9941862,
+    "ast_hash": "d9231e1e2d48de8c32ccddf9e23ad9d7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\documents.test.ts": {
+    "mtime": 1791214281.1834147,
+    "ast_hash": "d0db830cc91d6155ede6d98056b8a804",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\domain-schemas-edge.test.ts": {
+    "mtime": 1791399409.976406,
+    "ast_hash": "8db0dc9a8b898ec3a45b1f377b650664",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\domain-views-edge.test.ts": {
+    "mtime": 1791399961.208028,
+    "ast_hash": "4f6ea272669afcb7c3e0296671307f9e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\dossier.test.ts": {
+    "mtime": 1791227810.0534065,
+    "ast_hash": "178028c24b7bed8b0ca01c321063adf5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\economy.test.ts": {
+    "mtime": 1791271783.5810313,
+    "ast_hash": "c66eb5aa23357838bb71d2f4275494c8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\edit-ui.test.ts": {
+    "mtime": 1791399941.677417,
+    "ast_hash": "c66ea007dc079bb0780b4afaba39cb98",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\engagements.test.ts": {
+    "mtime": 1791400303.6021824,
+    "ast_hash": "47b4f24ab7118a410c542bf7ef1ed1cb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\env-example.test.ts": {
+    "mtime": 1791293863.295974,
+    "ast_hash": "1425f83ecfd0b17d9796915b0e08347e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\hardening.test.ts": {
+    "mtime": 1791399330.1220899,
+    "ast_hash": "b1951c6c72d5364642456013bcf0c0af",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\health.test.ts": {
+    "mtime": 1791273291.8192449,
+    "ast_hash": "b882080723d203aa7ea0fb3f4b560703",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\ics.test.ts": {
+    "mtime": 1791272929.4624424,
+    "ast_hash": "be773106b10fed21df45216aa3528445",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\impiantista-plants.test.ts": {
+    "mtime": 1791365131.5899072,
+    "ast_hash": "8164a22f9eeeccb8103a1899ed7bbbe7",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\import-altri.test.ts": {
+    "mtime": 1791445680.9907484,
+    "ast_hash": "fd01197fa59c96871396df2b3cc76b42",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\import-csv-reader.test.ts": {
+    "mtime": 1791444276.4824345,
+    "ast_hash": "64a29fc13bf8d05ddd132d89146a06b1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\import.test.ts": {
+    "mtime": 1791445800.1339023,
+    "ast_hash": "9619eaf7c30c36eac9fcd08efc3bd9db",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\insurance-domain.test.ts": {
+    "mtime": 1791235941.0841832,
+    "ast_hash": "1a090b59fb9a14ae305236b5aa151617",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\insurance.test.ts": {
+    "mtime": 1791235925.6198092,
+    "ast_hash": "080413b66cb9cf45eb0601ec2d473c32",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\lettings-domain.test.ts": {
+    "mtime": 1791267034.5715911,
+    "ast_hash": "d7b4c5373921456eaa5993e00e443a22",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\lettings.test.ts": {
+    "mtime": 1791267200.216804,
+    "ast_hash": "0cadec1c9f80d8ad7a3ac85b75e4f6ba",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\lib-helpers.test.ts": {
+    "mtime": 1791399601.5918343,
+    "ast_hash": "df9814ffefa3561869888ca5fedd4e98",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\listings.test.ts": {
+    "mtime": 1791393564.4930418,
+    "ast_hash": "2c55b436eaa276c569995f758ee46275",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\mail.test.ts": {
+    "mtime": 1791399641.960076,
+    "ast_hash": "15f733e888c76dec2ad095599f103562",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\maintenance-domain.test.ts": {
+    "mtime": 1791235772.2921917,
+    "ast_hash": "6d6bbfb04116b3843adc8dce3dafb352",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\maintenance.test.ts": {
+    "mtime": 1791235748.5523007,
+    "ast_hash": "87785ed3f0e497e20537c825ad2650c5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\management-domain.test.ts": {
+    "mtime": 1791399398.1735158,
+    "ast_hash": "8d37462ea8e2310c4f33ba157c76c75f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\management.test.ts": {
+    "mtime": 1791365633.6882517,
+    "ast_hash": "c0bbc67dbc1b2ca849dd629b9e79ed4d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\mandates.test.ts": {
+    "mtime": 1791384100.63412,
+    "ast_hash": "6e638d66f29de2afc51e2fcf3a1df72b",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\matters-sharing.test.ts": {
+    "mtime": 1791383821.7620332,
+    "ast_hash": "fd7b1b2d09e8b286cd760cf3a0898753",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\matters-submission.test.ts": {
+    "mtime": 1791380662.4899588,
+    "ast_hash": "b0ca19da511888472076739da4e6e029",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\messages.test.ts": {
+    "mtime": 1791236143.6466625,
+    "ast_hash": "081a69a57e1da8016b58d803b1e83ffe",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\neutral-language.test.ts": {
+    "mtime": 1791267582.604695,
+    "ast_hash": "363e4829e25cf2cb8f17fbef09782687",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\notary-domain.test.ts": {
+    "mtime": 1791399256.0294738,
+    "ast_hash": "304d4098c6bc81366033d4a3d6435a66",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\notary-records.test.ts": {
+    "mtime": 1791383559.490692,
+    "ast_hash": "504159fe8fa36ce38a36ff60db340fce",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\notary.test.ts": {
+    "mtime": 1791364720.123334,
+    "ast_hash": "d1e565a5bdc981c7247e6bb4ed260cd2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\office-forms.test.ts": {
+    "mtime": 1791400722.285719,
+    "ast_hash": "266c9a71baccaeac8ad8b73bd5236cf0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\offices.test.ts": {
+    "mtime": 1791365742.2834563,
+    "ast_hash": "c743c7717315b3808318f2a0a1669708",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\payment-proofs.test.ts": {
+    "mtime": 1791382032.0339377,
+    "ast_hash": "73c568eff5d3d5d3eb50b89d8685635f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\plants.test.ts": {
+    "mtime": 1791382537.1692138,
+    "ast_hash": "a6d5e347e3ba8e16163079c3ad683fa6",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\problem-pages.test.ts": {
+    "mtime": 1791271881.8719828,
+    "ast_hash": "e1bbb4e99764d4da79d9c721667a2688",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\reconfirmation.test.ts": {
+    "mtime": 1791399483.7816918,
+    "ast_hash": "7931f859ad2ae2afcd922a8f639929e5",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\request-error-log.test.ts": {
+    "mtime": 1791293683.6317046,
+    "ast_hash": "1320b11e6786056d8734e4801ff94f8f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\rules-engine.test.ts": {
+    "mtime": 1791228514.0796738,
+    "ast_hash": "88f9bb4783a80790beace650b10a7916",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\rules.test.ts": {
+    "mtime": 1791230901.6405823,
+    "ast_hash": "c8af9e7e5c0f89bf20ade0f7632bee3f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\search.test.ts": {
+    "mtime": 1791272619.881241,
+    "ast_hash": "3e70a18a7359e1fb44547e4146d96dfa",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\security-fixes.test.ts": {
+    "mtime": 1791380419.2765179,
+    "ast_hash": "576313806d2e54a49b303fadd31b0604",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\shared-pure.test.ts": {
+    "mtime": 1791293843.2115424,
+    "ast_hash": "fbcb987a14ab7f856c566fff0ed2f23a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\sharing-domain.test.ts": {
+    "mtime": 1791399895.0161002,
+    "ast_hash": "e4b72485686fd4a97bf88d84ba38e5c2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\sharing-sheets.test.ts": {
+    "mtime": 1791399986.0722547,
+    "ast_hash": "1866c17c52257b2032efd95fea82fa31",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\sheet-csv.test.ts": {
+    "mtime": 1791400092.6910844,
+    "ast_hash": "4b087b2f9ba202854cfbbeeb5b7df34a",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\single-owner.test.ts": {
+    "mtime": 1791273418.2572806,
+    "ast_hash": "cc47b6d70ba3b20d7191ef08b214cce8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\taxes-domain.test.ts": {
+    "mtime": 1791271578.5225732,
+    "ast_hash": "db3b5ac4b028167f81585783a19a7176",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\taxes.test.ts": {
+    "mtime": 1791267200.216804,
+    "ast_hash": "ecfafda2d956316a5b10905b1dc7e485",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\technical-domain.test.ts": {
+    "mtime": 1791399295.1008048,
+    "ast_hash": "2d0292088b3e3dd2059b56ea64d25866",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\technical.test.ts": {
+    "mtime": 1791364820.4415662,
+    "ast_hash": "40320ac7b7b119616cf460839f9418e9",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\territory.test.ts": {
+    "mtime": 1791211993.1676054,
+    "ast_hash": "0a974d6254df5cb6acff1ee770971811",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\helpers\\neutral.ts": {
+    "mtime": 1791267574.0530953,
+    "ast_hash": "5d902d3c7095fd0313c39ae1d4747cdc",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\helpers\\sample-pdf.ts": {
+    "mtime": 1791214280.145874,
+    "ast_hash": "43ab9bcac2ae1b596e74a04ae438d295",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\tests\\helpers\\test-db.ts": {
+    "mtime": 1791215196.7609193,
+    "ast_hash": "5654528eeaa0b500ae3ebb9469648589",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\CHANGELOG.md": {
+    "mtime": 1791294154.3947604,
+    "ast_hash": "5460c8cf915344404262820e00aec20f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\CONTRIBUTING.md": {
+    "mtime": 1791294193.3183992,
+    "ast_hash": "c28f659618c25d5237850b43a0a8c4cf",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\DECISIONS.md": {
+    "mtime": 1791452764.261346,
+    "ast_hash": "53a69031e4b23a00ce75b2e3c15765c2",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\Prompt applicativo per la gestione di immobili in Italia.md": {
+    "mtime": 1791199044.602607,
+    "ast_hash": "986f74c852f7feaecaaf12c5be5ac5cb",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\Prompt finale - App gestione immobili.md": {
+    "mtime": 1791199841.2654648,
+    "ast_hash": "4699a6bc4a9618cff9c9898eee6b94a1",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\README.md": {
+    "mtime": 1791393328.9810965,
+    "ast_hash": "dfa504887eaf25ae185b4f44cf383d97",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\SECURITY.md": {
+    "mtime": 1791400787.5289187,
+    "ast_hash": "94fac6ea194a2d7a2b39be9f057a0df4",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\.github\\dependabot.yml": {
+    "mtime": 1791273339.7888978,
+    "ast_hash": "8b4c0636be24de640ea37ec03939eb4d",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\.github\\workflows\\ci.yml": {
+    "mtime": 1791400050.3570004,
+    "ast_hash": "5541ac236a5f860dfce641a5dfbf4eb8",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\.github\\workflows\\security.yml": {
+    "mtime": 1791400053.4797604,
+    "ast_hash": "c4b7a02e8856670ba48c98991cab1c1c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\AGENTS.md": {
+    "mtime": 1791200166.2105541,
+    "ast_hash": "01e8142356e15c3404e0d84c48187cd0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\CLAUDE.md": {
+    "mtime": 1791200166.2105541,
+    "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\pnpm-workspace.yaml": {
+    "mtime": 1791200319.4489365,
+    "ast_hash": "4257ee7517b25fcc0f594087c679de35",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\README.md": {
+    "mtime": 1791403828.4240394,
+    "ast_hash": "400a159495802b0c2311c22e13fbab14",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\docs\\API.md": {
+    "mtime": 1791445840.4852176,
+    "ast_hash": "47f9259dfaca10789bab1da8c1e64326",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\docs\\ARCHITECTURE.md": {
+    "mtime": 1791452336.241689,
+    "ast_hash": "77a8af5883f91d6214b09927a85b181c",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\docs\\REGISTRO_CODEBASE.yaml": {
+    "mtime": 1791452764.260284,
+    "ast_hash": "db05fa631079300ae87051660891d09e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\docs\\RUNBOOK.md": {
+    "mtime": 1791400784.4202952,
+    "ast_hash": "35965e32aa99ef0943b8c401c58f62aa",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\docs\\SECURITY_REVIEW.md": {
+    "mtime": 1791400745.5039785,
+    "ast_hash": "04918aa77a728f356931704bd4f4b81e",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\docs\\Stage A - Proposta di architettura.md": {
+    "mtime": 1791200088.5633025,
+    "ast_hash": "78920168c85097e6612e4a039b7401d0",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\public\\icon-192.png": {
+    "mtime": 1791293661.1931758,
+    "ast_hash": "89e9d1ee52f9f04d75cb1f73b7b11a1f",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\public\\icon-512.png": {
+    "mtime": 1791293661.1931758,
+    "ast_hash": "c53a7324ca8be3b3c2101cc69f2369b3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\apple-icon.png": {
+    "mtime": 1791293661.1921487,
+    "ast_hash": "8baf8cea1a5c90471e57f6801f28fbe3",
+    "semantic_hash": ""
+  },
+  "D:\\casa\\app\\src\\app\\icon.svg": {
+    "mtime": 1791293659.5689607,
+    "ast_hash": "811e2eb0e8736bde6bfcd3db19076ee1",
+    "semantic_hash": ""
+  }
+}

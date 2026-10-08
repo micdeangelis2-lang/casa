@@ -304,6 +304,8 @@ Elenco ricavato da `src/platform/db/schema/*` (una voce `pgTable` per tabella). 
 | backup | `backup_run` | `backup.ts` |
 | economy, attention, search | nessuna (sola lettura) | — |
 
+**Letture incrociate.** Ogni tabella è scritta da un solo modulo (verificato da `tests/architecture-data.test.ts`). Alcuni moduli però *leggono* tabelle altrui passando dal file comune dello schema, cosa che dependency-cruiser non vede: `deadlines` (pratiche, immobili e territori, regole, utente), `directory` (documenti, competenze), `documents` (voci del dossier), `dossier` (categorie documentali, locazioni, immobili, regole), `offices` (regole, audit), `rules` (documenti, territori), `backup` (audit). L'elenco è dichiarato nel test: una nuova lettura incrociata o una voce superata lo fanno fallire. Chi aggiunge una dipendenza la scrive lì con il motivo, oppure espone una funzione di lettura dal modulo proprietario.
+
 Le migrazioni stanno in `app/drizzle/` (numerate in ordine a partire da `0000_audit_log.sql`; l'elenco è nella cartella e in `drizzle/meta/_journal.json`). Contengono anche SQL scritto a mano che Drizzle non genera: funzioni e trigger dell'audit, il trigger delle regole, l'indice `user_single_owner`, i dati di partenza (categorie, festivi). La CI esegue `drizzle-kit generate` e fallisce se compaiono file nuovi in `drizzle/`: lo schema non può cambiare senza una migrazione.
 
 ## 7. Backup e archivio

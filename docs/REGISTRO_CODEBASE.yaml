@@ -296,6 +296,10 @@ registro_codebase:
       usata_in: ["app/(app)/impostazioni/registro/page.tsx"]
 
   pattern_ricorrenti:
+    - descrizione: "Casi d'uso grandi divisi per area, con use-cases.ts che riesporta tutto (index.ts e test invariati): condominium (registry/budget/meeting/operations/read-use-cases + shared), deadlines (definitions, derived-sync, occurrences, reads, daily-cycle), maintenance (works, entries, warranties-plans, plants, reads + common)"
+      dove: "app/src/modules/{condominium,deadlines,maintenance}/application/"
+    - descrizione: "Dipendenze sui dati tra moduli: letture dirette di tabelle altrui (solo lettura, nessuna tabella e' scritta da due moduli) dichiarate in un elenco; una nuova lettura o una voce superata fanno fallire il test. Letture oggi: deadlines -> matters/registry/rules/auth; directory -> documents/competence; documents -> rules; dossier -> documents/lettings/registry/rules; offices -> audit/rules; rules -> documents/registry; backup -> audit"
+      dove: "tests/architecture-data.test.ts"
     - descrizione: "Unita' di lavoro: ogni scrittura in una transazione con la riga di audit (atomiche)"
       dove: "src/platform/db/unit-of-work.ts"
     - descrizione: "requireOwner() in OGNI pagina/azione/route che tocca dati; layout e proxy sono solo ottimistici"
