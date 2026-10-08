@@ -73,4 +73,5 @@ export const removeReport = (uow: UnitOfWork, reportId: string) => useCases.remo
 export const lettingLedger = (db: Db, from: string, to: string) => useCases.rentLedger(readDeps(db), from, to);
 export const listLettings = (db: Db, filter: { assetId?: string; status?: string; includeEnded?: boolean } = {}, today = todayInItaly()) => useCases.listLettings(readDeps(db), filter, today);
 export const getLettingDetail = (db: Db, id: string, today = todayInItaly()) => useCases.getLettingDetail(readDeps(db), id, today);
+export const rentDues = (db: Db, lettingId: string) => useCases.rentDues(readDeps(db), lettingId);
 export const activeLettingTypes = (db: Db, assetId: string) => useCases.activeLettingTypes(readDeps(db), assetId);

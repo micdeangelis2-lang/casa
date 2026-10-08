@@ -3,7 +3,8 @@
  * (in-app ed email) con preavvisi, rinvio ed escalation, giro giornaliero idempotente. Le scritture ricevono una
  * `UnitOfWork`, le letture un `Db`.
  */
-import type { UnitOfWork } from "@/platform/db/unit-of-work";
+import type { AuditActor } from "@/platform/audit";
+import { runInUnitOfWork, type UnitOfWork } from "@/platform/db/unit-of-work";
 import type { Db } from "@/platform/db/types";
 import { getMailEnv } from "@/platform/config/env";
 import { todayInItaly } from "@/platform/clock";
@@ -29,7 +30,7 @@ export {
   type DeadlineCategory,
   type Priority,
 } from "./domain/deadline";
-export type { CycleResult, DeadlineDetail, DeadlineView, NotificationSettings, OccurrenceListItem, Summary } from "./application/use-cases";
+export type { CycleResult, DeadlineDetail, EmailResult, DeadlineView, NotificationSettings, OccurrenceListItem, Summary } from "./application/use-cases";
 export type { DeadlineRow, MailPort, NotificationRow, OccurrenceView } from "./application/ports";
 export type { CalendarLabels } from "./application/calendar";
 export type { Explanation } from "@/modules/rules";
@@ -76,8 +77,10 @@ export const reopenOccurrence = (uow: UnitOfWork, occurrenceId: string) => useCa
 export const cancelOccurrence = (uow: UnitOfWork, occurrenceId: string) => useCases.cancelOccurrence(writeDeps(uow), occurrenceId);
 export const snoozeOccurrence = (uow: UnitOfWork, occurrenceId: string, until: string, today = todayInItaly()) => useCases.snoozeOccurrence(writeDeps(uow), occurrenceId, until, today);
 export const markNotificationRead = (uow: UnitOfWork, id: string | null) => useCases.markNotificationRead(writeDeps(uow), id);
-export const runDailyCycle = (uow: UnitOfWork, options: { mail?: MailPort; baseUrl?: string; today?: string } = {}) =>
-  useCases.runDailyCycle(writeDeps(uow), options.today ?? todayInItaly(), { mail: options.mail, baseUrl: options.baseUrl });
+export const runDailyCycle = (uow: UnitOfWork, options: { today?: string } = {}) => useCases.runDailyCycle(writeDeps(uow), options.today ?? todayInItaly());
+/** Email degli avvisi dovuti: da chiamare fuori da una transazione; ogni esito si registra in una transazione breve. */
+export const sendDueEmails = (db: Db, actor: AuditActor, options: { mail?: MailPort; baseUrl?: string } = {}) =>
+  useCases.sendDueEmails(readDeps(db), (id, result) => runInUnitOfWork(db, actor, (uow) => drizzleDeadlineRepository(uow.tx).setEmailResult(id, result)), options);
 export const saveNotificationSettings = (uow: UnitOfWork, input: { emailEnabled: boolean; emailAddress: string }) => useCases.saveNotificationSettings(writeDeps(uow), input);
 
 export const listOccurrences = (db: Db, view: useCases.DeadlineView, filter: Parameters<typeof useCases.listOccurrences>[2] = {}, today = todayInItaly(), options?: { windowDays?: number }) =>

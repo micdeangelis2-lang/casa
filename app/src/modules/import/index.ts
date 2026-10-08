@@ -10,7 +10,7 @@ import { createAsset, listAssets, validateAssetInput } from "@/modules/assets";
 import { createDeadline, listOccurrences, validateDeadlineInput } from "@/modules/deadlines";
 import { createParty, listParties, validatePartyInput } from "@/modules/directory";
 import { createPolicy, listPolicies, validatePolicyInput } from "@/modules/insurance";
-import { addRent, getLettingDetail, listLettings, recordRentPayment, validateRentInput, validateRentPaymentInput } from "@/modules/lettings";
+import { addRent, listLettings, rentDues, recordRentPayment, validateRentInput, validateRentPaymentInput } from "@/modules/lettings";
 import { createObligation, getObligationDetail, listObligations, listTaxTypes, recordPayment, validateObligationInput, validateTaxPaymentInput } from "@/modules/taxes";
 import { searchTerritories } from "@/modules/territory";
 import type { UnitOfWork } from "@/platform/db/unit-of-work";
@@ -34,7 +34,7 @@ function readPorts(db: Db): Omit<ImportPorts, "create"> {
     existingDeadlines: async () => (await listOccurrences(db, "all", { includeArchived: true })).map((o) => ({ title: o.title, dueOn: o.dueOn, assetId: o.assetId })),
     validateDeadline: validateDeadlineInput,
     existingLettings: async () => (await listLettings(db, { includeEnded: true })).map((l) => ({ id: l.id, title: l.title })),
-    rentDatesOf: async (lettingId) => ((await getLettingDetail(db, lettingId))?.rents ?? []).map((r) => r.dueOn),
+    rentDatesOf: async (lettingId) => (await rentDues(db, lettingId)).map((r) => r.dueOn),
     validateRent: validateRentInput,
     validateRentPayment: validateRentPaymentInput,
     existingTaxTypes: async () => (await listTaxTypes(db, true)).map((t) => ({ id: t.id, name: t.name })),
@@ -52,7 +52,7 @@ async function createRent(uow: UnitOfWork, payload: unknown): Promise<Result<unk
   const { lettingId, dueOn, amount, paid, paidOn } = payload as { lettingId: string; dueOn: string; amount: string; paid?: string; paidOn?: string };
   const added = await addRent(uow, lettingId, { dueOn, amount });
   if (!added.ok || paid === undefined) return added;
-  const rent = (await getLettingDetail(uow.tx, lettingId))?.rents.find((r) => r.dueOn === dueOn);
+  const rent = (await rentDues(uow.tx, lettingId)).find((r) => r.dueOn === dueOn);
   if (!rent) return failGeneral("Canone non trovato");
   return recordRentPayment(uow, rent.id, { paid, paidOn });
 }

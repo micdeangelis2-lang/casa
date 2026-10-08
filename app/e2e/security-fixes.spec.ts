@@ -34,6 +34,14 @@ test.describe("F-03: rotte dirette di Better Auth", () => {
     const codes = await request.post("/api/auth/two-factor/generate-backup-codes", { headers, data: { password: "Password-Sbagliata-123" } });
     expect(codes.status()).toBe(403);
   });
+
+  test("get-totp-uri e disable (bastava la password) rispondono 403 con la sessione del proprietario", async ({ request }) => {
+    const headers = { origin: E2E_ORIGIN };
+    for (const path of ["get-totp-uri", "disable"]) {
+      const response = await request.post(`/api/auth/two-factor/${path}`, { headers, data: { password: "Password-Sbagliata-123" } });
+      expect(response.status(), path).toBe(403);
+    }
+  });
 });
 
 test.describe("F-03: tetto ai tentativi di password nelle azioni della pagina", () => {

@@ -14,7 +14,13 @@ import { getAuthEnv } from "../config/env";
 const APP_NAME = "Gestione Immobili";
 
 /** Rotte di Better Auth che verificano la password e non devono essere raggiungibili in HTTP diretto (vedi `hooks.before`). */
-const PASSWORD_GATED_PATHS = new Set(["/change-password", "/two-factor/generate-backup-codes"]);
+const PASSWORD_GATED_PATHS = new Set([
+  "/change-password",
+  "/two-factor/generate-backup-codes",
+  // Bastano sessione e password: restituirebbero il segreto TOTP o spegnerebbero il secondo fattore senza riconferma. L'app non le usa.
+  "/two-factor/get-totp-uri",
+  "/two-factor/disable",
+]);
 
 function createAuth() {
   const env = getAuthEnv();

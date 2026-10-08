@@ -46,9 +46,11 @@ describe("F-01, F-03, F-08: configurazione di Better Auth", () => {
     expect(auth).toMatch(/authentication:\s*\{\s*afterVerification[\s\S]*authenticationInfo\?\.userVerified !== true/);
   });
 
-  it("change-password e generate-backup-codes sono chiuse alle richieste HTTP dirette (non alle azioni del server)", () => {
+  it("le rotte che bastano con la sola password (cambio, codici, segreto TOTP, spegnimento 2FA) sono chiuse alle richieste HTTP dirette", () => {
     expect(auth).toContain('"/change-password"');
     expect(auth).toContain('"/two-factor/generate-backup-codes"');
+    expect(auth).toContain('"/two-factor/get-totp-uri"');
+    expect(auth).toContain('"/two-factor/disable"');
     expect(auth).toMatch(/ctx\.request && PASSWORD_GATED_PATHS\.has\(ctx\.path\)/);
   });
 

@@ -370,6 +370,11 @@ export type LettingDetail = LettingRow & {
   reports: (ReportRow & { state: ReportState; documentTitle: string | null })[];
 };
 
+/** Id e scadenza dei canoni di una locazione, senza caricare il resto del dettaglio (una sola lettura). */
+export async function rentDues(deps: LettingReadDeps, lettingId: string): Promise<{ id: string; dueOn: string }[]> {
+  return (await deps.repo.rents(lettingId)).map((r) => ({ id: r.id, dueOn: r.dueOn }));
+}
+
 export async function getLettingDetail(deps: LettingReadDeps, id: string, today: string): Promise<LettingDetail | null> {
   const letting = await deps.repo.getLetting(id);
   if (!letting) return null;

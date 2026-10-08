@@ -22,6 +22,7 @@ import {
   markNotificationRead,
   reopenOccurrence,
   runDailyCycle,
+  sendDueEmails,
   saveNotificationSettings,
   setDeadlineArchived,
   snoozeOccurrence,
@@ -289,7 +290,11 @@ describe("avvisi e giro giornaliero", () => {
     if (!r.ok) throw new Error(`atteso successo: ${JSON.stringify(r)}`);
     return r.value as V;
   };
-  const cycle = (today: string, mail?: MailPort) => run((uow) => runDailyCycle(uow, { today, mail, baseUrl: "http://localhost:3000" }));
+  // Il giro (in transazione) e l'invio delle email (fuori transazione) sono due passi: il test li unisce come fa `runDailyJob`.
+  const cycle = async (today: string, mail?: MailPort) => ({
+    ...(await run((uow) => runDailyCycle(uow, { today }))),
+    ...(await sendDueEmails(t.db, actor, { mail, baseUrl: "http://localhost:3000" })),
+  });
   const notices = async () => (await listNotifications(t.db, { unreadOnly: false })).map((n) => [n.dueOn, n.leadDays, n.title] as const);
 
   beforeAll(async () => {
@@ -400,6 +405,25 @@ describe("avvisi e giro giornaliero", () => {
     await make("Altro indirizzo", "2026-12-22");
     await cycle("2026-12-22", goodMail);
     expect(sent.at(-1)).toMatchObject({ to: "altro@example.test", subject: "Oggi: Altro indirizzo" });
+  });
+
+  it("durante l'invio non c'e' nessuna transazione aperta (un'altra scrittura passa) e l'esito resta registrato", async () => {
+    await run((uow) => saveNotificationSettings(uow, { emailEnabled: true, emailAddress: "" }));
+    okValue(await run((uow) => createDeadline(uow, { title: "Invio fuori transazione", category: "fiscal", level: "national", calc: { type: "manual" }, firstDueOn: "2026-12-23", leadDays: [0] }, "2026-06-01")));
+    await run((uow) => runDailyCycle(uow, { today: "2026-12-23" }));
+    let writtenWhileSending = false;
+    // Se l'invio fosse dentro una transazione col blocco dell'audit, questa scrittura resterebbe in attesa e il test scadrebbe.
+    const mail: MailPort = {
+      configured: true,
+      send: async () => {
+        await run(async ({ audit }) => audit.record({ action: "test.during_send", entityType: "test", entityId: "x" }));
+        writtenWhileSending = true;
+      },
+    };
+    expect(await sendDueEmails(t.db, actor, { mail })).toMatchObject({ emailErrors: 0 });
+    expect(writtenWhileSending).toBe(true);
+    // Gli esiti sono stati registrati: un secondo invio non rispedisce nulla.
+    expect(await sendDueEmails(t.db, actor, { mail })).toMatchObject({ emails: 0 });
   });
 
   it("segnare come letto e il riepilogo per il pannello", async () => {

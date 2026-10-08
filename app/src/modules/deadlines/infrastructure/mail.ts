@@ -20,6 +20,8 @@ export function resendMail(apiKey: string, from: string, fetchImpl: typeof fetch
         method: "POST",
         headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({ from, to: [to], subject, text }),
+        // Un servizio che non risponde non deve tenere appeso il giro giornaliero.
+        signal: AbortSignal.timeout(10_000),
       });
       if (!response.ok) throw new Error(`Invio email non riuscito (HTTP ${response.status})`);
     },

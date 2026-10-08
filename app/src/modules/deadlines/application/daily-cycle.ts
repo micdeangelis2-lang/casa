@@ -6,14 +6,16 @@ import { daysLeft } from "./reads";
 
 const STOP_ESCALATION_AFTER_DAYS = 365;
 
-export type CycleResult = { occurrences: number; notifications: number; emails: number; emailErrors: number };
+export type CycleResult = { occurrences: number; notifications: number };
+export type EmailResult = { emails: number; emailErrors: number };
 
 /**
- * Giro giornaliero (idempotente): calcola le nuove date delle scadenze, crea gli avvisi dovuti e, se c'e' un servizio email,
- * li invia. Un avviso ha chiave univoca (data, preavviso, scadenza): se il giro parte due volte nulla si duplica.
+ * Giro giornaliero (idempotente): calcola le nuove date delle scadenze e crea gli avvisi dovuti. Un avviso ha chiave univoca
+ * (data, preavviso, scadenza): se il giro parte due volte nulla si duplica. Le email NON partono da qui (`sendDueEmails`):
+ * un servizio lento terrebbe aperta la transazione e il blocco dell'audit, fermando ogni altra scrittura dell'app.
  */
-export async function runDailyCycle(deps: DeadlineDeps, today: string, options: { mail?: MailPort; baseUrl?: string } = {}): Promise<CycleResult> {
-  const result: CycleResult = { occurrences: 0, notifications: 0, emails: 0, emailErrors: 0 };
+export async function runDailyCycle(deps: DeadlineDeps, today: string): Promise<CycleResult> {
+  const result: CycleResult = { occurrences: 0, notifications: 0 };
 
   for (const deadline of await deps.repo.listDeadlines({ includeArchived: false })) result.occurrences += (await materialize(deps, deadline, today)).created;
 
@@ -28,29 +30,41 @@ export async function runDailyCycle(deps: DeadlineDeps, today: string, options: 
     if (await deps.repo.insertNotification({ occurrenceId: o.id, leadDays: step, dueOn: o.dueOn, ...text })) result.notifications += 1;
   }
 
+  await deps.audit.record({ action: "deadline.cycle", entityType: "deadline", entityId: "cycle", diff: { ...result, today } });
+  return result;
+}
+
+/**
+ * Invia le email degli avvisi non ancora spediti (al piu' 50 per giro). Va chiamata FUORI da una transazione: `store` registra
+ * l'esito di ogni invio in una transazione breve a parte, cosi' un invio riuscito non si perde se un passo successivo fallisce
+ * (e l'avviso non riparte due volte).
+ */
+export async function sendDueEmails(
+  deps: DeadlineReadDeps,
+  store: (notificationId: string, result: { sentAt: Date } | { error: string }) => Promise<void>,
+  options: { mail?: MailPort; baseUrl?: string } = {},
+): Promise<EmailResult> {
+  const result: EmailResult = { emails: 0, emailErrors: 0 };
   const mail = options.mail;
   const enabled = (await deps.repo.getSetting("notifications.email_enabled")) === true;
-  if (mail?.configured && enabled) {
-    const configured = await deps.repo.getSetting("notifications.email_address");
-    const to = typeof configured === "string" && configured.trim() !== "" ? configured.trim() : await deps.others.ownerEmail();
-    if (to) {
-      // Solo gli avvisi nati dopo l'attivazione delle email: attivarle non deve spedire in un colpo tutti quelli arretrati.
-      const enabledAt = await deps.repo.getSetting("notifications.email_enabled_at");
-      const since = typeof enabledAt === "string" ? new Date(enabledAt) : new Date(0);
-      for (const n of await deps.repo.pendingEmails(50, since)) {
-        try {
-          await mail.send({ to, subject: n.title, text: `${n.body}${options.baseUrl ? `\n\n${options.baseUrl}/scadenze/${n.deadlineId}` : ""}` });
-          await deps.repo.setEmailResult(n.id, { sentAt: new Date() });
-          result.emails += 1;
-        } catch (error) {
-          await deps.repo.setEmailResult(n.id, { error: (error instanceof Error ? error.message : "Errore sconosciuto").slice(0, 300) });
-          result.emailErrors += 1;
-        }
-      }
+  if (!mail?.configured || !enabled) return result;
+  const configured = await deps.repo.getSetting("notifications.email_address");
+  const to = typeof configured === "string" && configured.trim() !== "" ? configured.trim() : await deps.others.ownerEmail();
+  if (!to) return result;
+  // Solo gli avvisi nati dopo l'attivazione delle email: attivarle non deve spedire in un colpo tutti quelli arretrati.
+  const enabledAt = await deps.repo.getSetting("notifications.email_enabled_at");
+  const since = typeof enabledAt === "string" ? new Date(enabledAt) : new Date(0);
+  for (const n of await deps.repo.pendingEmails(50, since)) {
+    try {
+      await mail.send({ to, subject: n.title, text: `${n.body}${options.baseUrl ? `\n\n${options.baseUrl}/scadenze/${n.deadlineId}` : ""}` });
+    } catch (error) {
+      await store(n.id, { error: (error instanceof Error ? error.message : "Errore sconosciuto").slice(0, 300) });
+      result.emailErrors += 1;
+      continue;
     }
+    await store(n.id, { sentAt: new Date() });
+    result.emails += 1;
   }
-
-  await deps.audit.record({ action: "deadline.cycle", entityType: "deadline", entityId: "cycle", diff: { ...result, today } });
   return result;
 }
 
