@@ -4121,6 +4121,7 @@
       "premium_overdue": "Polizza «{title}»: il premio di {amount} € aveva scadenza il {date} e non risulta pagato",
       "policy_expiring": "La polizza «{title}» ha la fine indicata il {date}",
       "policy_expired": "La polizza «{title}» ha la fine indicata il {date}, già passata, e non è archiviata",
+      "short_term_count": "Nel {year} risultano {count} immobili con una locazione breve. Il trattamento fiscale può cambiare con il numero di immobili: conviene parlarne con un commercialista",
       "rent_overdue": "{title}: {count, plural, one {# canone con scadenza passata e non pagato per intero} other {# canoni con scadenza passata e non pagati per intero}}",
       "letting_end_passed": "{title}: la data di fine ({date}) è passata ma lo stato è ancora «in corso»",
       "report_overdue": "{letting}: «{title}» aveva scadenza il {date} e non risulta eseguito",
