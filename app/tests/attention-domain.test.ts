@@ -107,20 +107,36 @@ describe("«da controllare»", () => {
     expect(f.map((x) => [x.kind, x.severity])).toEqual([["premium_overdue", "high"], ["policy_expired", "normal"], ["policy_expiring", "normal"]]);
   });
 
+  it("affitti brevi: il promemoria compare dal secondo immobile distinto con una locazione breve nell'anno, non per terminate o di altri anni", () => {
+    const short = (id: string, assetId: string, over: Record<string, unknown> = {}) => ({ id, assetId, type: "short_term", title: id, status: "active", startsOn: null, endsOn: null, overdueRents: 0, reports: [], codes: [], ...over });
+    const kinds = (lettings: ReturnType<typeof short>[]) => computeFindings(quiet({ lettings })).filter((x) => x.kind === "short_term_count");
+    expect(kinds([short("l1", "a1")])).toEqual([]);
+    expect(kinds([short("l1", "a1"), short("l2", "a1")])).toEqual([]); // stesso immobile
+    expect(kinds([short("l1", "a1"), short("l2", "a2", { status: "ended" })])).toEqual([]);
+    expect(kinds([short("l1", "a1"), short("l2", "a2", { endsOn: "2025-12-31" })])).toEqual([]);
+    expect(kinds([short("l1", "a1"), short("l2", "a2", { type: "residential" })])).toEqual([]);
+    const found = kinds([short("l1", "a1"), short("l2", "a2"), short("l3", "a3")]);
+    expect(found).toHaveLength(1);
+    expect(found[0]).toMatchObject({ severity: "normal", params: { count: 3 } });
+  });
+
   it("locazioni: canoni e adempimenti in ritardo (alta), contratto con fine passata ma ancora in corso, codici scaduti o in scadenza", () => {
     const f = computeFindings(
       quiet({
         lettings: [
           {
             id: "l1",
+            assetId: "a1",
+            type: "residential",
             title: "Locazione",
             status: "active",
+            startsOn: null,
             endsOn: "2026-05-31",
             overdueRents: 2,
             reports: [{ title: "Comunicazione", dueOn: "2026-06-01", overdue: true }, { title: "Futuro", dueOn: "2026-09-01", overdue: false }],
             codes: [{ label: "Codice A", validUntil: "2026-01-01", state: "expired" }, { label: "Codice B", validUntil: "2026-07-01", state: "expiring" }, { label: "Codice C", validUntil: null, state: "undated" }],
           },
-          { id: "l2", title: "Conclusa", status: "ended", endsOn: "2026-01-01", overdueRents: 0, reports: [], codes: [] },
+          { id: "l2", assetId: "a2", type: "residential", title: "Conclusa", status: "ended", startsOn: null, endsOn: "2026-01-01", overdueRents: 0, reports: [], codes: [] },
         ],
       }),
     );

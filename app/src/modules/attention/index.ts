@@ -67,8 +67,11 @@ export async function gatherSources(db: Db, today = todayInItaly()): Promise<Sou
       const detail = (await getLettingDetail(db, l.id, today))!;
       return {
         id: l.id,
+        assetId: l.assetId,
+        type: l.type,
         title: l.title,
         status: l.status,
+        startsOn: l.startsOn,
         endsOn: l.endsOn,
         overdueRents: l.overdueRents,
         reports: detail.reports.map((r) => ({ title: r.title, dueOn: r.dueOn, overdue: r.state === "overdue" })),

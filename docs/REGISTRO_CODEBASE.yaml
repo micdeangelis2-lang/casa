@@ -300,6 +300,8 @@ registro_codebase:
       dove: "app/src/modules/{condominium,deadlines,maintenance}/application/"
     - descrizione: "Email del giro giornaliero fuori transazione: runDailyCycle (in transazione, solo date e avvisi) poi sendDueEmails(db, actor, ...) con esito di ogni invio in una transazione breve; resendMail ha timeout di 10 s. lettings espone rentDues (id e scadenza dei canoni) per evitare di ricaricare il dettaglio"
       dove: "app/src/modules/deadlines/application/daily-cycle.ts, app/src/lib/daily-job.ts, app/src/modules/lettings/index.ts"
+    - descrizione: "Promemoria affitti brevi: computeFindings segnala short_term_count quando almeno 2 immobili distinti hanno una locazione breve non terminata nell'anno (soglia di attenzione, non norma)"
+      dove: "app/src/modules/attention/domain/findings.ts"
     - descrizione: "Dipendenze sui dati tra moduli: letture dirette di tabelle altrui (solo lettura, nessuna tabella e' scritta da due moduli) dichiarate in un elenco; una nuova lettura o una voce superata fanno fallire il test. Letture oggi: deadlines -> matters/registry/rules/auth; directory -> documents/competence; documents -> rules; dossier -> documents/lettings/registry/rules; offices -> audit/rules; rules -> documents/registry; backup -> audit"
       dove: "tests/architecture-data.test.ts"
     - descrizione: "Unita' di lavoro: ogni scrittura in una transazione con la riga di audit (atomiche)"

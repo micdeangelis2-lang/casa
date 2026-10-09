@@ -39,8 +39,12 @@ export type Sources = {
   policies: { id: string; title: string; state: PeriodState; endsOn: string | null; nextPremium: { dueOn: string; amountCents: number; overdue: boolean } | null }[];
   lettings: {
     id: string;
+    assetId: string;
+    /** residential | transitional | student | short_term | accommodation */
+    type: string;
     title: string;
     status: string;
+    startsOn: string | null;
     endsOn: string | null;
     overdueRents: number;
     reports: { title: string; dueOn: string | null; overdue: boolean }[];
@@ -58,6 +62,12 @@ export type Sources = {
 export const SOON_DAYS = 60;
 /** Entro quanti giorni una scadenza si considera «imminente». */
 export const DEADLINE_SOON_DAYS = 14;
+/**
+ * Da quanti immobili con locazione breve nello stesso anno si mostra il promemoria «affitti brevi». E' una soglia di
+ * attenzione dell'app (uno sotto il numero che alcune fonti indicano per un diverso trattamento fiscale), non un termine di
+ * legge: il significato fiscale lo stabilisce un professionista.
+ */
+export const SHORT_TERM_NOTE_FROM_ASSETS = 2;
 /** Dopo quanti giorni senza un backup riuscito lo si segnala. */
 export const BACKUP_STALE_DAYS = 7;
 
@@ -101,6 +111,15 @@ export function computeFindings(s: Sources): Finding[] {
     if (p.state === "expiring" && p.endsOn) add({ key: p.id, area: "insurance", kind: "policy_expiring", severity: "normal", params: { title: p.title, date: p.endsOn }, href: `/assicurazioni/${p.id}`, date: p.endsOn });
     if (p.state === "expired" && p.endsOn) add({ key: p.id, area: "insurance", kind: "policy_expired", severity: "normal", params: { title: p.title, date: p.endsOn }, href: `/assicurazioni/${p.id}`, date: p.endsOn });
   }
+
+  // Immobili distinti con una locazione breve che tocca l'anno in corso (non terminata prima, non iniziata dopo).
+  const year = s.today.slice(0, 4);
+  const shortTermAssets = new Set(
+    s.lettings
+      .filter((l) => l.type === "short_term" && l.status !== "ended" && (!l.endsOn || l.endsOn.slice(0, 4) >= year) && (!l.startsOn || l.startsOn.slice(0, 4) <= year))
+      .map((l) => l.assetId),
+  );
+  if (shortTermAssets.size >= SHORT_TERM_NOTE_FROM_ASSETS) add({ key: year, area: "lettings", kind: "short_term_count", severity: "normal", params: { count: shortTermAssets.size, year }, href: "/locazioni", date: null });
 
   for (const l of s.lettings) {
     if (l.overdueRents > 0) add({ key: l.id, area: "lettings", kind: "rent_overdue", severity: "high", params: { title: l.title, count: l.overdueRents }, href: `/locazioni/${l.id}`, date: null });
