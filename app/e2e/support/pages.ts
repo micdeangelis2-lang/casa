@@ -50,5 +50,6 @@ export const PAGES = [
   "/impostazioni/categorie",
   "/impostazioni/notifiche",
   "/impostazioni/sicurezza",
+  "/impostazioni/stato",
   "/limiti",
 ];

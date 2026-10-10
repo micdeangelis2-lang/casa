@@ -1622,7 +1622,15 @@
       "restore": "Ripristina"
     }
   },
+  "installStatus": {
+    "title": "Stato dell'installazione",
+    "intro": "Controlla configurazione, database, migrazioni, cartelle, backup e integrità del registro. Mostra solo i nomi delle impostazioni, mai i loro valori. È la stessa diagnosi di «pnpm doctor».",
+    "summary": "{ok} controlli a posto, {warnings, plural, one {# avviso} other {# avvisi}}, {errors, plural, one {# errore} other {# errori}}.",
+    "levels": { "ok": "A posto", "avviso": "Avviso", "errore": "Errore" }
+  },
   "settings": {
+    "statusTitle": "Stato dell'installazione",
+    "statusBody": "Controllo di configurazione, database, backup e integrità del registro, senza usare il terminale.",
     "title": "Impostazioni",
     "territoriesTitle": "Territori",
     "territoriesBody": "Regioni, province, Comuni e località. I Comuni italiani arrivano dall'elenco ISTAT; qui puoi aggiungere una località o un territorio che manca.",

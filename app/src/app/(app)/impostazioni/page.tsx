@@ -76,6 +76,16 @@ export default async function SettingsPage() {
           </CardHeader>
         </Card>
       </Link>
+      <Link href="/impostazioni/stato" className="rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2">
+        <Card className="transition-colors hover:bg-accent/40">
+          <CardHeader>
+            <CardTitle>
+              <h2>{t("statusTitle")}</h2>
+            </CardTitle>
+            <CardDescription>{t("statusBody")}</CardDescription>
+          </CardHeader>
+        </Card>
+      </Link>
       <Link href="/impostazioni/registro" className="rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2">
         <Card className="transition-colors hover:bg-accent/40">
           <CardHeader>
