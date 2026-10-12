@@ -12,7 +12,7 @@ import { TAX_KINDS, listTaxTypes, territoryChoices } from "@/modules/taxes";
 import { ActionButton } from "@/components/action-button";
 import { InlineForm } from "@/components/inline-form";
 import type { FieldSpec } from "@/components/simple-form";
-import { archiveTaxTypeAction, createTaxTypeAction, updateTaxTypeAction } from "../actions";
+import { archiveTaxTypeAction, createTaxTypeAction, seedTaxTypesAction, updateTaxTypeAction } from "../actions";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("taxes.types");
@@ -43,15 +43,29 @@ export default async function TaxTypesPage({ searchParams }: PageProps<"/tributi
       <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
       <p className="text-sm text-muted-foreground">{t("intro")}</p>
 
-      <form method="get" className="flex flex-wrap items-center gap-3" role="search">
-        <input id="archiviati" name="archiviati" type="checkbox" value="1" defaultChecked={includeArchived} className="size-4" />
-        <Label htmlFor="archiviati">{t("showArchived")}</Label>
-        <Button type="submit" variant="secondary" size="sm">
-          {t("apply")}
-        </Button>
-      </form>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <form method="get" className="flex flex-wrap items-center gap-3" role="search">
+          <input id="archiviati" name="archiviati" type="checkbox" value="1" defaultChecked={includeArchived} className="size-4" />
+          <Label htmlFor="archiviati">{t("showArchived")}</Label>
+          <Button type="submit" variant="secondary" size="sm">
+            {t("apply")}
+          </Button>
+        </form>
+        <ActionButton action={seedTaxTypesAction} size="sm">
+          {types.length === 0 ? t("seedButton") : t("seedButtonMore")}
+        </ActionButton>
+      </div>
 
-      {types.length === 0 ? <p className="text-sm text-muted-foreground">{t("empty")}</p> : null}
+      {types.length === 0 ? (
+        <Card className="border-dashed">
+          <CardContent className="flex flex-col items-start gap-3 py-6">
+            <p className="text-sm text-muted-foreground">{t("empty")}</p>
+            <ActionButton action={seedTaxTypesAction}>
+              {t("seedButton")}
+            </ActionButton>
+          </CardContent>
+        </Card>
+      ) : null}
       <ul className="flex flex-col gap-4" data-testid="tax-types">
         {types.map((type) => (
           <li key={type.id}>

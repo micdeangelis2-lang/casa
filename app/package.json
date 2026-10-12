@@ -19,6 +19,7 @@
     "auth:schema": "pnpm dlx @better-auth/cli@latest generate --config scripts/auth-cli-config.ts --output src/platform/db/schema/auth.ts -y",
     "dev:db": "tsx scripts/dev-db.ts",
     "territory:import": "dotenv -e .env.local -- tsx scripts/import-istat.ts",
+    "tax-types:seed": "dotenv -e .env.local -- tsx scripts/seed-tax-types.ts",
     "doctor": "dotenv -e .env.local -- tsx scripts/doctor.ts",
     "backup:keygen": "tsx scripts/backup-keygen.ts",
     "backup:run": "dotenv -e .env.local -- tsx scripts/backup-run.ts",

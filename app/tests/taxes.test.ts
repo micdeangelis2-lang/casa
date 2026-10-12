@@ -24,6 +24,7 @@ import {
   recordPayment,
   removePayment,
   reopenObligation,
+  seedDefaultTaxTypes,
   setTaxTypeArchived,
   summaryCsv,
   territoryChoices,
@@ -90,6 +91,18 @@ describe("tributi e pagamenti", () => {
     // Un tipo archiviato non si usa per voci nuove.
     expect(await run((uow) => createObligation(uow, { assetId: assetA, taxTypeId: secondId, year: 2026 }))).toMatchObject({ ok: false, errors: { taxTypeId: expect.any(Array) } });
     await run((uow) => setTaxTypeArchived(uow, secondId, false));
+  });
+
+  it("inizializza i tipi di tributo predefiniti comuni (idempotente)", async () => {
+    const firstSeed = okValue(await run((uow) => seedDefaultTaxTypes(uow)));
+    expect(firstSeed.created).toBeGreaterThanOrEqual(5);
+    const types = await listTaxTypes(t.db);
+    expect(types.map((x) => x.name)).toContain("IMU (Imposta Municipale Propria)");
+    expect(types.map((x) => x.name)).toContain("TARI (Tassa sui Rifiuti)");
+
+    const secondSeed = okValue(await run((uow) => seedDefaultTaxTypes(uow)));
+    expect(secondSeed.created).toBe(0);
+    expect(secondSeed.skipped).toBeGreaterThanOrEqual(5);
   });
 
   it("una voce lega bene, tipo e anno; l'importo atteso e la scadenza sono facoltativi e scritti a mano", async () => {

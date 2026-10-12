@@ -13,7 +13,9 @@ import { listAssets } from "@/modules/assets";
 import { listObligations, listTaxTypes, summarize, todayInItaly, yearsWithData } from "@/modules/taxes";
 import { isUuid } from "@/lib/ids";
 import { formatDate, formatEuro } from "@/lib/format";
+import { ActionButton } from "@/components/action-button";
 import { ObligationBadges } from "./_components/state-badges";
+import { seedTaxTypesAction } from "./actions";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("taxes");
@@ -65,11 +67,16 @@ export default async function TaxesPage({ searchParams }: PageProps<"/tributi">)
 
       {types.length === 0 ? (
         <Alert>
-          <AlertDescription>
-            {t("noTypes")}{" "}
-            <Link href="/tributi/tipi" className="underline underline-offset-2">
-              {t("links.types")}
-            </Link>
+          <AlertDescription className="flex flex-wrap items-center justify-between gap-3">
+            <span>
+              {t("noTypes")}{" "}
+              <Link href="/tributi/tipi" className="underline underline-offset-2">
+                {t("links.types")}
+              </Link>
+            </span>
+            <ActionButton action={seedTaxTypesAction} size="sm">
+              {t("types.seedButton")}
+            </ActionButton>
           </AlertDescription>
         </Alert>
       ) : null}

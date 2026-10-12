@@ -3164,6 +3164,7 @@
     "form": {
       "titleNew": "Nuova voce",
       "titleEdit": "Modifica la voce",
+      "noTypesWarning": "Non è ancora stato registrato alcun tipo di tributo: carica prima i tributi predefiniti o creane uno da «Tipi di tributo».",
       "asset": "Immobile",
       "chooseAsset": "Scegli un immobile",
       "type": "Tipo di tributo",
@@ -3246,7 +3247,10 @@
       "title": "Tipi di tributo",
       "intro": "L'elenco dei tributi che ti riguardano lo scrivi tu: nome, genere, territorio e da dove hai l'informazione. L'app non ne conosce l'aliquota né la scadenza.",
       "back": "Torna a tributi e pagamenti",
-      "empty": "Nessun tipo: aggiungine uno.",
+      "empty": "Nessun tipo: aggiungine uno o carica i tributi predefiniti.",
+      "seedButton": "Carica tributi predefiniti (IMU, TARI, Registro...)",
+      "seedButtonMore": "Reintegra tipi predefiniti mancanti",
+      "seedHint": "Puoi reintegrare i tributi italiani comuni se ne mancano alcuni.",
       "kind": {
         "tax": "Imposta",
         "levy": "Tributo locale o tariffa",

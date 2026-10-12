@@ -1,5 +1,6 @@
 import { fail, failGeneral, ok, parseInput, type FieldErrors, type Result } from "@/shared/result";
 import { closeSchema, obligationSchema, obligationState, paymentSchema, returnSchema, summarize, taxTypeSchema, type ObligationState } from "../domain/taxes";
+import { DEFAULT_TAX_TYPES } from "../domain/seed";
 import type { ObligationRow, PaymentRow, ReturnRow, TaxDeps, TaxReadDeps, TaxTypeRow } from "./ports";
 
 type Id = Result<{ id: string }>;
@@ -53,6 +54,35 @@ export async function setTaxTypeArchived(deps: TaxDeps, id: string, archived: bo
   await deps.repo.updateType(id, { archived });
   await deps.audit.record({ action: archived ? "tax.type.archive" : "tax.type.restore", entityType: "tax_type", entityId: id, diff: {} });
   return ok({ id });
+}
+
+/** Inizializza i tipi di tributo predefiniti comuni (idempotente: salta i nomi già presenti). */
+export async function seedDefaultTaxTypes(deps: TaxDeps): Promise<Result<{ created: number; skipped: number }>> {
+  let created = 0;
+  let skipped = 0;
+  const existing = await deps.repo.listTypes(true);
+  const existingNames = new Set(existing.map((t) => t.name.trim().toLowerCase()));
+
+  for (const item of DEFAULT_TAX_TYPES) {
+    if (existingNames.has(item.name.trim().toLowerCase())) {
+      skipped += 1;
+      continue;
+    }
+    const id = await deps.repo.insertType({
+      name: item.name,
+      kind: item.kind,
+      territoryId: null,
+      source: item.source ?? null,
+      notes: item.notes ?? null,
+      archived: false,
+    });
+    existingNames.add(item.name.trim().toLowerCase());
+    created += 1;
+    await deps.audit.record({ action: "tax.type.create", entityType: "tax_type", entityId: id, diff: { kind: item.kind, seed: true } });
+  }
+
+  await deps.audit.record({ action: "tax.type.seed", entityType: "tax_type", entityId: "seed", diff: { created, skipped } });
+  return ok({ created, skipped });
 }
 
 // -------------------------------------------------------------------------------------------------- voci (bene, tipo, anno)

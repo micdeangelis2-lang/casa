@@ -11,6 +11,7 @@ import {
   recordPayment,
   removePayment,
   reopenObligation,
+  seedDefaultTaxTypes,
   setTaxTypeArchived,
   updateObligation,
   updateReturn,
@@ -79,7 +80,11 @@ export async function removePaymentAction(obligationId: string, paymentId: strin
 // ---- tipi di tributo ---------------------------------------------------------------------------------------------
 
 const typePayload = (v: FormValues) => ({ name: text(v, "name"), kind: text(v, "kind") || "tax", territoryId: text(v, "territoryId"), source: text(v, "source"), notes: text(v, "notes") });
-const typePaths = ["/tributi/tipi", "/tributi"];
+const typePaths = ["/tributi/tipi", "/tributi", "/tributi/nuovo"];
+
+export async function seedTaxTypesAction(): Promise<MiniResult> {
+  return ownerAction((uow) => seedDefaultTaxTypes(uow), typePaths);
+}
 
 export async function createTaxTypeAction(values: FormValues): Promise<MiniResult> {
   return ownerAction((uow) => createTaxType(uow, typePayload(values)), typePaths);

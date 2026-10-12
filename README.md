@@ -67,6 +67,7 @@ pnpm doctor                  # diagnosi dell'installazione
 | [IMPLEMENTATION_PLAN.MD](IMPLEMENTATION_PLAN.MD) | Strategia tecnica, architettura e piano incrementale per agenti |
 | [TASKS.MD](TASKS.MD) | Roadmap dinamica e tracciamento task operativi |
 | [GEMINI.MD](GEMINI.MD) | Registro persistente delle decisioni e storico di sessione |
+| [VERCEL.md](VERCEL.md) | Guida e storico del rilascio su Vercel (risoluzione 404/500, Neon, passkey) |
 
 I requisiti di partenza sono in [Prompt finale - App gestione immobili.md](<Prompt finale - App gestione immobili.md>) e [Prompt applicativo per la gestione di immobili in Italia.md](<Prompt applicativo per la gestione di immobili in Italia.md>).
 

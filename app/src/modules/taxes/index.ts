@@ -53,6 +53,7 @@ const writeDeps = (uow: UnitOfWork) => ({ repo: drizzleTaxRepository(uow.tx), ot
 const readDeps = (db: Db) => ({ repo: drizzleTaxRepository(db), others: collaborators(db) });
 
 export const createTaxType = (uow: UnitOfWork, input: unknown) => useCases.createTaxType(writeDeps(uow), input);
+export const seedDefaultTaxTypes = (uow: UnitOfWork) => useCases.seedDefaultTaxTypes(writeDeps(uow));
 export const updateTaxType = (uow: UnitOfWork, id: string, input: unknown) => useCases.updateTaxType(writeDeps(uow), id, input);
 export const setTaxTypeArchived = (uow: UnitOfWork, id: string, archived: boolean) => useCases.setTaxTypeArchived(writeDeps(uow), id, archived);
 export const createObligation = (uow: UnitOfWork, input: unknown) => useCases.createObligation(writeDeps(uow), input);

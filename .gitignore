@@ -47,3 +47,5 @@ backups/
 
 # graphify
 graphify-out/
+.vercel
+.env*
