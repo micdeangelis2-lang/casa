@@ -16,7 +16,7 @@ export type OwnerContext = {
 export type OwnerSetup = {
   twoFactorEnabled: boolean;
   passkeyCount: number;
-  /** Il proprietario puo' usare l'app solo con TOTP attivo e almeno una passkey registrata. */
+  /** Il proprietario puo' usare l'app con TOTP attivo (passkey facoltative). */
   complete: boolean;
 };
 
@@ -32,7 +32,7 @@ export async function getOwnerSetup(userId: string): Promise<OwnerSetup> {
     .where(eq(schema.passkey.userId, userId));
   const twoFactorEnabled = user?.twoFactorEnabled === true;
   const passkeyCount = passkeys?.n ?? 0;
-  return { twoFactorEnabled, passkeyCount, complete: twoFactorEnabled && passkeyCount >= 1 };
+  return { twoFactorEnabled, passkeyCount, complete: twoFactorEnabled };
 }
 
 async function readSession(): Promise<OwnerContext | null> {

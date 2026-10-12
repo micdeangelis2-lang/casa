@@ -1366,7 +1366,7 @@
     },
     "security": {
       "title": "Sicurezza dell’account",
-      "intro": "Per usare l’app servono un’app di autenticazione e almeno una passkey. I codici di recupero ti servono se perdi l’accesso.",
+      "intro": "Per usare l’app serve un’app di autenticazione. Le passkey sono facoltative. I codici di recupero ti servono se perdi l’accesso.",
       "totp": {
         "title": "1. App di autenticazione",
         "body": "Conferma la password, scansiona il QR con la tua app e inserisci il codice a 6 cifre.",
@@ -1389,8 +1389,8 @@
         "saved": "Ho salvato i codici di recupero"
       },
       "passkey": {
-        "title": "3. Passkey",
-        "body": "Registra almeno una passkey. Consigliato: due, su dispositivi diversi.",
+        "title": "3. Passkey (opzionale)",
+        "body": "Puoi registrare una o più passkey per accedere senza password. Questo passaggio è facoltativo.",
         "name": "Nome della passkey",
         "namePlaceholder": "Per esempio: telefono",
         "add": "Aggiungi passkey",
@@ -1402,7 +1402,7 @@
       },
       "done": {
         "title": "Configurazione completata",
-        "body": "L’account è protetto: da ora l’accesso richiede la tua passkey oppure password e codice di verifica.",
+        "body": "L’account è protetto: da ora l’accesso richiede password e codice di verifica, oppure la tua passkey se registrata.",
         "go": "Vai alla panoramica"
       }
     },

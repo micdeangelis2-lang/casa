@@ -46,3 +46,8 @@ next-env.d.ts
 
 # file dei documenti in locale (StoragePort)
 /.storage/
+
+.vercel
+.env*
+.agents/
+skills-lock.json

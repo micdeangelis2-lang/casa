@@ -32,7 +32,7 @@ export function SecuritySetup({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<"totp" | null>(null);
 
-  const complete = totpDone && passkeys.length >= 1;
+  const complete = totpDone;
   const manualKey = enrollment ? new URL(enrollment.totpURI).searchParams.get("secret") : null;
 
   async function startEnrollment(event: FormEvent<HTMLFormElement>) {
