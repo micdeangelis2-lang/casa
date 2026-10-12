@@ -67,8 +67,15 @@ export async function ensureOwnerParty(
   deps: DirectoryDeps,
   owner: { displayName: string; email?: string },
 ): Promise<Party> {
+  if (owner.email) {
+    const list = await deps.repo.list({ query: owner.email, includeArchived: true });
+    const byEmail = list.find((p) => p.email?.toLowerCase() === owner.email?.toLowerCase());
+    if (byEmail) return byEmail;
+  }
   const existing = await deps.repo.findByRole("owner");
-  if (existing) return existing;
+  if (existing && (!owner.email || !existing.email || existing.email.toLowerCase() === owner.email.toLowerCase())) {
+    return existing;
+  }
   const created = await deps.repo.insert({
     displayName: owner.displayName,
     roles: ["owner"],

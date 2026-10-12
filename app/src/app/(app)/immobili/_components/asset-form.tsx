@@ -36,9 +36,11 @@ export type AssetOption = { id: string; label: string };
 type Props = {
   mode: "create" | "edit";
   initial: AssetFormState;
-  /** Contatti della rubrica scelti come titolari (escluso il proprietario). */
+  /** Contatti della rubrica scelti come titolari. */
   parties: PartyOption[];
-  /** Id del contatto "proprietario", se gia' esiste; altrimenti si usa il valore speciale "self". */
+  /** Nome del proprietario dell'account (se presente). */
+  ownerName?: string | null;
+  /** Id del contatto dell'account proprietario, se già registrato. */
   ownerPartyId: string | null;
   /** Altri beni a cui questo puo' essere collegato (senza se stesso). */
   otherAssets: AssetOption[];
@@ -46,7 +48,7 @@ type Props = {
   cancelHref: string;
 };
 
-export function AssetForm({ mode, initial, parties, ownerPartyId, otherAssets, onSubmit, cancelHref }: Props) {
+export function AssetForm({ mode, initial, parties, ownerName, ownerPartyId, otherAssets, onSubmit, cancelHref }: Props) {
   const t = useTranslations("assets");
   const tc = useTranslations("common");
   const [state, setState] = useState<AssetFormState>(initial);
@@ -57,7 +59,6 @@ export function AssetForm({ mode, initial, parties, ownerPartyId, otherAssets, o
 
   const err = (path: string) => errors[path]?.[0];
   const set = <K extends keyof AssetFormState>(key: K, value: AssetFormState[K]) => setState((s) => ({ ...s, [key]: value }));
-  const selfValue = ownerPartyId ?? "self";
 
   const updateRow = <T extends { key: string }>(list: "rights" | "cadastral" | "links" | "attributes", key: string, patch: Partial<T>) =>
     setState((s) => ({
@@ -172,7 +173,7 @@ export function AssetForm({ mode, initial, parties, ownerPartyId, otherAssets, o
             key={row.key}
             row={row}
             index={i}
-            selfValue={selfValue}
+            ownerName={ownerName}
             ownerPartyId={ownerPartyId}
             parties={parties}
             err={err}
@@ -180,7 +181,7 @@ export function AssetForm({ mode, initial, parties, ownerPartyId, otherAssets, o
             onRemove={() => removeRow("rights", row.key)}
           />
         ))}
-        <Button type="button" variant="outline" className="self-start" onClick={() => setState((s) => ({ ...s, rights: [...s.rights, newRightRow(s.rights.length === 0 ? selfValue : "")] }))}>
+        <Button type="button" variant="outline" className="self-start" onClick={() => setState((s) => ({ ...s, rights: [...s.rights, newRightRow(s.rights.length === 0 ? "self" : "")] }))}>
           <Plus aria-hidden /> {t("form.addRight")}
         </Button>
       </fieldset>
@@ -281,7 +282,7 @@ function RowShell({ title, onRemove, children }: { title: string; onRemove: () =
 function RightFields({
   row,
   index,
-  selfValue,
+  ownerName,
   ownerPartyId,
   parties,
   err,
@@ -290,7 +291,7 @@ function RightFields({
 }: {
   row: RightRow;
   index: number;
-  selfValue: string;
+  ownerName?: string | null;
   ownerPartyId: string | null;
   parties: PartyOption[];
   err: ErrFn;
@@ -301,16 +302,18 @@ function RightFields({
   const tr = useTranslations("assets");
   const id = `right-${row.key}`;
   const p = `rights.${index}`;
+  const selfLabel = ownerName ? `${t("holderSelf")} (${ownerName})` : t("holderSelf");
+  const selectValue = row.holder === ownerPartyId ? "self" : row.holder;
   return (
     <RowShell title={`${t("right")} ${index + 1}`} onRemove={onRemove}>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field id={`${id}-holder`} label={t("holder")} error={err(`${p}.holder`)}>
           {(c) => (
-            <NativeSelect {...c} value={row.holder} onChange={(e) => onChange({ holder: e.target.value })}>
+            <NativeSelect {...c} value={selectValue} onChange={(e) => onChange({ holder: e.target.value })}>
               <option value="">{tr("form.linkChoose")}</option>
-              <option value={selfValue}>{t("holderSelf")}</option>
+              <option value="self">{selfLabel}</option>
               {parties
-                .filter((party) => party.id !== ownerPartyId)
+                .filter((party) => !ownerPartyId || party.id !== ownerPartyId)
                 .map((party) => (
                   <option key={party.id} value={party.id}>
                     {party.label}
