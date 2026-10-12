@@ -44,3 +44,6 @@ backups/
 **/e2e/.auth/
 *.gibk
 *.pem
+
+# graphify
+graphify-out/

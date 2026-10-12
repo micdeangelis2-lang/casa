@@ -63,6 +63,10 @@ pnpm doctor                  # diagnosi dell'installazione
 | [CHANGELOG.md](CHANGELOG.md) | Cronologia delle modifiche |
 | [DECISIONS.md](DECISIONS.md) | Le scelte prese e il perché |
 | [docs/REGISTRO_CODEBASE.yaml](docs/REGISTRO_CODEBASE.yaml) | Mappa di moduli, utility e pattern |
+| [COMPACT_CONTEXT.MD](COMPACT_CONTEXT.MD) | Mappa ad alta densità informativa per contesto LLM e nodi critici |
+| [IMPLEMENTATION_PLAN.MD](IMPLEMENTATION_PLAN.MD) | Strategia tecnica, architettura e piano incrementale per agenti |
+| [TASKS.MD](TASKS.MD) | Roadmap dinamica e tracciamento task operativi |
+| [GEMINI.MD](GEMINI.MD) | Registro persistente delle decisioni e storico di sessione |
 
 I requisiti di partenza sono in [Prompt finale - App gestione immobili.md](<Prompt finale - App gestione immobili.md>) e [Prompt applicativo per la gestione di immobili in Italia.md](<Prompt applicativo per la gestione di immobili in Italia.md>).
 
