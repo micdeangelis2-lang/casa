@@ -46,6 +46,13 @@ describe("F-01, F-03, F-08: configurazione di Better Auth", () => {
     expect(auth).toMatch(/authentication:\s*\{\s*afterVerification[\s\S]*authenticationInfo\?\.userVerified !== true/);
   });
 
+  it("decisione E91: per usare l'app basta il TOTP attivo (le passkey sono facoltative); la passkey registrata resta protetta dall'invariante dell'ultima", () => {
+    const owner = readFileSync(join(SRC, "platform", "auth", "owner.ts"), "utf8");
+    expect(owner).toMatch(/complete: twoFactorEnabled \}/);
+    expect(owner).not.toMatch(/passkeyCount >= 1/);
+    expect(readFileSync(join(SRC, "..", "messages", "it.json"), "utf8")).toContain("le passkey sono facoltative");
+  });
+
   it("le rotte che bastano con la sola password (cambio, codici, segreto TOTP, spegnimento 2FA) sono chiuse alle richieste HTTP dirette", () => {
     expect(auth).toContain('"/change-password"');
     expect(auth).toContain('"/two-factor/generate-backup-codes"');

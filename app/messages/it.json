@@ -1230,7 +1230,7 @@
   },
   "securityPage": {
     "title": "Sicurezza dell'account",
-    "intro": "Gestisci le passkey, controlla dove l'account è aperto, rigenera i codici di recupero e cambia la password. Per usare l'app servono sempre l'app di autenticazione e almeno una passkey.",
+    "intro": "Gestisci le passkey, controlla dove l'account è aperto, rigenera i codici di recupero e cambia la password. Per usare l'app serve sempre l'app di autenticazione; le passkey sono facoltative, ma conviene averne almeno una.",
     "passkeys": {
       "heading": "Passkey",
       "intro": "Sono il modo principale per entrare. Conviene averne almeno due, su dispositivi diversi: l'ultima passkey non si può rimuovere.",
