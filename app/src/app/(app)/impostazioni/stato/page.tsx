@@ -32,7 +32,8 @@ export default async function InstallStatusPage() {
     production: env.NODE_ENV === "production" || env.VERCEL_ENV === "production",
     now: new Date(),
     ...collected,
-    storage: await probeFolder(env.STORAGE_DIR || ".storage"),
+    storageBackend: env.BLOB_READ_WRITE_TOKEN ? "blob" : "disk",
+    storage: env.BLOB_READ_WRITE_TOKEN ? null : await probeFolder(env.STORAGE_DIR || ".storage"),
     backupDir: await probeFolder(env.BACKUP_DIR || "backups"),
   };
   const outcomes = runChecks(input);

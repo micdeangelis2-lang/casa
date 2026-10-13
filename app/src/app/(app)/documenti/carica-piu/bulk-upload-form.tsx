@@ -12,6 +12,7 @@ import { Field } from "@/components/form-field";
 import { CONFIDENTIALITY, MAX_FILE_BYTES, type Confidentiality } from "@/modules/documents/client";
 import { uploadOneDocumentAction, type UploadOutcome } from "./actions";
 import { MAX_TITLE_LENGTH, titleFromFilename } from "./title-from-filename";
+import { uploadToStaging } from "../_components/direct-upload";
 
 /** Quanti file al massimo in un lotto. */
 export const MAX_BATCH_FILES = 20;
@@ -44,7 +45,9 @@ const STATUS_ICON = {
   error: AlertTriangle,
 } as const;
 
-export function BulkUploadForm({ categories, assets, defaultCategoryId }: { categories: Option[]; assets: Option[]; defaultCategoryId: string }) {
+type Props = { categories: Option[]; assets: Option[]; defaultCategoryId: string; directUpload?: boolean };
+
+export function BulkUploadForm({ categories, assets, defaultCategoryId, directUpload = false }: Props) {
   const t = useTranslations("bulkUpload");
   const td = useTranslations("documents");
   const [items, setItems] = useState<Item[]>([]);
@@ -53,6 +56,7 @@ export function BulkUploadForm({ categories, assets, defaultCategoryId }: { cate
   const [confidentiality, setConfidentiality] = useState<Confidentiality>("ordinary");
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
+  const [percentage, setPercentage] = useState<number | null>(null);
   const [finished, setFinished] = useState(0);
   const [notice, setNotice] = useState("");
   const [dragging, setDragging] = useState(false);
@@ -98,7 +102,20 @@ export function BulkUploadForm({ categories, assets, defaultCategoryId }: { cate
 
   async function sendOne(item: Item, force: boolean): Promise<UploadOutcome> {
     const data = new FormData();
-    data.set("file", item.file);
+    if (directUpload) {
+      // Caricamento diretto verso lo store: alla azione arrivano solo chiave di staging e nome originale.
+      try {
+        const staged = await uploadToStaging(item.file, setPercentage);
+        data.set("stagedKey", staged.stagedKey);
+        data.set("stagedName", staged.stagedName);
+      } catch {
+        return { status: "rejected", message: t("uploadFailed") };
+      } finally {
+        setPercentage(null);
+      }
+    } else {
+      data.set("file", item.file);
+    }
     data.set("title", item.title);
     data.set("categoryId", categoryId);
     data.set("confidentiality", confidentiality);
@@ -304,7 +321,11 @@ export function BulkUploadForm({ categories, assets, defaultCategoryId }: { cate
       </div>
 
       <div aria-live="polite" className="text-sm" data-testid="bulk-progress">
-        {running ? t("progress", { current: progress.current, total: progress.total }) : ""}
+        {running
+          ? percentage !== null
+            ? t("uploadPercent", { current: progress.current, total: progress.total, percentage: Math.floor(percentage / 10) * 10 })
+            : t("progress", { current: progress.current, total: progress.total })
+          : ""}
       </div>
 
       {finished > 0 && !running ? (

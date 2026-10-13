@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { requireOwner } from "@/platform/auth/owner";
 import { isUuid } from "@/lib/ids";
+import { directUploadEnabled } from "@/lib/staged-upload";
 import { DocumentForm } from "../_components/document-form";
 import { loadDocumentFormOptions } from "../_components/form-options";
 import { saveDocumentAction } from "../actions";
@@ -23,7 +24,7 @@ export default async function NewDocumentPage({ searchParams }: PageProps<"/docu
 
   return (
     <div className="mx-auto max-w-3xl">
-      <DocumentForm mode="create" initial={initial} {...options} onSubmit={saveDocumentAction.bind(null, null)} cancelHref="/documenti" />
+      <DocumentForm mode="create" initial={initial} {...options} onSubmit={saveDocumentAction.bind(null, null)} cancelHref="/documenti" directUpload={directUploadEnabled()} />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { requireOwner } from "@/platform/auth/owner";
 import { getDb } from "@/platform/db/client";
 import { runInUnitOfWork } from "@/platform/db/unit-of-work";
 import { createDocument, findDocumentsWithSameFile } from "@/modules/documents";
+import { discardStagedFile, readStagedFile } from "@/lib/staged-upload";
 
 /** Esito del caricamento di un solo file del lotto. */
 export type UploadOutcome =
@@ -26,10 +27,21 @@ const text = (data: FormData, key: string) => {
  */
 export async function uploadOneDocumentAction(data: FormData): Promise<UploadOutcome> {
   const owner = await requireOwner();
+  // Caricamento diretto (Blob): il file e' gia' in staging; si cancella a fine azione, qualunque sia l'esito.
+  const stagedKey = text(data, "stagedKey");
   try {
-    const file = data.get("file");
-    if (!(file instanceof File) || file.size === 0) return { status: "rejected", message: "Il file è vuoto" };
-    const bytes = new Uint8Array(await file.arrayBuffer());
+    let name: string;
+    let bytes: Uint8Array;
+    if (stagedKey) {
+      const staged = await readStagedFile(stagedKey, text(data, "stagedName"));
+      if (!staged.ok) return { status: "rejected", message: staged.error };
+      ({ name, bytes } = staged.file);
+    } else {
+      const file = data.get("file");
+      if (!(file instanceof File) || file.size === 0) return { status: "rejected", message: "Il file è vuoto" };
+      name = file.name;
+      bytes = new Uint8Array(await file.arrayBuffer());
+    }
 
     if (text(data, "force") !== "1") {
       const matches = await findDocumentsWithSameFile(getDb(), bytes);
@@ -44,7 +56,7 @@ export async function uploadOneDocumentAction(data: FormData): Promise<UploadOut
       assetIds: text(data, "assetId") ? [text(data, "assetId")] : [],
     };
     const result = await runInUnitOfWork(getDb(), { type: "owner", id: owner.userId }, (uow) =>
-      createDocument(uow, payload, { name: file.name, bytes }),
+      createDocument(uow, payload, { name, bytes }),
     );
     if (!result.ok) {
       const first = Object.values(result.errors).flat()[0];
@@ -55,5 +67,7 @@ export async function uploadOneDocumentAction(data: FormData): Promise<UploadOut
     return { status: "created", id: result.value.id, title };
   } catch {
     return { status: "error" };
+  } finally {
+    if (stagedKey) await discardStagedFile(stagedKey);
   }
 }

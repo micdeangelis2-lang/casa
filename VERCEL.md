@@ -142,3 +142,12 @@ L'utente ha richiesto che la passkey fosse **opzionale** (accesso con sola passw
 - **Dashboard Progetto Vercel:** [https://vercel.com/micheles-projects-863019a6/casa-os](https://vercel.com/micheles-projects-863019a6/casa-os)
 - **Database Neon (Console):** Frankfurt `fra1` (`eu-central-1`) collegato a Vercel
 - **Cron Job:** `/api/cron/giornaliero` pianificato alle 05:00 UTC in `vercel.json`
+
+---
+
+## 6. File dei documenti: Vercel Blob privato (2026-10-13)
+
+- Il disco di Vercel non persiste: i documenti vanno su uno store **Blob privato**, `casa-files` (Francoforte), collegato a `casa-os` per Production e Preview. La variabile `BLOB_READ_WRITE_TOKEN` e' impostata da Vercel: con essa l'app usa Blob, senza usa il disco locale.
+- Per superare il limite di circa 4,5 MB delle richieste, il browser carica **direttamente** su Blob (`staging/<uuid>`) e l'app poi rilegge, controlla e registra il file. Dettagli e limiti: `DECISIONS.md` E92.
+- Comando usato: `npx vercel blob create-store casa-files --access private --region fra1 -e production -e preview --yes`.
+- **Ancora da fare**: destinazione remota dei backup e cron del backup; rimuovere `OWNER_BOOTSTRAP_TOKEN` dall'ambiente.

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { requireOwner } from "@/platform/auth/owner";
+import { directUploadEnabled } from "@/lib/staged-upload";
 import { loadDocumentFormOptions } from "../_components/form-options";
 import { BulkUploadForm } from "./bulk-upload-form";
 
@@ -14,7 +15,7 @@ export default async function BulkUploadPage() {
   const { categories, assets } = await loadDocumentFormOptions();
   return (
     <div className="mx-auto max-w-3xl">
-      <BulkUploadForm categories={categories} assets={assets} defaultCategoryId={categories.at(-1)?.id ?? ""} />
+      <BulkUploadForm categories={categories} assets={assets} defaultCategoryId={categories.at(-1)?.id ?? ""} directUpload={directUploadEnabled()} />
     </div>
   );
 }

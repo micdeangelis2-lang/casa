@@ -35,6 +35,8 @@ export type DoctorInput = {
   migrations: { journal: JournalEntry[]; appliedMillis: number[] | null } | null;
   ownerCount: number | null;
   storage: FolderProbe | null;
+  /** Dove stanno i file dei documenti: disco locale (predefinito) o Vercel Blob privato (c'e' `BLOB_READ_WRITE_TOKEN`). */
+  storageBackend?: "disk" | "blob";
   backupDir: FolderProbe | null;
   /** Fine dell'ultimo backup riuscito (completato o con avviso); `undefined` = nessuno; `null` = non raccolto. */
   lastBackupAt: Date | null | undefined;
@@ -248,7 +250,9 @@ export function runChecks(input: DoctorInput): DoctorOutcome[] {
     checkDatabase(input.database),
     checkMigrations(input.migrations),
     ...checkOwner(input.ownerCount, input.env),
-    checkFolder("storage.writable", "Cartella dei documenti", input.storage),
+    input.storageBackend === "blob"
+      ? ok("storage.writable", "File dei documenti: archivio Vercel Blob privato (BLOB_READ_WRITE_TOKEN impostato).")
+      : checkFolder("storage.writable", "Cartella dei documenti", input.storage),
     checkFolder("backup.writable", "Cartella dei backup", input.backupDir),
     checkBackupKey(input.env),
     checkBackupSigning(input.env),

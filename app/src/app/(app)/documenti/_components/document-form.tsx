@@ -16,6 +16,7 @@ import type { FieldErrors } from "@/shared/result";
 import type { SaveResult } from "../actions";
 import { formValuesToFormData, type DocumentFormValues } from "../document-form-state";
 import { useFocusOn } from "@/components/use-focus-on";
+import { uploadToStaging } from "./direct-upload";
 
 export type Option = { id: string; label: string };
 
@@ -30,15 +31,18 @@ type Props = {
   cancelHref: string;
   /** Titolo della pagina (nel modo "version" non si ripete il titolo del documento). */
   heading?: string;
+  /** Con Blob configurato il file va dal browser allo store e alla azione arriva solo la chiave di staging. */
+  directUpload?: boolean;
 };
 
-export function DocumentForm({ mode, initial, categories, assets, parties, onSubmit, cancelHref, heading }: Props) {
+export function DocumentForm({ mode, initial, categories, assets, parties, onSubmit, cancelHref, heading, directUpload = false }: Props) {
   const t = useTranslations("documents.form");
   const tc = useTranslations("common");
   const ts = useTranslations("documents");
   const [values, setValues] = useState<DocumentFormValues>(initial);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [pending, startTransition] = useTransition();
+  const [percentage, setPercentage] = useState<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   useFocusOn(summaryRef, Object.keys(errors).length > 0 ? errors : null);
@@ -60,7 +64,21 @@ export function DocumentForm({ mode, initial, categories, assets, parties, onSub
     setErrors({});
     startTransition(async () => {
       try {
-        const result = await onSubmit(formValuesToFormData(values, needsFile ? file : null));
+        const data = formValuesToFormData(values, needsFile && !directUpload ? file : null);
+        if (needsFile && directUpload && file) {
+          // Caricamento diretto: il file va sullo store dal browser, alla azione arrivano solo chiave e nome.
+          setPercentage(0);
+          try {
+            const staged = await uploadToStaging(file, setPercentage);
+            data.set("stagedKey", staged.stagedKey);
+            data.set("stagedName", staged.stagedName);
+          } catch {
+            setPercentage(null);
+            return fail({ file: [t("uploadFailed")] });
+          }
+          setPercentage(null);
+        }
+        const result = await onSubmit(data);
         // Con successo la azione reindirizza e non torna qui; se torna, ci sono errori da mostrare.
         if (result?.errors) fail(result.errors);
       } catch {
@@ -207,6 +225,10 @@ export function DocumentForm({ mode, initial, categories, assets, parties, onSub
           {(p) => <Textarea {...p} rows={4} value={values.notes} onChange={(e) => set("notes", e.target.value)} maxLength={2000} />}
         </Field>
       ) : null}
+
+      <div aria-live="polite" className="text-sm" data-testid="upload-progress">
+        {percentage !== null ? t("uploadingFile", { percentage: Math.floor(percentage / 10) * 10 }) : ""}
+      </div>
 
       <div className="flex flex-wrap gap-3">
         <Button type="submit" disabled={pending}>

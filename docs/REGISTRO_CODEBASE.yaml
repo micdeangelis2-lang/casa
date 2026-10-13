@@ -304,6 +304,8 @@ registro_codebase:
       dove: "app/src/modules/attention/domain/findings.ts"
     - descrizione: "Stato dell'installazione: collectDatabase/probeFolder (platform/doctor/collect.ts) alimentano sia pnpm doctor sia la pagina /impostazioni/stato; la logica dei controlli resta pura in checks.ts"
       dove: "app/src/platform/doctor/collect.ts, app/src/app/(app)/impostazioni/stato/page.tsx"
+    - descrizione: "Archivio file: StoragePort con due adattatori, LocalFileStorage (disco) e BlobStorage (Vercel Blob privato, se c'e' BLOB_READ_WRITE_TOKEN). Caricamento diretto dal browser in staging/<uuid> (api/documenti/upload), poi lettura e registrazione lato server con lib/staged-upload.ts"
+      dove: "app/src/platform/storage/blob.ts, app/src/lib/staged-upload.ts, app/src/app/api/documenti/upload/route.ts"
     - descrizione: "Dipendenze sui dati tra moduli: letture dirette di tabelle altrui (solo lettura, nessuna tabella e' scritta da due moduli) dichiarate in un elenco; una nuova lettura o una voce superata fanno fallire il test. Letture oggi: deadlines -> matters/registry/rules/auth; directory -> documents/competence; documents -> rules; dossier -> documents/lettings/registry/rules; offices -> audit/rules; rules -> documents/registry; backup -> audit"
       dove: "tests/architecture-data.test.ts"
     - descrizione: "Unita' di lavoro: ogni scrittura in una transazione con la riga di audit (atomiche)"

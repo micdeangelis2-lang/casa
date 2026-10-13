@@ -5,6 +5,7 @@ import { requireOwner } from "@/platform/auth/owner";
 import { getDb } from "@/platform/db/client";
 import { getDocumentDetail } from "@/modules/documents";
 import { isUuid } from "@/lib/ids";
+import { directUploadEnabled } from "@/lib/staged-upload";
 import { DocumentForm } from "../../_components/document-form";
 import { loadDocumentFormOptions } from "../../_components/form-options";
 import { addVersionAction } from "../../actions";
@@ -37,6 +38,7 @@ export default async function NewVersionPage({ params }: PageProps<"/documenti/[
         {...options}
         onSubmit={addVersionAction.bind(null, id)}
         cancelHref={`/documenti/${id}`}
+        directUpload={directUploadEnabled()}
       />
       <p className="text-sm text-muted-foreground">{t("addVersionIntro")}</p>
     </div>

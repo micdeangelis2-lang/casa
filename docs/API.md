@@ -28,6 +28,7 @@ Il test `app/tests/docs-routes.test.ts` fallisce se esiste un `route.ts` che non
 | `GET /api/cron/backup` | `src/app/api/cron/backup/route.ts` | `CRON_SECRET` | JSON |
 | `GET /api/cron/giornaliero` | `src/app/api/cron/giornaliero/route.ts` | `CRON_SECRET` | JSON |
 | `GET /api/documenti/[id]/[versionId]` | `src/app/api/documenti/[id]/[versionId]/route.ts` | sessione | byte del file |
+| `POST /api/documenti/upload` | `src/app/api/documenti/upload/route.ts` | sessione | JSON (token Blob) |
 | `GET /api/economia` | `src/app/api/economia/route.ts` | sessione | CSV |
 | `GET /api/locazioni/rendiconto` | `src/app/api/locazioni/rendiconto/route.ts` | sessione | CSV |
 | `GET /api/economia/dossier` | `src/app/api/economia/dossier/route.ts` | sessione | CSV |
@@ -105,6 +106,15 @@ File: `src/app/api/documenti/[id]/[versionId]/route.ts`. Restituisce i byte di u
 - **Parametri**: `id` = UUID del documento, `versionId` = UUID della versione; query facoltativa `scarica=1` per forzare il download.
 - **Risposta 200**: flusso del file con il suo `Content-Type` e `Content-Length`. PDF e immagini (`application/pdf`, `image/png`, `image/jpeg`, `image/gif`, `image/webp`) si aprono `inline`; il resto, o con `scarica=1`, è `attachment`. `Content-Disposition` porta `filename` (solo ASCII) e `filename*=UTF-8''…`. Inoltre `nosniff` e `Cache-Control: private, no-store`.
 - **Codici**: 401; 404 se uno dei due UUID non è valido o la versione non esiste.
+
+### `POST /api/documenti/upload`
+
+File: `src/app/api/documenti/upload/route.ts`. Caricamento diretto dal browser (solo con lo store Vercel Blob collegato, `BLOB_READ_WRITE_TOKEN`): rilascia il token per caricare **un** file in `staging/<uuid>` sullo store privato, perché su Vercel una richiesta non supera ~4,5 MB. Il file lo rilegge poi la azione del server (`stagedKey` + `stagedName`), che lo passa ai casi d'uso dei documenti e cancella la chiave di staging.
+
+- **Autenticazione**: sessione del proprietario; richieste cross-site rifiutate (`rejectCrossSite()`).
+- **Corpo**: JSON del client di `@vercel/blob/client` (`type: "blob.generate-client-token"`, `payload.pathname`).
+- **Risposta 200**: JSON con il token cliente; vale per quel solo percorso, tetto di 25 MB, senza suffisso casuale né sovrascrittura. Nessuna richiamata `onUploadCompleted`.
+- **Codici**: 401; 403 se cross-site; 404 se Blob non è configurato; 400 se il corpo non è valido o il percorso non è `staging/<uuid>`.
 
 ---
 

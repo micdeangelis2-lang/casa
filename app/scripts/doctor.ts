@@ -32,7 +32,8 @@ async function main(): Promise<void> {
       production,
       now: new Date(),
       ...collected,
-      storage: await probeFolder(resolve(env.STORAGE_DIR || ".storage")),
+      storageBackend: env.BLOB_READ_WRITE_TOKEN ? "blob" : "disk",
+      storage: env.BLOB_READ_WRITE_TOKEN ? null : await probeFolder(resolve(env.STORAGE_DIR || ".storage")),
       backupDir: await probeFolder(resolve(env.BACKUP_DIR || "backups")),
     };
     const { text, exitCode } = formatReport(runChecks(input));

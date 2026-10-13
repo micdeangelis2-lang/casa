@@ -105,6 +105,12 @@ describe("pnpm doctor: controlli", () => {
     expect([l["storage.writable"], l["backup.writable"]]).toEqual(["errore", "errore"]);
   });
 
+  it("con l'archivio Vercel Blob la cartella locale dei documenti non conta (anche se non e' scrivibile)", () => {
+    const outcome = get(runChecks(good({ storageBackend: "blob", storage: null })), "storage.writable");
+    expect(outcome.level).toBe("ok");
+    expect(outcome.message).toContain("Vercel Blob");
+  });
+
   it("chiave dei backup: assente = avviso; pubblica = ok; PRIVATA = errore; spazzatura = errore", () => {
     const key = (v: string | undefined) => get(runChecks(good({ env: { ...goodEnv, BACKUP_PUBLIC_KEY: v } })), "backup.key");
     expect(key(undefined).level).toBe("avviso");
