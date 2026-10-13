@@ -169,6 +169,22 @@ test.describe("tributi e pagamenti", () => {
     await expect(row).toContainText(`scadenza ${it(day(-3))}`);
   });
 
+  test("l'elenco si filtra per tipo di tributo", async ({ page }) => {
+    await page.goto(`/tributi?anno=${YEAR}`);
+    await page.getByLabel("Tipo di tributo").selectOption({ label: "Imposta locale E2E" });
+    await page.getByRole("button", { name: "Applica" }).click();
+    await expect(page).toHaveURL(/tipo=[0-9a-f-]{36}/);
+    await expect(page.getByTestId("obligation-list").getByRole("listitem").filter({ hasText: "Imposta locale E2E" }).first()).toBeVisible();
+    // Un tipo diverso non mostra quelle voci.
+    const other = await page.getByLabel("Tipo di tributo").locator("option").evaluateAll((o) => o.map((x) => ({ v: (x as HTMLOptionElement).value, l: x.textContent ?? "" })));
+    const different = other.find((o) => o.v !== "" && !o.l.includes("Imposta locale E2E"));
+    if (different) {
+      await page.getByLabel("Tipo di tributo").selectOption(different.v);
+      await page.getByRole("button", { name: "Applica" }).click();
+      await expect(page.getByTestId("obligation-list").getByText("Imposta locale E2E")).toHaveCount(0);
+    }
+  });
+
   test("chiudere una voce richiede un motivo, blocca i pagamenti e si puo' riaprire", async ({ page }) => {
     await openObligation(page, /Saldo/);
     const close = form(page, "Chiudi la voce");

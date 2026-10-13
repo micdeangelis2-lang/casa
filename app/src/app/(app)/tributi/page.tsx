@@ -34,11 +34,13 @@ export default async function TaxesPage({ searchParams }: PageProps<"/tributi">)
   const askedYear = first(params.anno);
   const year = askedYear === "tutti" ? undefined : /^\d{4}$/.test(askedYear) ? Number(askedYear) : (years[0] ?? currentYear);
   const assetId = isUuid(first(params.immobile)) ? first(params.immobile) : undefined;
-  const [items, assets, types] = await Promise.all([listObligations(db, { year, assetId }), listAssets(db), listTaxTypes(db)]);
+  const types = await listTaxTypes(db, true);
+  const taxTypeId = types.some((x) => x.id === first(params.tipo)) ? first(params.tipo) : undefined;
+  const [items, assets] = await Promise.all([listObligations(db, { year, assetId, taxTypeId }), listAssets(db)]);
   const totals = summarize(items);
   const withoutProof = items.reduce((n, i) => n + i.paymentsWithoutProof, 0);
   const yearOptions = [...new Set([...years, currentYear])].sort((a, b) => b - a);
-  const filtering = askedYear !== "" || assetId !== undefined;
+  const filtering = askedYear !== "" || assetId !== undefined || taxTypeId !== undefined;
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -65,7 +67,7 @@ export default async function TaxesPage({ searchParams }: PageProps<"/tributi">)
         </ul>
       </nav>
 
-      {types.length === 0 ? (
+      {types.every((x) => x.archived) ? (
         <Alert>
           <AlertDescription className="flex flex-wrap items-center justify-between gap-3">
             <span>
@@ -100,6 +102,18 @@ export default async function TaxesPage({ searchParams }: PageProps<"/tributi">)
             {assets.map((a) => (
               <option key={a.id} value={a.id}>
                 {a.name}
+              </option>
+            ))}
+          </NativeSelect>
+        </div>
+        <div className="flex w-56 flex-col gap-2">
+          <Label htmlFor="tipo">{t("filters.type")}</Label>
+          <NativeSelect id="tipo" name="tipo" defaultValue={taxTypeId ?? ""}>
+            <option value="">{t("filters.allTypes")}</option>
+            {types.map((x) => (
+              <option key={x.id} value={x.id}>
+                {x.name}
+                {x.archived ? ` (${t("filters.archivedType")})` : ""}
               </option>
             ))}
           </NativeSelect>

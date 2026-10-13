@@ -3132,6 +3132,9 @@
     "filters": {
       "year": "Anno",
       "allYears": "Tutti gli anni",
+      "type": "Tipo di tributo",
+      "allTypes": "Tutti i tipi",
+      "archivedType": "archiviato",
       "asset": "Immobile",
       "allAssets": "Tutti gli immobili",
       "apply": "Applica"
