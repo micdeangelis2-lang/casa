@@ -41,6 +41,7 @@ Il test `app/tests/docs-routes.test.ts` fallisce se esiste un `route.ts` che non
 | `GET /api/importa/modello` | `src/app/api/importa/modello/route.ts` | sessione | CSV (modello) |
 | `GET /api/health` | `src/app/api/health/route.ts` | nessuna | JSON |
 | `GET /api/territori` | `src/app/api/territori/route.ts` | sessione | JSON |
+| `GET /api/localita` | `src/app/api/localita/route.ts` | sessione | JSON |
 | `GET /api/tributi/riepilogo` | `src/app/api/tributi/riepilogo/route.ts` | sessione | CSV |
 
 ---
@@ -240,6 +241,15 @@ File: `src/app/api/territori/route.ts`. Alimenta il selettore di territori (Comu
 - **Parametri** (query): `q` testo cercato (vuoto se manca); `kinds` elenco separato da virgole tra `country`, `region`, `province`, `municipality`, `locality` (predefinito `municipality`; i valori sconosciuti sono scartati in silenzio).
 - **Risposta 200**: JSON `{ "results": [{ "id": "<uuid>", "label": "<etichetta>" }] }`, al massimo 15 risultati, `Cache-Control: private, no-store`.
 - **Codici**: **401** con corpo JSON `{ "error": "Non autorizzato" }` (è l'unica route con un corpo nel 401).
+
+### `GET /api/localita`
+
+File: `src/app/api/localita/route.ts`. Suggerisce frazioni e località del Comune scelto nel modulo dell'immobile (campo «Località o frazione»). Il server interroga Photon, il geocoder di Komoot su dati OpenStreetMap (`https://photon.komoot.io/api/?q=<testo> <Comune>&limit=15`, senza `lang`; `User-Agent` identificativo, timeout di 5 s); Photon completa i prefissi, quindi bastano 2 lettere. Il browser non lo contatta mai. Al servizio esterno arrivano solo il testo digitato e il nome del Comune. Si tengono i luoghi con `osm_key` "place" e tipo frazione/borgo/zona, in Italia, il cui `city`/`town`/`village`/`municipality` coincide con il Comune (la provincia non vale). Logica in `src/lib/place-search.ts`.
+
+- **Autenticazione**: sessione del proprietario; rifiuta le richieste cross-site (`rejectCrossSite()`, 403 senza corpo).
+- **Parametri** (query): `comune` id (uuid) di un territorio di tipo Comune; `q` testo, da 2 a 60 caratteri dopo il trim.
+- **Risposta 200**: JSON `{ "suggestions": ["<nome>", ...] }`, al massimo 10 nomi unici, `Cache-Control: private, no-store`. I nomi sono quelli di OpenStreetMap, non quelli ufficiali ISTAT.
+- **Codici**: 401 senza sessione (corpo vuoto); 400 con parametri non validi; 404 se il territorio non esiste o non è un Comune; **429** se arriva una richiesta a meno di un secondo dalla precedente (cortesia verso il servizio pubblico; limite in memoria, per processo); 502 con `{ "suggestions": [] }` se il servizio esterno non risponde o risponde con errore (nessun dettaglio).
 
 ---
 

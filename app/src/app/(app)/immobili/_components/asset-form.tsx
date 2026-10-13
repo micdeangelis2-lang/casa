@@ -13,6 +13,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Field } from "@/components/form-field";
 import { TerritoryPicker } from "@/components/territory-picker";
+import { PlaceSuggestInput } from "@/components/place-suggest-input";
 import { ASSET_KINDS, ATTRIBUTE_TYPES, LINK_VALIDATION, RIGHT_TYPES, USE_TYPES } from "@/modules/assets/client";
 import type { FieldErrors } from "@/shared/result";
 import type { SaveResult } from "../actions";
@@ -152,8 +153,23 @@ export function AssetForm({ mode, initial, parties, ownerName, ownerPartyId, oth
             />
           )}
         </Field>
-        <Field id="locality" label={t("form.locality")} error={err("locality")}>
-          {(p) => <Input {...p} value={state.locality} onChange={(e) => set("locality", e.target.value)} maxLength={120} />}
+        <Field
+          id="locality"
+          label={t("form.locality")}
+          hint={state.territory ? t("form.localityNote") : `${t("form.localityChooseComune")} ${t("form.localityNote")}`}
+          error={err("locality")}
+        >
+          {(p) => (
+            <PlaceSuggestInput
+              id={p.id}
+              value={state.locality}
+              onChange={(v) => set("locality", v)}
+              comuneId={state.territory?.id ?? null}
+              maxLength={120}
+              invalid={p["aria-invalid"]}
+              describedBy={p["aria-describedby"]}
+            />
+          )}
         </Field>
         <div className="grid gap-4 sm:grid-cols-[1fr_8rem]">
           <Field id="address" label={t("form.address")} error={err("address")}>
